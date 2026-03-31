@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DSE Volume vs. Value Analysis | Q1 2026</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #1f2937; padding: 2rem; }
+        .dashboard { max-width: 1000px; margin: auto; background: white; padding: 2rem; border-radius: 12px; shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .header { border-bottom: 2px solid #e5e7eb; margin-bottom: 2rem; padding-bottom: 1rem; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+        .metric-card { padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e7eb; }
+        .institutional { border-top: 4px solid var(--secondary); }
+        .retail { border-top: 4px solid var(--warning); }
+        .trend-indicator { font-weight: bold; font-size: 1.1rem; }
+        .high { color: var(--secondary); }
+        .speculative { color: var(--danger); }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #edf2f7; }
+        th { background: #f1f5f9; color: var(--primary); font-size: 0.9rem; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+        .badge-blue { background: #dbeafe; color: #1e40af; }
+        .badge-orange { background: #ffedd5; color: #9a3412; }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <div class="header">
+        <h1>Market Liquidity & Volume Trends</h1>
+        <p>Analysis Date: March 31, 2026 | DSEX Index Reference: 5,239.06</p>
+    </div>
+
+    <div class="grid">
+        <div class="metric-card institutional">
+            <h3>Institutional Accumulation</h3>
+            <p><strong>High Value / Moderate Volume</strong></p>
+            <div class="trend-indicator high">↑ Positive Divergence</div>
+            <p style="font-size: 0.9rem; color: #6b7280;">Concentrated buying in blue-chips (GP, BRACBANK) suggests long-term positioning by local and foreign funds.</p>
+        </div>
+        <div class="metric-card retail">
+            <h3>Retail Speculation</h3>
+            <p><strong>High Volume / Low Value</strong></p>
+            <div class="trend-indicator speculative">⚡ High Volatility</div>
+            <p style="font-size: 0.9rem; color: #6b7280;">Heavy "churn" in Z-category and low-cap NBFIs (NBL, BIFC) indicating retail day-trading spikes.</p>
+        </div>
+    </div>
+
+    <h2>Volume vs. Value Matrix (Top Sectors)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Sector</th>
+                <th>Volume (Shares)</th>
+                <th>Turnover (Value)</th>
+                <th>Trade Type Identity</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Banking</strong></td>
+                <td>281.9M</td>
+                <td>High</td>
+                <td><span class="badge badge-blue">Institutional Buying</span></td>
+            </tr>
+            <tr>
+                <td><strong>Pharma</strong></td>
+                <td>145.2M</td>
+                <td>High</td>
+                <td><span class="badge badge-blue">Value Positioning</span></td>
+            </tr>
+            <tr>
+                <td><strong>Mutual Funds</strong></td>
+                <td>23.4M</td>
+                <td>Moderate</td>
+                <td><span class="badge badge-orange">Retail Arbitrage</span></td>
+            </tr>
+            <tr>
+                <td><strong>Textile/Z-Category</strong></td>
+                <td>140.8M</td>
+                <td>Low</td>
+                <td><span class="badge badge-orange">Speculative Spike</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="margin-top: 2rem; padding: 1rem; background: #fffbeb; border-radius: 8px; border: 1px solid #fef3c7;">
+        <h3>Executive Summary: Q1 2026 Trends</h3>
+        <p>The market is currently exhibiting a <strong>bifurcated trend</strong>. Average daily turnover has stabilized around <strong>1,000 crore BDT</strong>. However, the surge in "Number of Trades" (+42%) relative to "Total Value" (+1.8%) in the small-cap segment reveals that retail liquidity is chasing low-unit-price stocks, while institutional value remains parked in fundamentals awaiting post-election policy clarity.</p>
+    </div>
+</div>
+
+</body>
+</html>
