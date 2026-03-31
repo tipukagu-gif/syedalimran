@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Valuation & Sensitivity | IIDFC Capital Limited</title>
+    <style>
+        :root {
+            --primary: #27ae60;
+            --secondary: #2c3e50;
+            --accent: #e67e22;
+            --bg: #f4f7f6;
+        }
+
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg); padding: 30px; color: #333; }
+        
+        .watermark {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            opacity: 0.08; z-index: -1; width: 450px; pointer-events: none; display: none;
+        }
+
+        .container { max-width: 1000px; margin: auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        header { text-align: center; border-bottom: 3px solid var(--primary); margin-bottom: 30px; padding-bottom: 10px; }
+        header h1 { color: var(--secondary); margin: 0; text-transform: uppercase; letter-spacing: 2px; }
+        header p { color: var(--primary); font-weight: bold; margin: 5px 0; }
+
+        .section-title { background: var(--secondary); color: white; padding: 8px 15px; margin: 25px 0 15px 0; font-size: 16px; border-radius: 4px; }
+        
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .field { display: flex; flex-direction: column; }
+        label { font-weight: 700; font-size: 10px; margin-bottom: 5px; color: #666; text-transform: uppercase; }
+        input { padding: 10px; border: 1px solid #ccc; border-radius: 4px; transition: 0.3s; }
+
+        .btn-group { display: flex; gap: 15px; margin: 30px 0; }
+        button { flex: 1; padding: 15px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
+        .calc-btn { background: var(--primary); color: white; }
+        .pdf-btn { background: var(--accent); color: white; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px; border: 1px solid #eee; text-align: right; font-size: 13px; }
+        th { background: #f8f9fa; color: var(--secondary); }
+        
+        /* Sensitivity Specific Styles */
+        .sens-table th { background: #eee; font-size: 11px; text-align: center; }
+        .sens-table td { text-align: center; cursor: default; }
+        .base-case { background-color: var(--primary) !important; color: white !important; font-weight: bold; }
+
+        .summary-card { margin-top: 30px; padding: 30px; background: #f8f9fa; border: 2px solid var(--primary); border-radius: 8px; text-align: center; }
+        .share-price { font-size: 48px; color: var(--primary); font-weight: 800; margin: 10px 0; }
+        
+        @media print {
+            .btn-group { display: none; }
+            .watermark { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+<img src="https://via.placeholder.com/400?text=IIDFC+LOGO" class="watermark" id="logoWatermark">
+
+<div class="container">
+    <header>
+        <h1>Valuation & Sensitivity Analysis</h1>
+        <p>IIDFC Capital Limited</p>
+    </header>
+
+    <div class="section-title">I. Assumptions & Inputs</div>
+    <div class="input-grid">
+        <div class="field"><label>WACC / Discount Rate (%)</label><input type="number" id="wacc" step="0.5" value="12"></div>
+        <div class="field"><label>Terminal Growth (%)</label><input type="number" id="growth" step="0.5" value="3"></div>
+        <div class="field"><label>Net Debt / Initial Inv.</label><input type="number" id="netDebt" value="0"></div>
+        <div class="field"><label>Shares Outstanding</label><input type="number" id="shares" value="1000000"></div>
+    </div>
+
+    <div class="section-title">II. 5-Year FCF Forecast</div>
+    <div class="input-grid">
+        <div class="field"><label>Year 1</label><input type="number" id="cf1" value="100000"></div>
+        <div class="field"><label>Year 2</label><input type="number" id="cf2" value="110000"></div>
+        <div class="field"><label>Year 3</label><input type="number" id="cf3" value="121000"></div>
+        <div class="field"><label>Year 4</label><input type="number" id="cf4" value="133100"></div>
+        <div class="field"><label>Year 5</label><input type="number" id="cf5" value="146410"></div>
+    </div>
+
+    <div class="btn-group">
+        <button class="calc-btn" onclick="calculate()">Generate Full Report</button>
+        <button class="pdf-btn" onclick="window.print()">Export to PDF</button>
+    </div>
+
+    <div id="resultSection" style="display:none;">
+        <div class="summary-card">
+            <div style="font-weight: bold; text-transform: uppercase; color: #666;">Intrinsic Fair Value per Share</div>
+            <div id="resSharePrice" class="share-price"></div>
+            <div id="resDetails"></div>
+        </div>
+
+        <div class="section-title">III. Sensitivity Analysis: WACC vs Growth</div>
+        <p style="font-size: 11px; color: #777; margin-bottom: 10px;">The table below shows how the share price (BDT) changes based on different Discount Rates and Growth expectations.</p>
+        <table class="sens-table" id="sensTable">
+            </table>
+
+        <div class="section-title">IV. Valuation Table</div>
+        <table id="valuationTable">
+            <thead>
+                <tr><th>Period</th><th>Cash Flow</th><th>Disc. Factor</th><th>Present Value</th></tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+        <p style="color: var(--primary); text-align: right; font-weight: bold; margin-top: 20px; font-size: 12px;">Analyst: Syed Al Imran | IIDFC Capital Ltd.</p>
+    </div>
+</div>
+
+
+
+<script>
+    function calculate() {
+        const waccVal = parseFloat(document.getElementById('wacc').value);
+        const growthVal = parseFloat(document.getElementById('growth').value);
+        const netDebt = parseFloat(document.getElementById('netDebt').value) || 0;
+        const shares = parseFloat(document.getElementById('shares').value) || 1;
+
+        const cfs = [
+            parseFloat(document.getElementById('cf1').value) || 0,
+            parseFloat(document.getElementById('cf2').value) || 0,
+            parseFloat(document.getElementById('cf3').value) || 0,
+            parseFloat(document.getElementById('cf4').value) || 0,
+            parseFloat(document.getElementById('cf5').value) || 0
+        ];
+
+        // Core Calculation Function
+        function getPrice(w, g) {
+            const r = w / 100;
+            const gr = g / 100;
+            if (gr >= r) return 0; // Avoid division by zero/negative
+            
+            let pvSum = 0;
+            cfs.forEach((cf, i) => {
+                pvSum += cf / Math.pow(1 + r, i + 1);
+            });
+            
+            const tv = (cfs[4] * (1 + gr)) / (r - gr);
+            const pvTV = tv / Math.pow(1 + r, 5);
+            return ((pvSum + pvTV) - netDebt) / shares;
+        }
+
+        // 1. Main Table Generation
+        let mainR = waccVal / 100;
+        let mainG = growthVal / 100;
+        let tableHTML = "";
+        let sumPV = 0;
+
+        cfs.forEach((cf, i) => {
+            let df = 1 / Math.pow(1 + mainR, i + 1);
+            let pv = cf * df;
+            sumPV += pv;
+            tableHTML += `<tr><td>Year ${i+1}</td><td>${cf.toLocaleString()}</td><td>${df.toFixed(4)}</td><td>${Math.round(pv).toLocaleString()}</td></tr>`;
+        });
+
+        const mainTV = (cfs[4] * (1 + mainG)) / (mainR - mainG);
+        const mainPVTV = mainTV / Math.pow(1 + mainR, 5);
+        tableHTML += `<tr style="background:#f1f9f5"><td>Terminal Value</td><td>${Math.round(mainTV).toLocaleString()}</td><td>${(1 / Math.pow(1 + mainR, 5)).toFixed(4)}</td><td>${Math.round(mainPVTV).toLocaleString()}</td></tr>`;
+        
+        const eqValue = (sumPV + mainPVTV) - netDebt;
+        tableHTML += `<tr style="background:var(--secondary); color:white;"><td>Total Equity Value</td><td colspan="3" style="text-align:right">${Math.round(eqValue).toLocaleString()} BDT</td></tr>`;
+        
+        document.getElementById('tableBody').innerHTML = tableHTML;
+
+        // 2. Sensitivity Matrix
+        const waccRange = [waccVal - 1, waccVal - 0.5, waccVal, waccVal + 0.5, waccVal + 1];
+        const growthRange = [growthVal - 1, growthVal - 0.5, growthVal, growthVal + 0.5, growthVal + 1];
+
+        let sensHTML = `<tr><th>WACC \\ Growth</th>`;
+        growthRange.forEach(g => sensHTML += `<th>${g.toFixed(1)}%</th>`);
+        sensHTML += `</tr>`;
+
+        waccRange.forEach(w => {
+            sensHTML += `<tr><th>${w.toFixed(1)}%</th>`;
+            growthRange.forEach(g => {
+                const price = getPrice(w, g);
+                const isBase = (w === waccVal && g === growthVal) ? 'class="base-case"' : '';
+                sensHTML += `<td ${isBase}>${price === 0 ? 'N/A' : price.toFixed(2)}</td>`;
+            });
+            sensHTML += `</tr>`;
+        });
+        document.getElementById('sensTable').innerHTML = sensHTML;
+
+        // 3. Update Summary
+        const finalPrice = getPrice(waccVal, growthVal);
+        document.getElementById('resSharePrice').innerText = finalPrice.toFixed(2) + " BDT";
+        document.getElementById('resDetails').innerHTML = `Equity Value: <strong>${Math.round(eqValue).toLocaleString()}</strong> | Shares: <strong>${shares.toLocaleString()}</strong>`;
+        
+        document.getElementById('resultSection').style.display = "block";
+        document.getElementById('logoWatermark').style.display = "block";
+        window.scrollTo({ top: document.getElementById('resultSection').offsetTop, behavior: 'smooth' });
+    }
+</script>
+</body>
+</html>

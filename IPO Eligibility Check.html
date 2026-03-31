@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPO Eligibility Checklist as per Public Issue Rules-2025</title>
+    <style>
+        :root {
+            --primary-blue: #1a3a5f;
+            --light-bg: #f8fafc;
+            --border-color: #cbd5e1;
+            --text-main: #334155;
+            --section-bg: #f1f5f9;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #e2e8f0;
+            padding: 40px 20px;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        /* Action Bar Styling */
+        .action-bar {
+            max-width: 1100px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-print {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            background-color: var(--primary-blue);
+            color: white;
+            box-shadow: 0 4px 6px rgba(26, 58, 95, 0.2);
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .btn-print:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid var(--primary-blue);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            font-size: 22px;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            background: var(--light-bg);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .header-info label {
+            font-weight: 700;
+            color: var(--primary-blue);
+            white-space: nowrap;
+        }
+
+        .header-info input {
+            border: none;
+            border-bottom: 2px solid var(--border-color);
+            background: transparent;
+            width: 100%;
+            font-size: 16px;
+            padding: 5px;
+            outline: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 30px;
+        }
+
+        th {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 12px;
+            font-size: 12px;
+            text-transform: uppercase;
+            border: 1px solid #0f2a47;
+        }
+
+        td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            font-size: 13px;
+            vertical-align: top;
+            word-wrap: break-word;
+        }
+
+        .section-title { 
+            font-weight: 800; 
+            background-color: var(--section-bg) !important; 
+            color: var(--primary-blue);
+            font-size: 14px;
+            border-top: 2px solid var(--primary-blue);
+        }
+
+        .center-align { text-align: center; }
+
+        .remarks-cell {
+            min-height: 24px;
+            width: 100%;
+            outline: none;
+            white-space: pre-wrap;
+            font-style: italic;
+            color: #475569;
+        }
+
+        .remarks-cell:empty::before {
+            content: "Click to add remarks...";
+            color: #cbd5e1;
+        }
+
+        footer {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        .signature-block {
+            text-align: center;
+            width: 250px;
+        }
+
+        .sig-line {
+            border-top: 1px solid #000;
+            margin-bottom: 5px;
+        }
+
+        .designer-tag {
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: bold;
+        }
+
+        /* PRINT SETTINGS */
+        @media print {
+            body { background: white; padding: 0; }
+            .action-bar { display: none; } /* Hides print button on final PDF */
+            .container { box-shadow: none; padding: 0; width: 100%; max-width: 100%; }
+            .remarks-cell:empty::before { content: ""; }
+            tr { page-break-inside: avoid; }
+            @page { size: A4; margin: 1cm; }
+            .header-info { background: #fff; border: 1px solid #eee; }
+            th { background-color: #1a3a5f !important; color: white !important; -webkit-print-color-adjust: exact; }
+            .section-title { background-color: #f1f5f9 !important; -webkit-print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="action-bar">
+    <button onclick="window.print()" class="btn-print">Print / Save as PDF</button>
+</div>
+
+<div class="container">
+    <header>
+        <h1>Status of Eligibility for IPO</h1>
+    </header>
+
+    <div class="header-info">
+        <label>Name of the Company:</label>
+        <input type="text" placeholder="e.g. IIDFC Capital">
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th rowspan="2" style="width: 45%;">Requirement Description</th>
+                <th colspan="2" style="width: 15%;">Status</th>
+                <th rowspan="2" style="width: 40%;">Remarks</th>
+            </tr>
+            <tr>
+                <th style="background-color: #1a3a5f;">Yes</th>
+                <th style="background-color: #1a3a5f;">No</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="section-title" colspan="4">A. GENERAL REQUIREMENTS_RULE 4(A)</td></tr>
+            <script>
+                const sectionA = [
+                    "Public Limited Company", "Perpetual Business Operation and Going Concern", 
+                    "Existing Paid Up Capital (Min 30 Crore)", "Post IPO paid Up (Min 50 Crore)",
+                    "IPO Offer (Min 10% of Post IPO)", "Sponsor & Director Hold (Min 30%)",
+                    "Each Director hold (Min 2%)", "Board Approval on Size & Method",
+                    "Profitable Track Record from Core business at Least Latest FS", "No Accumulated Loss at time of Application",
+                    "No Material Change in Paid Up Capital after the date of Audit Report",
+                    "It has utilised at least 90% of Previous Capital Raise before IPO",
+                    "Issue Manager/ Related Party/ Connected Person is no way connected with the Issuer",
+                    "Issue Manager/ Connected Person does not hold any securities on Issuer before IPO Application",
+                    "FS prepared as per BSEC, IFRS, Companies Act, IAS, ISA, FRC", 
+                    "Management Declaration regarding Compliance with required Law in Preparation of FS",
+                    "Compliance Certificate from Statutory Auditor regarding Compliance of FS",
+                    "Got Cost Audit, if Applicable", "FS Audited by the Panel of Auditor",
+                    "Its Regular to Holding AGM", "It has complied with Corporate Governance Guidelines",
+                    "CIB Clearance for Directors & Shareholders holding Share above 5%",
+                    "35% Underwritten", "BSEC Asset Valuation Guidelines Complied",
+                    "No Capital Raise (except bonus) within last 2 years", 
+                    "Prior Approval for Collaborative Investment",
+                    "Right Share via Banking Channel (Before 1 year)", 
+                    "PPP/Majority Foreign Holding Applicability, not applicable",
+                    "Attested History of Paid Up Capital", "Bank/Auditor Certificates Submitted",
+                    "Registered Vendors Agreement", 
+                    "Declaration for Submit Quarterly Utilization Reports within 10 days Audited by Panel of Auditor"
+                ];
+
+                function renderRows(data, prefix) {
+                    data.forEach((text, i) => {
+                        document.write(`
+                            <tr>
+                                <td>${text}</td>
+                                <td class="center-align"><input type="radio" name="${prefix}_${i}"></td>
+                                <td class="center-align"><input type="radio" name="${prefix}_${i}"></td>
+                                <td><div class="remarks-cell" contenteditable="true"></div></td>
+                            </tr>
+                        `);
+                    });
+                }
+                renderRows(sectionA, 'row_a');
+            </script>
+
+            <tr><td class="section-title" colspan="4">B. REQUIREMENTS IPO UNDER FIXED PRICE (EXCEPT GREEN FIELD)_RULE-4(2)</td></tr>
+            <script>
+                const sectionB = [
+                    "Offer on at Par / Premium / Discount",
+                    "Maximum Post IPO Paid Up Capital is 125 Crore",
+                    "Regulated Company having Pre IPO 125 Crore may apply, condition are:",
+                    "a. Having accumulated Loss? (If yes, check compliance)",
+                    "b. Submit Positive within next 2 year of IPO",
+                    "c. Projected FS verified with ISAE 3400 by Panel of Auditor",
+                    "Offer in Premium? then:",
+                    "a. Maximum Post IPO Paid Up Capital is 125 Crore",
+                    "b. Commercial Operation preceding 3 year",
+                    "c. NPAT and Positive Net Operating Cash Flows for at least Last 2 year",
+                    "d. Rated at least Single-A in Long term Loan by Listed Agency"
+                ];
+                renderRows(sectionB, 'row_b');
+            </script>
+
+            <tr><td class="section-title" colspan="4">C. ADDITIONAL REQUIREMENTS FOR GREEN FIELD (FIXED PRICE)_RULE-4(3)</td></tr>
+            <script>
+                const sectionC = [
+                    "Offer at Par / Discount",
+                    "Post IPO Paid Up Capital May be Exceeded 125 Crore",
+                    "Positive projected Net Profit After Tax within 2 year of IPO",
+                    "Having Verified by ISAE 3400 with Panel of Auditor",
+                    "Contribution of Sponsor/Group/Director Not Less than 75% of Post IPO",
+                    "Holding minimum 75% retained up to 2 year consecutive Profit from Core Business",
+                    "Sponsor/Director having successful Business track Record",
+                    "Management have sufficient Skills and Experience to Run Green Field Business",
+                    "Details Plan of Operation including EPC Contract",
+                    "A separate declaration on Cover page of the Prospectus"
+                ];
+                renderRows(sectionC, 'row_c');
+            </script>
+
+            <tr><td class="section-title" colspan="4">D. ADDITIONAL REQUIREMENTS FOR (BOOK BUILDING) METHOD RULE-4(4)</td></tr>
+            <script>
+                const sectionD = [
+                    "Offer only CUT-OFF Price",
+                    "Having 500 Crore Paid Up Capital/ Net worth? (Min 5% offer check)",
+                    "Commercial Operation for Preceding 3 year",
+                    "Made Net Profit after Tax and Positive Net Operating Cash Flows (Last 2 yr)",
+                    "Exemption check for PPP / Majority Foreign Holding Company",
+                    "Rating at least Single A on Long Term Loan by Agency listed with BSEC",
+                    "Separate agreement with Issue Manager & Registrar to the Issue"
+                ];
+                renderRows(sectionD, 'row_d');
+            </script>
+
+            <tr><td class="section-title" colspan="4">E. ADDITIONAL REQUIREMENTS OF RPO RULE-4(5)</td></tr>
+            <script>
+                const sectionE = [
+                    "PSI on Board Approval, GM Approval & Commission Approval",
+                    "Announcement on PSI 'Subject to approval of BSEC'",
+                    "Approved in AGM and Consent given by BSEC",
+                    "At least 90% of Previous Capital Raise Utilised (Report attached)",
+                    "35% of Public Offer Underwritten",
+                    "Credit Rating at least 'Investment Grade' by BSEC listed Agency"
+                ];
+                renderRows(sectionE, 'row_e');
+            </script>
+        </tbody>
+    </table>
+
+    <footer>
+        <div class="signature-block">
+            <div class="sig-line"></div>
+            <p>Prepared By</p>
+            <div class="header-info" style="margin-top:10px; padding:5px;">
+                <label>Dated:</label>
+                <input type="text" style="font-size: 13px;">
+            </div>
+        </div>
+        <div class="designer-tag">
+            Designed By: Syed Al Imran
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Valuation (P/B Method) By_SA Imran</title>
+    <style>
+        :root { --primary: #1a472a; --secondary: #2c3e50; --accent: #d4af37; --light: #f4f7f6; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--light); padding: 20px; color: #333; line-height: 1.6; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        header { text-align: center; border-bottom: 3px solid var(--primary); margin-bottom: 30px; padding-bottom: 15px; }
+        header h1 { color: var(--secondary); margin: 0; text-transform: uppercase; font-size: 24px; letter-spacing: 1px; }
+        header p { color: var(--primary); font-weight: 600; margin: 5px 0; }
+
+        .section-title { background: var(--secondary); color: white; padding: 12px 15px; margin: 25px 0 15px; font-size: 13px; text-transform: uppercase; border-radius: 6px; letter-spacing: 0.5px; }
+        
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 25px; }
+        label { font-size: 11px; font-weight: 700; color: #555; display: block; margin-bottom: 8px; text-transform: uppercase; }
+        input { padding: 10px; border: 1px solid #ced4da; border-radius: 6px; width: 100%; box-sizing: border-box; font-size: 13px; transition: border 0.3s; }
+        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 5px rgba(26,71,42,0.2); }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; background: white; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: center; }
+        th { background: #f8f9fa; color: var(--secondary); font-weight: 700; }
+
+        .no-print { display: flex; gap: 15px; margin: 30px 0; }
+        .btn { flex: 1; padding: 16px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: all 0.3s ease; font-size: 14px; }
+        .btn-calc { background: var(--primary); color: white; }
+        .btn-calc:hover { background: #12331e; transform: translateY(-1px); }
+        .btn-pdf { background: var(--secondary); color: white; }
+        .btn-pdf:hover { background: #1a252f; }
+
+        #reportArea { display: none; animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .summary-box { background: #f0f4f1; border: 2px solid var(--primary); padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 35px; }
+        .final-price { font-size: 48px; color: var(--primary); font-weight: 800; margin: 10px 0; }
+        
+        .base-case { background: #fff9c4 !important; font-weight: 800; border: 2px solid var(--accent) !important; color: var(--secondary); }
+
+        .footer-sig { text-align: right; color: #1a472a; margin-top: 30px; border-top: 1px solid #eee; padding-top: 15px; }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; width: 100%; padding: 0; }
+            .no-print { display: none; }
+            @page { size: A4; margin: 1.5cm; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Valuation of Shares: Price-to-Book Value Method</h1>
+        <p>IIDFC Capital Limited | Corporate Advisory Teamn</p>
+    </header>
+
+    <div class="section-title">1. Subject Company Information (Non-Listed)</div>
+    <div class="input-grid">
+        <div><label>Company Name</label><input type="text" id="compName" placeholder="Input Company Name"></div>
+        <div><label>NAV Per Share (BDT) Latest </label><input type="number" id="subjectNAV" placeholder="0.00"></div>
+        <div><label>Illiquidity Discount (%)</label><input type="number" id="discount" placeholder="0.00"></div>
+    </div>
+
+    <div class="section-title">2. Listed Peer Companies Analysis (DSE)</div>
+    <table id="peerTable">
+        <thead>
+            <tr>
+                <th style="width: 30%;">Peer Company Name</th>
+                <th>Market Price (P) FS Closing Date</th>
+                <th>NAV Per Share (B) Latest FS</th>
+                <th>P/B Ratio</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><input type="text" value="Peer Company 1"></td><td><input type="number" class="p-price" placeholder="0.00"></td><td><input type="number" class="p-book" placeholder="0.00"></td><td class="pb-res">-</td></tr>
+            <tr><td><input type="text" value="Peer Company 2"></td><td><input type="number" class="p-price" placeholder="0.00"></td><td><input type="number" class="p-book" placeholder="0.00"></td><td class="pb-res">-</td></tr>
+            <tr><td><input type="text" value="Peer Company 3"></td><td><input type="number" class="p-price" placeholder="0.00"></td><td><input type="number" class="p-book" placeholder="0.00"></td><td class="pb-res">-</td></tr>
+        </tbody>
+        <tfoot style="background: #f1f3f5; font-weight:bold;">
+            <tr>
+                <td colspan="3" style="text-align:right; padding-right: 20px;">Average Peer Company P/B Ratio:</td>
+                <td id="avgPB" style="color: var(--primary); font-size: 14px;">-</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="no-print">
+        <button class="btn btn-calc" onclick="calculatePBValuation()">Generate Valuation Report</button>
+        <button class="btn btn-pdf" onclick="window.print()">Export to PDF</button>
+    </div>
+
+    <div id="reportArea">
+        <div class="summary-box">
+            <div id="outName" style="font-weight: 700; font-size: 20px; color: var(--secondary);"></div>
+            <div style="margin-top: 10px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #666;">Indicative Share Price (Fair Value)</div>
+            <div id="resPrice" class="final-price">0.00 BDT</div>
+            <div id="resMetrics" style="font-size: 14px; color: #444; margin-top: 10px;"></div>
+        </div>
+
+        <div class="section-title">3. Sensitivity Analysis</div>
+        <table class="sens-table" id="sensTable"></table>
+
+        <div style="background: #fff; border-left: 4px solid var(--primary); padding: 15px; margin-top: 25px; font-size: 12px; color: #555;">
+            <strong>Calculation Hint:</strong><br>
+            • The <strong>P/B Ratio</strong> for Listed Company is calculated as the current market price divided by the Net Asset Value per share.<br>
+            • The <strong>Indicative Share Price</strong> is calculated by multyply of the Subject Company's NAV with the average peer P/B Ratio<br>
+            • An <strong>Illiquidity Discount</strong> is applied to account for the lack of a public market for the subject company's shares. (Subject to approved by Issuer & Issue Manager).
+        </div>
+        
+        <div class="footer-sig">
+            <b style="font-size: 12px;">Developed By: Syed Al Imran</b>
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculatePBValuation() {
+        const pPrices = document.querySelectorAll('.p-price');
+        const pBooks = document.querySelectorAll('.p-book');
+        const pbRes = document.querySelectorAll('.pb-res');
+        
+        let totalPB = 0;
+        let count = 0;
+
+        pPrices.forEach((el, i) => {
+            let price = parseFloat(el.value) || 0;
+            let book = parseFloat(pBooks[i].value) || 0;
+            if (book > 0) {
+                let pb = price / book;
+                pbRes[i].innerText = pb.toFixed(2) + "x";
+                totalPB += pb;
+                count++;
+            }
+        });
+
+        const avgPB = count > 0 ? totalPB / count : 0;
+        document.getElementById('avgPB').innerText = avgPB.toFixed(2) + "x";
+
+        const subjectNAV = parseFloat(document.getElementById('subjectNAV').value) || 0;
+        const discountVal = parseFloat(document.getElementById('discount').value) || 0;
+        const discountFactor = 1 - (discountVal / 100);
+        
+        const finalPrice = (subjectNAV * avgPB) * discountFactor;
+
+        document.getElementById('outName').innerText = document.getElementById('compName').value || "Unnamed Entity";
+        document.getElementById('resPrice').innerText = finalPrice.toFixed(2) + " BDT";
+        document.getElementById('resMetrics').innerHTML = `
+            Subject NAV: <b>${subjectNAV.toFixed(2)}</b> | 
+            Avg. Peer P/B: <b>${avgPB.toFixed(2)}x</b> | 
+            Applied Discount: <b>${discountVal}%</b>
+        `;
+
+        generateSensitivity(subjectNAV, avgPB, discountFactor);
+        document.getElementById('reportArea').style.display = "block";
+    }
+
+    function generateSensitivity(nav, pb, discFactor) {
+        const navSteps = [0.9, 0.95, 1, 1.05, 1.1]; // +/- 10%
+        const pbSteps = [0.9, 0.95, 1, 1.05, 1.1];
+        
+        let html = `<thead><tr><th>NAV (BDT) \\ P/B Ratio</th>`;
+        pbSteps.forEach(pStep => {
+            html += `<th>${(pb * pStep).toFixed(2)}x</th>`;
+        });
+        html += `</tr></thead><tbody>`;
+
+        navSteps.forEach((nStep, i) => {
+            let currentNav = nav * nStep;
+            html += `<tr><th style="background:#f8f9fa;">${currentNav.toFixed(2)}</th>`;
+            pbSteps.forEach((pStep, j) => {
+                let currentPb = pb * pStep;
+                const val = (currentNav * currentPb) * discFactor;
+                const isBase = (i === 2 && j === 2) ? "class='base-case'" : "";
+                html += `<td ${isBase}>${val.toFixed(2)}</td>`;
+            });
+            html += `</tr>`;
+        });
+        html += `</tbody>`;
+        document.getElementById('sensTable').innerHTML = html;
+    }
+</script>
+</body>
+</html>

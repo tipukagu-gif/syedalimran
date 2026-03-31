@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valuation of Shares (P/E Method)_By SA Imran</title>
+    <style>
+        :root {
+            --primary: #1a472a;
+            --secondary: #2c3e50;
+            --accent: #d4af37;
+        }
+
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7f6; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        
+        header { text-align: center; border-bottom: 3px solid var(--primary); margin-bottom: 30px; padding-bottom: 10px; }
+        header h1 { color: var(--secondary); margin: 0; text-transform: uppercase; font-size: 22px; }
+        header p { color: var(--primary); font-weight: bold; margin: 5px 0; font-size: 14px; }
+
+        .section-title { background: var(--secondary); color: white; padding: 10px 15px; margin: 25px 0 10px; font-size: 13px; text-transform: uppercase; border-radius: 4px; }
+
+        input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 100%; box-sizing: border-box; font-size: 12px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 11px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background: #f8f9fa; color: var(--secondary); }
+
+        .no-print { display: flex; gap: 10px; margin: 30px 0; }
+        .btn { flex: 1; padding: 15px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        .btn-calc { background: var(--primary); color: white; }
+        .btn-pdf { background: var(--secondary); color: white; }
+
+        #reportArea { display: none; }
+        .summary-box { background: #f0f4f1; border: 2px solid var(--primary); padding: 25px; border-radius: 10px; text-align: center; margin-bottom: 30px; }
+        .final-price { font-size: 42px; color: var(--primary); font-weight: 800; margin: 10px 0; }
+
+        .sens-table th { background: var(--secondary); color: rgb(228, 227, 231); }
+        .base-case { background: #fff9c4 !important; font-weight: bold; border: 2px solid var(--accent) !important; }
+
+        .grid-pe { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; width: 100%; padding: 0; margin: 0; max-width: 100%; }
+            .no-print { display: none; }
+            .summary-box, table, .section-title { page-break-inside: avoid; }
+            @page { size: A4; margin: 1cm; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Share Valuation Report_P/E_Method)</h1>
+        <p>IIDFC Capital Limited | Corporate Advisory Team</p>
+    </header>
+
+    <div style="margin-bottom: 20px;">
+        <label style="font-size: 11px; font-weight: bold; color: #666;">COMPANY NAME</label>
+        <input type="text" id="compName" placeholder="Enter Company Name">
+    </div>
+
+    <div class="section-title">1. Historical Weighted Earning Calculation</div>
+    <table id="valuationTable">
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Basic Earning Per Share (EPS_BDT)</th>
+                <th>No. of Outstanding Shares</th>
+                <th>Weight Factor of Shares (Yearly/Total)</th>
+                <th>Weighted Earnings (Earnings * Weight)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Year 5 (Latest Year)</td><td><input type="number" class="eps-val" value=""></td><td><input type="number" class="share-val" id="firstInputShares" value=""></td><td id="w1">-</td><td class="prod-out">-</td></tr>
+            <tr><td>Year 4</td><td><input type="number" class="eps-val" value=""></td><td><input type="number" class="share-val" value=""></td><td id="w2">-</td><td class="prod-out">-</td></tr>
+            <tr><td>Year 3</td><td><input type="number" class="eps-val" value=""></td><td><input type="number" class="share-val" value=""></td><td id="w3">-</td><td class="prod-out">-</td></tr>
+            <tr><td>Year 2</td><td><input type="number" class="eps-val" value=""></td><td><input type="number" class="share-val" value=""></td><td id="w4">-</td><td class="prod-out">-</td></tr>
+            <tr><td>Year 1</td><td><input type="number" class="eps-val" value=""></td><td><input type="number" class="share-val" value=""></td><td id="w5">-</td><td class="prod-out">-</td></tr>
+        </tbody>
+        <tfoot style="background:#eee; font-weight:bold;">
+            <tr><td colspan="2">TOTAL SUM</td><td id="sumShares">-</td><td>100%</td><td id="totalWeightedEarnings">-</td></tr>
+        </tfoot>
+    </table>
+
+    <div class="grid-pe">
+        <div>
+            <div class="section-title">2. Sector P/E Calculation as per DSE</div>
+            <table id="peTable">
+                <thead><tr><th>Month</th><th>Sector P/E</th><th>Month</th><th>Sector P/E</th></tr></thead>
+                <tbody>
+                    <tr><td>M1</td><td><input type="number" class="pe-val" value=""></td><td>M7</td><td><input type="number" class="pe-val" value=""></td></tr>
+                    <tr><td>M2</td><td><input type="number" class="pe-val" value=""></td><td>M8</td><td><input type="number" class="pe-val" value=""></td></tr>
+                    <tr><td>M3</td><td><input type="number" class="pe-val" value=""></td><td>M9</td><td><input type="number" class="pe-val" value=""></td></tr>
+                    <tr><td>M4</td><td><input type="number" class="pe-val" value=""></td><td>M10</td><td><input type="number" class="pe-val" value=""></td></tr>
+                    <tr><td>M5</td><td><input type="number" class="pe-val" value=""></td><td>M11</td><td><input type="number" class="pe-val" value=""></td></tr>
+                    <tr><td>M6</td><td><input type="number" class="pe-val" value=""></td><td>M12</td><td><input type="number" class="pe-val" value=""></td></tr>
+                </tbody>
+                <tfoot style="background:#eee; font-weight:bold;">
+                    <tr><td colspan="3">AVERAGE SECTOR P/E</td><td id="avgPeOut">-</td></tr>
+                </tfoot>
+            </table>
+        </div>
+        <div>
+            <div class="section-title">3. Market Adjustments (if any)</div>
+            <div style="padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                <label style="font-size:11px; font-weight:bold;">ILLIQUIDITY DISCOUNT (%)</label>
+                <input type="number" id="discount" value="" style="margin-bottom: 15px;">
+                
+                <label style="font-size:11px; font-weight:bold;">LATEST NO. OF SHARES (LAST YEAR)</label>
+                <div id="basisDisplay" style="padding: 8px; background: #f8f9fa; border: 1px solid #eee; font-weight: bold; color: var(--primary);">0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="no-print">
+        <button class="btn btn-calc" onclick="calculateValuation()">Calculate Indicative Price</button>
+        <button class="btn btn-pdf" onclick="window.print()">Export A4 PDF</button>
+    </div>
+
+    <div id="reportArea">
+        <div class="summary-box">
+            <div id="outName" style="font-weight: bold; font-size: 18px; color: var(--secondary);"></div>
+            <div style="margin-top: 10px; font-size: 13px; text-transform: uppercase;">Indicative Share Price</div>
+            <div id="resPrice" class="final-price">0.00 BDT</div>
+            <div id="resMetrics" style="font-size: 14px; color: #444;"></div>
+        </div>
+
+        <div class="section-title">4. Sensitivity Analysis</div>
+        <table class="sens-table" id="sensTable"></table>
+
+        <div style="margin-top: 20px; font-size: 11px; color: #777; border-top: 1px solid #ddd; padding-top: 10px; line-height: 1.6;">
+            <strong>Methodology Note:</strong><br>
+            1. <strong>Weight Factor:</strong> Calculated as (Yearly No. of Shares / Total Sum of Total Year Shares).<br>
+            2. <strong>Weighted Earnings:</strong> (Yearly EPS * Yearly Shares) * Weight Factor.<br>
+            3. <strong>Valuation EPS:</strong> Total Weighted Earnings divided by the <strong>Latest No. of Shares</strong>.<br>
+            4. <strong>Calculated Price:</strong> (Valuation EPS * Avg Sector P/E) * (1 - Discount).
+
+            <p style="text-align: right; color: green;"><b>Developed By: Syed Al Imran</b></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculateValuation() {
+        const epsEls = document.querySelectorAll('.eps-val');
+        const shareEls = document.querySelectorAll('.share-val');
+        const prodOuts = document.querySelectorAll('.prod-out');
+        
+        // Use FIRST inputted shares as the basis
+        const basisShares = parseFloat(document.getElementById('firstInputShares').value || 1);
+        document.getElementById('basisDisplay').innerText = basisShares.toLocaleString();
+
+        let sumShares = 0;
+        shareEls.forEach(el => sumShares += parseFloat(el.value || 0));
+        document.getElementById('sumShares').innerText = sumShares.toLocaleString();
+
+        let totalWeightedEarnings = 0;
+
+        // Step 1 & 2
+        epsEls.forEach((el, i) => {
+            let eps = parseFloat(el.value || 0);
+            let shares = parseFloat(shareEls[i].value || 0);
+            
+            let weightFactor = shares / sumShares;
+            document.getElementById('w' + (i+1)).innerText = (weightFactor * 100).toFixed(2) + "%";
+
+            let yearlyEarnings = eps * shares;
+            let weightedEarnings = yearlyEarnings * weightFactor;
+            
+            prodOuts[i].innerText = weightedEarnings.toLocaleString(undefined, {maximumFractionDigits:0});
+            totalWeightedEarnings += weightedEarnings;
+        });
+
+        document.getElementById('totalWeightedEarnings').innerText = totalWeightedEarnings.toLocaleString(undefined, {maximumFractionDigits:0});
+
+        // Step 3: Sector P/E Calculation
+        const peEls = document.querySelectorAll('.pe-val');
+        let sumPe = 0;
+        peEls.forEach(el => sumPe += parseFloat(el.value || 0));
+        const avgPe = sumPe / peEls.length;
+        document.getElementById('avgPeOut').innerText = avgPe.toFixed(2);
+
+        // Final Result
+        const finalValuationEps = totalWeightedEarnings / basisShares;
+        const discount = parseFloat(document.getElementById('discount').value || 0) / 100;
+        const finalPrice = (finalValuationEps * avgPe) * (1 - discount);
+
+        // UI Display
+        document.getElementById('outName').innerText = document.getElementById('compName').value || "";
+        document.getElementById('resPrice').innerText = finalPrice.toFixed(2) + " BDT";
+        document.getElementById('resMetrics').innerHTML = `
+            Weighted Avg EPS: <b>${finalValuationEps.toFixed(2)}</b> | 
+            Sector P/E: <b>${avgPe.toFixed(2)}</b> | 
+            Discount: <b>${(discount * 100).toFixed(0)}%</b>
+        `;
+
+        generateSensitivity(finalValuationEps, avgPe, discount);
+        document.getElementById('reportArea').style.display = "block";
+    }
+
+    function generateSensitivity(eps, pe, disc) {
+        const epsR = [eps * 0.9, eps * 0.95, eps, eps * 1.05, eps * 1.1];
+        const peR = [pe * 0.9, pe * 0.95, pe, pe * 1.05, pe * 1.1];
+        
+        let html = `<tr><th>W. EPS \\ P/E</th>`;
+        peR.forEach(p => html += `<th>${p.toFixed(1)}x</th>`);
+        html += `</tr>`;
+
+        epsR.forEach((e, i) => {
+            html += `<tr><th style="background:#f8f9fa;">${e.toFixed(2)}</th>`;
+            peR.forEach((p, j) => {
+                const val = (e * p) * (1 - disc);
+                const isBase = (i === 2 && j === 2) ? "class='base-case'" : "";
+                html += `<td ${isBase}>${val.toFixed(1)}</td>`;
+            });
+            html += `</tr>`;
+        });
+        document.getElementById('sensTable').innerHTML = html;
+    }
+    
+</script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P/S Based Share Valuation_By SA Imran</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        /* A4 Root Settings */
+        :root {
+            --primary: #2980b9;
+            --dark: #2c3e50;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #ecf0f1; 
+            margin: 0; 
+            padding: 20px; 
+        }
+
+        /* Toolbar for the screen only */
+        .no-print-toolbar {
+            width: 210mm;
+            margin: 0 auto 10px auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        /* The Main A4 Container */
+        .container { 
+            width: 210mm; 
+            min-height: 297mm; 
+            margin: auto; 
+            background: white; 
+            padding: 20mm; /* Standard professional margins */
+            box-sizing: border-box; 
+            box-shadow: 0 0 15px rgba(0,0,0,0.1); 
+        }
+
+        /* CORPORATE HEADER */
+        .report-header {
+            border-bottom: 3px solid var(--primary);
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        h1 { margin: 0; color: var(--dark); font-size: 22px; text-transform: uppercase; }
+        .meta-data { text-align: right; font-size: 12px; color: #7f8c8d; }
+
+        /* PREVENT SPLITTING: This is the core fix */
+        .section-block {
+            page-break-inside: avoid; /* Prevents breaking inside the block */
+            break-inside: avoid;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+
+        .info-header { 
+            background: #eaf2f8; 
+            border-left: 5px solid var(--primary); 
+            padding: 15px; 
+            font-size: 13px; 
+            margin-bottom: 20px;
+        }
+
+        .section-title { 
+            border-bottom: 2px solid #eee; 
+            padding-bottom: 8px; 
+            margin-bottom: 15px; 
+            color: var(--dark); 
+            font-size: 16px; 
+            font-weight: bold; 
+        }
+
+        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .field { display: flex; flex-direction: column; }
+        label { font-weight: 600; font-size: 11px; margin-bottom: 5px; color: #555; text-transform: uppercase; }
+        input { padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; }
+
+        /* TABLES */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
+        th { background-color: var(--dark); color: white; padding: 10px; font-size: 11px; }
+        td { border: 1px solid #eee; padding: 10px; text-align: center; font-size: 13px; word-wrap: break-word; }
+
+        .subject-result-table td { 
+            background: #f4faff; 
+            border: 2px solid var(--primary); 
+            font-weight: bold; 
+            font-size: 18px; 
+            color: var(--dark); 
+        }
+
+        .avg-display { 
+            background: var(--dark); 
+            color: #3498db; 
+            padding: 20px; 
+            text-align: center; 
+            margin-top: 10px;
+        }
+
+        /* Buttons */
+        .btn { padding: 12px 25px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; color: white; text-transform: uppercase; transition: 0.3s; }
+        .calc-btn { background: var(--primary); flex: 2; }
+        .pdf-btn { background: #27ae60; flex: 1; }
+
+        /* FINAL CARD */
+        .summary-card { 
+            padding: 40px; 
+            background: var(--dark); 
+            color: white; 
+            text-align: center; 
+            border-bottom: 8px solid var(--primary);
+            display: none; 
+        }
+        .share-price { font-size: 52px; color: #3498db; margin: 10px 0; font-weight: 800; }
+
+        .designer-footer { 
+            margin-top: 50px; 
+            padding-top: 15px; 
+            border-top: 1px solid #eee; 
+            text-align: center; 
+            color: #e74c3c; 
+            font-weight: bold; 
+            font-size: 12px;
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .no-print-toolbar { display: none; }
+            .container { box-shadow: none; border: none; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="no-print-toolbar">
+    <button class="btn calc-btn" onclick="runFinalValuation()">Calculate Report</button>
+    <button class="btn pdf-btn" onclick="downloadPDF()">Download PDF</button>
+</div>
+
+<div class="container" id="valuation-report">
+    
+    <div class="report-header">
+        <div>
+            <h1>Share Valuation Report</h1>
+            <span style="color: var(--primary); font-weight: bold; font-size: 13px;">Price to Sales (P/S) Methodology</span>
+        </div>
+        </div>
+
+    <div class="section-block">
+        <div class="info-header">
+            <strong>Methodology Note:</strong> This valuation utilizes the revenue-based multiplier approach, applying the average P/S ratios of listed comparable peers to the subject company's audited annual turnover.
+        </div>
+        
+        <div class="section-title">1. Subject Company Information</div>
+        <div class="input-grid">
+            <div class="field"><label>Company Name</label><input type="text" id="mainCompName" value="Company Limited"></div>
+            <div class="field"><label>For the year ended</label><input type="date" id="valDate"></div>
+            <div class="field"><label>Annual Sales (BDT)</label><input type="number" id="mainSales" oninput="calculateSubjectOnly()"></div>
+            <div class="field"><label>Shares Outstanding</label><input type="number" id="mainShares" oninput="calculateSubjectOnly()"></div>
+        </div>
+
+        <table class="subject-result-table">
+            <thead>
+                <tr>
+                    <th style="background: var(--primary)">Calculated Sales Per Share (SPS)</th>
+                    <th style="background: var(--primary)">Data Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="subSPS">0.00 BDT</td>
+                    <td>Audited / Unaudited</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-block">
+        <div class="section-title">2. Peer Company Analysis (Listed) Based on Sales, Capital, Product Mix etc</div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 30%;">Peer Company</th>
+                    <th>Annual Sales</th>
+                    <th>Shares</th>
+                    <th>Market Rate</th>
+                    <th>P/S Multiple</th>
+                </tr>
+            </thead>
+            <tbody id="peerTable">
+                <tr>
+                    <td><input type="text" style="width:90%" value="Company A"></td>
+                    <td><input type="number" style="width:90%" class="p-sales" oninput="calculateSectorPS()"></td>
+                    <td><input type="number" style="width:90%" class="p-shares" oninput="calculateSectorPS()"></td>
+                    <td><input type="number" style="width:90%" class="p-rate" oninput="calculateSectorPS()"></td>
+                    <td class="p-result" style="font-weight:bold; color:var(--primary);">0.00</td>
+                </tr>
+                <tr>
+                    <td><input type="text" style="width:90%" value="Company B"></td>
+                    <td><input type="number" style="width:90%" class="p-sales" oninput="calculateSectorPS()"></td>
+                    <td><input type="number" style="width:90%" class="p-shares" oninput="calculateSectorPS()"></td>
+                    <td><input type="number" style="width:90%" class="p-rate" oninput="calculateSectorPS()"></td>
+                    <td class="p-result" style="font-weight:bold; color:var(--primary);">0.00</td>
+                </tr>
+                <tr>
+                    <td><input type="text" style="width:90%" value="Company C"></td>
+                    <td><input type="number" style="width:90%" class="p-sales" oninput="calculateSectorPS()"></td>
+                    <td><input type="number" style="width:90%" class="p-shares" oninput="calculateSectorPS()"></td>
+                    <td><input type="number" style="width:90%" class="p-rate" oninput="calculateSectorPS()"></td>
+                    <td class="p-result" style="font-weight:bold; color:var(--primary);">0.00</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="avg-display">
+            <label style="color:white; font-size: 16px; letter-spacing: 1px;">AVERAGE INDUSTRY P/S MULTIPLE</label>
+            <h2 id="finalAvgPS">0.00</h2>
+        </div>
+    </div>
+
+    <div class="section-block">
+        <div id="logicBox" style="background: #fdfefe; border:1px solid #d4e6f1; padding:15px; display:none; font-size:13px; margin-bottom:15px;"></div>
+        
+        <div id="summaryCard" class="summary-card">
+            <div style="font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: #bdc3c7;">Estimated Fair Value Per Share</div>
+            <div id="resSharePrice" class="share-price">0.00 BDT</div>
+            <div id="resDetails" style="color: #bdc3c7; font-size: 12px;"></div>
+        </div>
+    </div>
+
+    <div class="designer-footer">
+        Designed By: Syed Al Imran, IIDFC Capital Limited
+    </div>
+</div>
+
+<script>
+    function calculateSubjectOnly() {
+        const sales = parseFloat(document.getElementById("mainSales").value) || 0;
+        const shares = parseFloat(document.getElementById("mainShares").value) || 1;
+        const sps = sales / shares;
+        document.getElementById("subSPS").innerText = sps.toLocaleString(undefined, {minimumFractionDigits: 2}) + " BDT";
+        return sps;
+    }
+
+    function calculateSectorPS() {
+        const rows = document.querySelectorAll("#peerTable tr");
+        let totalPS = 0;
+        let activePeers = 0;
+        rows.forEach(row => {
+            const sales = parseFloat(row.querySelector(".p-sales").value) || 0;
+            const shares = parseFloat(row.querySelector(".p-shares").value) || 1;
+            const rate = parseFloat(row.querySelector(".p-rate").value) || 0;
+            if (sales > 0 && rate > 0) {
+                const sps = sales / shares;
+                const ps = rate / sps;
+                row.querySelector(".p-result").innerText = ps.toFixed(2);
+                totalPS += ps; activePeers++;
+            }
+        });
+        const avg = activePeers > 0 ? totalPS / activePeers : 0;
+        document.getElementById("finalAvgPS").innerText = avg.toFixed(2);
+        return avg;
+    }
+
+    function runFinalValuation() {
+        const avgPS = calculateSectorPS();
+        const sps = calculateSubjectOnly();
+        const mName = document.getElementById("mainCompName").value;
+        const finalPrice = sps * avgPS;
+
+        document.getElementById('logicBox').style.display = "block";
+        document.getElementById('logicBox').innerHTML = `<strong>Methodology:</strong> Applying Sector Multiple (${avgPS.toFixed(2)}x) to Subject SPS (${sps.toFixed(2)} BDT).`;
+        
+        document.getElementById('summaryCard').style.display = "block";
+        document.getElementById('resSharePrice').innerText = finalPrice.toLocaleString(undefined, {minimumFractionDigits: 2}) + " BDT";
+        document.getElementById('resDetails').innerText = `Valuation concluded for ${mName} based on comparable revenue multipliers.`;
+    }
+
+    function downloadPDF() {
+        runFinalValuation();
+        const element = document.getElementById('valuation-report');
+        
+        // Sync input values for PDF rendering
+        const inputs = element.querySelectorAll('input');
+        inputs.forEach(i => i.setAttribute('value', i.value));
+
+        const opt = {
+            margin:       0,
+            filename:     'Share_Valuation_Report.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+
+    window.onload = function() {
+        document.getElementById('valDate').valueAsDate = new Date();
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    };
+</script>
+</body>
+</html>

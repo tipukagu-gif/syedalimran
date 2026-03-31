@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSE Listed Companies Report - March 2026</title>
+    <style>
+        /* Corporate Design System */
+        :root {
+            --primary-blue: #1a365d;
+            --secondary-blue: #2c5282;
+            --accent-gold: #b7791f;
+            --border-gray: #e2e8f0;
+            --text-dark: #1a202c;
+            --text-light: #4a5568;
+            --bg-gray: #f8fafc;
+            
+            /* Category Colors */
+            --cat-a: #2f855a;
+            --cat-b: #c05621;
+            --cat-z: #c53030;
+            --cat-n: #44337a;
+        }
+
+        * { box-sizing: border-box; -webkit-print-color-adjust: exact; }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-dark);
+            background-color: #fff;
+            line-height: 1.3;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Page Layout & Print Optimization */
+        @page {
+            size: A4 portrait;
+            margin: 15mm 10mm;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 210mm; /* A4 Width */
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        /* Header Section */
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 3px solid var(--primary-blue);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .brand-box h1 {
+            color: var(--primary-blue);
+            font-size: 22px;
+            margin: 0;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+        }
+
+        .report-meta {
+            text-align: right;
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .report-title {
+            background: var(--bg-gray);
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .report-title h2 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--secondary-blue);
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10.5px; /* Optimized for A4 density */
+            table-layout: auto;
+        }
+
+        thead {
+            display: table-header-group; /* Ensures header repeats on page break */
+        }
+
+        th {
+            background-color: var(--primary-blue) !important;
+            color: white !important;
+            text-align: left;
+            padding: 8px 6px;
+            text-transform: uppercase;
+            font-weight: 600;
+            border: 1px solid #fff;
+        }
+
+        td {
+            padding: 6px;
+            border-bottom: 1px solid var(--border-gray);
+            vertical-align: top;
+            word-wrap: break-word;
+        }
+
+        tr {
+            page-break-inside: avoid; /* Prevents splitting a single row */
+        }
+
+        /* Specialized Columns */
+        .col-sl { width: 30px; color: var(--text-light); font-family: monospace; }
+        .col-code { width: 80px; font-weight: 700; color: var(--primary-blue); }
+        .col-name { width: 180px; font-weight: 600; }
+        .col-sector { width: 90px; }
+        .col-cat { width: 40px; text-align: center; }
+        .col-remarks { font-style: normal; color: #333; }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 9px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        .cat-A { background: #e6fffa; color: var(--cat-a); border-color: #b2f5ea; }
+        .cat-B { background: #fffaf0; color: var(--cat-b); border-color: #feebc8; }
+        .cat-Z { background: #fff5f5; color: var(--cat-z); border-color: #feb2b2; }
+        .cat-N { background: #faf5ff; color: var(--cat-n); border-color: #e9d8fd; }
+
+        /* Print-only Footer */
+        .footer {
+            margin-top: 20px;
+            font-size: 9px;
+            color: var(--text-light);
+            text-align: center;
+            border-top: 1px solid var(--border-gray);
+            padding-top: 10px;
+        }
+
+        @media print {
+            body { background: white; }
+            .no-print { display: none; }
+            .container { width: 100%; max-width: none; }
+        }
+
+        /* Control Panel (Screen only) */
+        .controls {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+        }
+        button {
+            padding: 8px 16px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="no-print controls">
+        <button onclick="window.print()">Print Report</button>
+        <div style="font-size: 12px; align-self: center;"></div>
+    </div>
+
+    <header class="report-header">
+        <div class="brand-box">
+            <h1>IIDFC Capital Ltd.</h1>
+            <div style="font-size: 12px; color: var(--accent-gold); font-weight: 600;">Research & Portfolio Management Division</div>
+        </div>
+        <div class="report-meta">
+            <strong>DHAKA STOCK EXCHANGE LISTING REPORT</strong><br>
+            Issue Date: March 29, 2026<br>
+            Source: DSE Official (dsebd.org)
+        </div>
+    </header>
+
+    <div class="report-title">
+        <h2>Comprehensive Market Classification & Fundamental Brief</h2>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th class="col-sl">SL</th>
+                <th class="col-code">Symbol</th>
+                <th class="col-name">Company Name</th>
+                <th class="col-sector">Sector</th>
+                <th class="col-cat">Cat.</th>
+                <th class="col-remarks">Fundamental News & Remarks</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            </tbody>
+    </table>
+
+    <footer class="footer">
+        <p>Report Prepared By: Syed Al Imran, IIDFC Capital Limited. This document is for informational purposes only. Investment in capital markets involves risk.</p>
+        <p>Page <span class="page-number"></span> | Generated on 2026-03-29</p>
+    </footer>
+</div>
+
+<script>
+const rawData = [
+  ["1JANATAMF","1st Janata Bank Mutual Fund","MutualFund","B","Mutual fund; NAV below face value; low yield"],
+  ["1STPRIMFMF","1st Prime Finance Mutual Fund","MutualFund","B","ICB-managed; moderate NAV performance"],
+  ["AAMRANET","Aamra Networks Ltd","IT","A","ISP & network services; consistent revenue growth"],
+  ["AAMRATECH","Aamra Technologies Ltd","IT","A","IT services & cloud; A-category; earnings volatile"],
+  ["ABB1STMF","AB Bank 1st Mutual Fund","MutualFund","B","AB Bank-sponsored; moderate NAV"],
+  ["ABBANK","AB Bank PLC","Bank","B","B-category; governance concerns raised 2024; NPL elevated"],
+  ["ACFL","AFC Agro Biotech Ltd","Pharma","A","Agro-chemicals & biotech; consistent dividend payer"],
+  ["ACI","ACI Ltd","Pharma","A","Blue chip conglomerate; pharma, FMCG & agri; regular dividend"],
+  ["ACIFORMULA","ACI Formulations Ltd","Pharma","A","ACI subsidiary; agrochemical formulation; stable earnings"],
+  ["ACMELAB","The ACME Laboratories Ltd","Pharma","A","Top-tier pharma; strong API export growth"],
+  ["ACMEPL","ACME Pesticides Ltd","Pharma","A","Agro-chemicals; consistent dividend record"],
+  ["ACTIVEFINE","Active Fine Chemicals Ltd","Pharma","A","API manufacturer; export-oriented"],
+  ["ADNTEL","ADN Telecom Ltd","Telecom","A","ISP & broadband; A-category; active network expansion"],
+  ["ADVENT","Advent Pharma Ltd","Pharma","B","Small-cap pharma; limited export exposure"],
+  ["AFCAGRO","AFC Agro Biotech Ltd","Misc","B","Agricultural inputs segment"],
+  ["AFTABAUTO","Aftab Automobiles Ltd","Engineering","A","Auto assembler (Mitsubishi); A-category; margin pressure"],
+  ["AGNISYSL","Agni Systems Ltd","IT","A","IT & software services; good revenue visibility"],
+  ["AGRANINS","Agrani Insurance Co. Ltd","Insurance","A","State-linked general insurer; modest profitability"],
+  ["AIBL1STIMF","Al-Arafah Islami Bank 1st MF","MutualFund","B","Shariah MF; ICB-managed; B-category"],
+  ["AIBLPBOND","Al-Arafah Islami Bank Perp. Bond","Bond","N","Perpetual bond; interest-rate sensitive instrument"],
+  ["AIL","Aman Cotton Fibrous Ltd","Textile","B","Cotton-based textiles; standard category"],
+  ["AL-HAJTEX","Al-Haj Textile Mills Ltd","Textile","A","Established yarn mill; consistent dividend payer"],
+  ["ALARABANK","Al-Arafah Islami Bank PLC","Bank","A","Shariah-based; A-category; steady deposit growth"],
+  ["ALIF","ALIF Industries Ltd","Textile","Z","Irregular dividend; production concerns; Z-category"],
+  ["ALLTEX","Alltex Industries Ltd","Textile","B","Production irregularities; earnings volatile; watch"],
+  ["AMANFEED","Aman Feed Ltd","Food","A","Poultry feed leader; consistent earnings; A-category"],
+  ["AMBEEPHA","Ambee Pharmaceuticals Ltd","Pharma","A","Established OTC brand; steady profit; A-category"],
+  ["AMCL(PRAN)","Agricultural Marketing Co. Ltd (PRAN)","Food","A","PRAN-RFL group flagship; strong FMCG brand; blue chip"],
+  ["ANLIMAYARN","Anlima Yarn Dyeing Ltd","Textile","B","Yarn dyeing; B-category; moderate performance"],
+  ["ANWARGALV","Anwar Galvanizing Ltd","Engineering","A","Steel galvanizing; A-category; industrial supply"],
+  ["AOL","Akhtar Online Ltd (AOL)","IT","B","IT services; small-cap; limited market depth"],
+  ["APEXFOODS","Apex Foods Ltd","Food","A","Strong processed food brand; export earnings"],
+  ["APEXFOOT","Apex Footwear Ltd","Engineering","A","Footwear exporter; strong order book; A-category"],
+  ["APEXSPINN","Apex Spinning & Knitting Mills","Textile","A","Export-oriented knitwear; steady earnings; A-category"],
+  ["APEXTANRY","Apex Tannery Ltd","Tannery","A","Leather exporter; EU-compliant plant; A-category"],
+  ["APOLOISPAT","Apolo Ispat Complex Ltd","Engineering","Z","Z-category; financial distress; irregular trading halted"],
+  ["APSCLBOND","APSCL Bond","Bond","N","Power sector bond; traded at discount recently"],
+  ["ARAMIT","Aramit Ltd","Engineering","A","Roofing sheets & hardware; long-listed blue chip"],
+  ["ARAMITCEM","Aramit Cement Ltd","Cement","B","Smaller cement player; market share under pressure"],
+  ["ARGONDENIM","Argon Denims Ltd","Textile","B","Denim fabric; moderate capacity utilisation"],
+  ["ASIAINS","Asia Insurance Ltd","Insurance","A","General insurer; established; regular dividend"],
+  ["ASIAPACINS","Asia Pacific General Insurance","Insurance","A","Good claims ratio; A-category maintained"],
+  ["ASIATICLAB","Asiatic Laboratories Ltd","Pharma","A","Generic pharma; domestic sales focus; A-category"],
+  ["ATLASBANG","Atlas Bangladesh Ltd","Engineering","A","Battery manufacturer; dominant domestic market"],
+  ["AZIZPIPES","Aziz Pipes Ltd","Engineering","A","PVC pipes; construction sector exposure; A-category"],
+  ["BANGAS","Bangladesh Gas Fields Co. Ltd","Misc","A","State-owned gas; regulated tariff; stable income"],
+  ["BANKASIA","Bank Asia PLC","Bank","A","Agent banking leader; strong digital push; A-category"],
+  ["BARKAPOWER","Baraka Power Ltd","Power","B","Small IPP; HFO-based; capacity payment revenue model"],
+  ["BATASHOE","Bata Shoe Co. (BD) Ltd","Engineering","A","MNC footwear retailer; Bata global JV; blue chip"],
+  ["BATBC","British American Tobacco BD","Misc","A","Tobacco MNC; consistent high dividend; blue chip"],
+  ["BAYLEASING","Bay Leasing & Investment Ltd","Finance","Z","Z-category; elevated NPL; loan defaults reported 2024"],
+  ["BBS","BBS Cables Ltd","Engineering","B","Electrical cables; B-category; moderate earnings"],
+  ["BBSCABLES","BBS Cables Industry Ltd","Engineering","B","Cable manufacturer; B-category"],
+  ["BDAUTOCA","BD Auto-Car Ltd","Engineering","A","Auto dealership; EV interest; strong FY25 earnings"],
+  ["BDCOM","BDCOM Online Ltd","IT","A","ISP & data center; A-category; broadband expansion"],
+  ["BDFINANCE","BD Finance Ltd","Finance","Z","Z-category; NPL concerns; under BFIU monitoring 2025"],
+  ["BDLAMPS","BD Lamps Ltd","Engineering","A","Philips JV lighting; A-category; steady earnings"],
+  ["BDTHAI","BD Thai Aluminium Ltd","Engineering","B","Aluminium profiles; B-category"],
+  ["BDTHAIFOOD","BD Thai Food & Beverage Ltd","Food","B","Processed food; B-category"],
+  ["BDWELDING","Bangladesh Welding Electrodes","Engineering","B","Industrial consumables; B-category"],
+  ["BEACHHATCH","Beach Hatchery Ltd","Food","A","Shrimp hatchery; export quality; A-category"],
+  ["BEACONPHAR","Beacon Pharmaceuticals Ltd","Pharma","A","Generic pharma; strong southern BD market share"],
+  ["BENGALWTL","Bengal Windsor Thermoplastics","Engineering","A","PVC products; construction exposure; A-category"],
+  ["BERGERPBL","Berger Paints Bangladesh Ltd","Engineering","A","Paint MNC subsidiary; premium brand; blue chip"],
+  ["BESTHLDNG","Best Holdings Ltd","Travel","A","Hotel & hospitality; Cox's Bazar properties"],
+  ["BEXGSUKUK","Beximco Green Sukuk","Bond","N","Islamic bond from Beximco group; thin liquidity"],
+  ["BEXIMCO","Beximco Ltd","Textile","Z","Under court receivership Aug 2025; trading suspended"],
+  ["BGIC","Bangladesh General Insurance Co.","Insurance","A","A-category general insurer; established"],
+  ["BIFC","Bangladesh Industrial Finance Co.","Finance","Z","Z-category; severe operational difficulties"],
+  ["BNICL","Bangladesh National Insurance Co.","Insurance","A","State-linked insurer; A-category; stable"],
+  ["BPML","Bangladesh Plantation & Merchandise","Misc","B","Tea & plantation; B-category"],
+  ["BPPL","Bangladesh Plastic Products Ltd","Engineering","B","Plastics; B-category"],
+  ["BRACBANK","BRAC Bank PLC","Bank","A","Top private bank; strong SME & retail banking; blue chip"],
+  ["BSC","Bangladesh Shipping Corporation","Misc","A","State shipping entity; A-category"],
+  ["BSCPLC","B.S.C. (BD) Ltd","Misc","A","Service entity; A-category"],
+  ["BSRMLTD","BSRM Ltd","Engineering","A","Steel holding co.; A-category; infrastructure supply"],
+  ["BSRMSTEEL","BSRM Steels Ltd","Engineering","A","Integrated steelmaker; A-category; capacity expansion"],
+  ["BXPHARMA","Beximco Pharmaceuticals Ltd","Pharma","A","API exporter; A-category; separate entity from BEXIMCO"],
+  ["CAPITECGBF","Capita Growth Based Fund","MutualFund","B","Growth MF; moderate NAV performance"],
+  ["CAPMBDBLMF","Capital Market Dev. Fund (BDBL)","MutualFund","B","Govt-backed MF; BDBL-sponsored"],
+  ["CAPMIBBLMF","Capital Market IBBL Mutual Fund","MutualFund","B","IBBL-sponsored Shariah MF"],
+  ["CENTRALINS","Central Insurance Co. Ltd","Insurance","A","A-category general insurer; established 1986"],
+  ["CENTRALPHL","Central Pharmaceuticals Ltd","Pharma","B","Small-cap pharma; limited product portfolio"],
+  ["CITYBANK","The City Bank PLC","Bank","A","A-category; strong digital & card business"],
+  ["CITYGENINS","City General Insurance Co.","Insurance","A","A-category general insurer; stable"],
+  ["CLICL","Confidence Insurance Ltd (CLICL)","Insurance","A","General insurer; A-category"],
+  ["CNATEX","C&A Textiles Ltd","Textile","Z","Z-category; irregular trading; dormant operations"],
+  ["CONFIDCEM","Confidence Cement Ltd","Cement","A","A-category; major capacity; competitive pricing"],
+  ["CONTININS","Continental Insurance Ltd","Insurance","A","A-category general insurer"],
+  ["COPPERTECH","Coppertech Industries Ltd","Engineering","B","Copper winding; B-category"],
+  ["CROWNCEMNT","Crown Cement PLC","Cement","A","Large cement producer; A-category; consistent profit"],
+  ["CRYSTALINS","Crystal Insurance Co. Ltd","Insurance","A","A-category insurer; regular dividend"],
+  ["CVOPRL","CVo Petrochemical Refinery Ltd","Misc","B","Petrochemical; B-category"],
+  ["DACCADYE","Dacca Dyeing & Manufacturing","Textile","B","Old-generation textile; B-category"],
+  ["DAFODILCOM","Daffodil Computers Ltd","IT","A","IT retail, services & education; A-category"],
+  ["DBH","Delta Brac Housing Finance","Finance","A","Housing finance NBFI; A-category; strong portfolio"],
+  ["DBH1STMF","DBH 1st Mutual Fund","MutualFund","B","DBH-sponsored MF; B-category"],
+  ["DELTALIFE","Delta Life Insurance Co. Ltd","Insurance","A","Life insurer; A-category; established 1986"],
+  ["DELTASPINN","Delta Spinners Ltd","Textile","Z","Z-category; production halted; loss-making"],
+  ["DESCO","Dhaka Electric Supply Co. Ltd","Power","A","State power utility; A-category; Dhaka North zone"],
+  ["DESHBANDHU","Desh Bandhu Sugar Mills Ltd","Food","B","Sugar milling; seasonal earnings; B-category"],
+  ["DGIC","Dhaka General Insurance Co.","Insurance","B","B-category insurer; modest market share"],
+  ["DHAKABANK","Dhaka Bank PLC","Bank","A","A-category bank; growing retail base"],
+  ["DHAKAINS","Dhaka Insurance Ltd","Insurance","A","A-category insurer; established"],
+  ["DOMINAGE","Dominage Steel Building Systems","Engineering","A","Pre-engineered steel buildings; A-category"],
+  ["DOREENPWR","Doreen Power Generation Ltd","Power","B","IPP; HFO-based; capacity payment model; B-category"],
+  ["DSHGARME","Desh Garments Ltd","Textile","A","Apparel exporter; A-category; EU market focus"],
+  ["DSSL","Dhaka Stock & Shares Ltd","Finance","B","Brokerage NBFI; B-category; market-linked income"],
+  ["DULAMIACOT","Dulamia Cotton Spinning Mills","Textile","Z","Z-category; operations closed; no recent dividends"],
+  ["DUTCHBANGL","Dutch-Bangla Bank PLC","Bank","A","A-category; widest ATM/agent banking network in BD"],
+  ["EASTERNINS","Eastern Insurance Co. Ltd","Insurance","A","A-category general insurer; stable claims ratio"],
+  ["EASTLAND","Eastland Insurance Co. Ltd","Insurance","A","A-category insurer; consistent performance"],
+  ["EASTRNLUB","Eastern Lubricants Blenders Ltd","Misc","A","Lube oil blending; Castrol affiliate; A-category"],
+  ["EBL","Eastern Bank PLC","Bank","A","A-category; strong asset quality & trade finance"],
+  ["EBL1STMF","EBL 1st Mutual Fund","MutualFund","B","EBL-sponsored MF; B-category"],
+  ["EBLNRBMF","EBL NRB Mutual Fund","MutualFund","B","NRB-targeted MF; B-category"],
+  ["ECABLES","Eastern Cables Ltd","Engineering","A","Electrical cables; A-category; power sector exposure"],
+  ["EGEN","Energen (Bangladesh) Ltd","Power","B","Power; B-category"],
+  ["EHL","Eastern Housing Ltd","Misc","A","Real estate developer; A-category"],
+  ["EIL","Eastern Insurance Ltd","Insurance","A","A-category insurer"],
+  ["EMERALDOIL","Emerald Oil Industries Ltd","Food","B","Edible oils; commodity margin risk; B-category"],
+  ["ENVOYTEX","Envoy Textiles Ltd","Textile","A","Denim fabric; A-category; strong export orders"],
+  ["EPGL","Eastern Power Generation Ltd","Power","B","IPP; capacity payment dependent; B-category"],
+  ["ESQUIRENIT","Esquire Knit Composite Ltd","Textile","A","Knitwear exporter; A-category"],
+  ["ETL","Emerald Technologies Ltd","IT","B","IT services; B-category; limited scale"],
+  ["EXIM1STMF","Exim Bank 1st Mutual Fund","MutualFund","B","Exim Bank-sponsored Shariah MF; B-category"],
+  ["FAMILYTEX","The Family Tex (BD) Ltd","Textile","Z","Z-category; inactive operations; no dividends"],
+  ["FARCHEM","Far Chemical Industries Ltd","Misc","B","Chemicals; B-category"],
+  ["FAREASTFIN","Far East Finance & Investment","Finance","Z","Z-category; loan defaults; regulatory scrutiny 2024"],
+  ["FAREASTLIF","Far East Islami Life Insurance","Insurance","A","Islamic life insurer; A-category"],
+  ["FASFIN","FAS Finance & Investment Ltd","Finance","Z","Z-category; weak capital adequacy; elevated NPL"],
+  ["FBFIF","First Bangladesh Fixed Income Fund","MutualFund","B","Fixed income MF; low yield environment"],
+  ["FEDERALINS","Federal Insurance Co. Ltd","Insurance","A","A-category general insurer"],
+  ["FEKDIL","First Electronics & Controls Ltd","Engineering","B","Electronics; B-category"],
+  ["FINEFOODS","Fine Foods Ltd","Food","A","Biscuits & snacks; A-category; premium growth segment"],
+  ["FIRSTFIN","First Finance Ltd","Finance","Z","Z-category; elevated NPL; capital at risk"],
+  ["FORTUNE","Fortune Shoes Ltd","Engineering","B","Footwear; B-category"],
+  ["FUWANGCER","Fu-Wang Ceramic Industry Ltd","Ceramic","B","Ceramic tiles; B-category"],
+  ["FUWANGFOOD","Fu-Wang Foods Ltd","Food","B","Food products; B-category"],
+  ["GBBPOWER","GBB Power Ltd","Power","B","Small IPP; B-category"],
+  ["GEMINISEA","Gemini Sea Food Ltd","Food","A","Seafood processor; A-category; export-oriented"],
+  ["GENEXIL","Genex Infosys Ltd","IT","A","BPO & IT services; A-category; US market exposure"],
+  ["GENNEXT","Gennext Industries Ltd","Textile","Z","Z-category; operational irregularities; no dividend"],
+  ["GHAIL","GHA International Ltd","Misc","B","Service; B-category"],
+  ["GHCL","GHCL (Bangladesh) Ltd","Engineering","B","Chemicals; B-category"],
+  ["GLDNJMF","Golden Jubilee Mutual Fund","MutualFund","B","B-category fund; ICB-managed"],
+  ["GLOBALINS","Global Insurance Ltd","Insurance","A","A-category general insurer; established"],
+  ["GOLDENSON","Goldenson Ltd","Misc","B","B-category; diversified small-cap"],
+  ["GP","Grameenphone Ltd","Telecom","A","Largest telecom; Telenor JV; highest market cap on DSE"],
+  ["GPHISPAT","GPH Ispat Ltd","Engineering","A","Steel; A-category; major rod & billet capacity"],
+  ["GQBALLPEN","G.Q. Ball Pen Industries Ltd","Engineering","A","Writing instruments; A-category; export leader"],
+  ["GRAMEENS2","Grameen S2 Fund","MutualFund","B","Grameen-affiliated MF; B-category"],
+  ["GREENDELMF","Green Delta Mutual Fund","MutualFund","B","Green Delta Insurance-sponsored MF"],
+  ["GREENDELT","Green Delta Insurance Co. Ltd","Insurance","A","Market leader in general insurance; A-category"],
+  ["GSPFINANCE","GSP Finance Co. (BD) Ltd","Finance","Z","Z-category; financial restructuring ongoing 2025"],
+  ["HAKKANIPUL","Hakkani Pulp & Paper Mills Ltd","Paper","B","Paper; B-category; raw material cost pressure"],
+  ["HAMI","Hamid Fabrics Ltd","Textile","A","Denim & woven fabrics; A-category; export focus"],
+  ["HEIDELBCEM","HeidelbergCement Bangladesh Ltd","Cement","A","MNC cement; A-category; HeidelbergMaterials group"],
+  ["HFL","Hallmark Fashions Ltd","Textile","B","Garments; B-category"],
+  ["HRTEX","HR Textile Mills Ltd","Textile","B","B-category textile"],
+  ["HWAWELLTEX","Hwa Well Textiles (BD) Ltd","Textile","B","B-category textile"],
+  ["IBNSINA","Ibn Sina Pharmaceutical Industries","Pharma","A","A-category pharma; strong domestic brand & network"],
+  ["IBP","ICB Islamic Bank Ltd","Bank","Z","Z-category; capital shortfall; under BB monitoring"],
+  ["ICB","Investment Corporation of Bangladesh","Finance","A","State investment body; A-category; portfolio manager"],
+  ["ICB3RDNRB","ICB 3rd NRB Mutual Fund","MutualFund","B","NRB fund; ICB-managed; B-category"],
+  ["ICBAGRANI1","ICB Agrani Bank 1st MF","MutualFund","B","Agrani Bank-sponsored; ICB-managed; B-category"],
+  ["ICBAMCL2ND","ICB AMCL 2nd NRB MF","MutualFund","B","ICB-managed NRB fund; B-category"],
+  ["ICBEPMF1S1","ICB AMCL 1st Mutual Fund","MutualFund","B","ICB-managed MF; B-category"],
+  ["ICBIBANK","ICB Islami Bank Ltd","Bank","Z","Z-category; severe capital deficit; under restructuring"],
+  ["ICBSONALI1","ICB Sonali Bank 1st MF","MutualFund","B","Sonali Bank-sponsored; ICB-managed MF"],
+  ["ICICL","Infra Corp. of Islamic Countries Ltd","Finance","B","NBFI; B-category"],
+  ["IDLC","IDLC Finance PLC","Finance","A","Top NBFI; A-category; strong SME & consumer portfolio"],
+  ["IFADAUTOS","IFAD Autos Ltd","Engineering","A","Auto assembler; A-category; Mitsubishi trucks & buses"],
+  ["IFIC","IFIC Bank PLC","Bank","A","A-category; remittance & trade finance strength"],
+  ["IFIC1STMF","IFIC Bank 1st Mutual Fund","MutualFund","B","IFIC Bank-sponsored MF; B-category"],
+  ["IFILISLMF1","IFIL Islamic Mutual Fund 1","MutualFund","B","Shariah MF; B-category"],
+  ["ILFSL","ILFS Finance & Leasing Ltd","Finance","Z","Z-category; loan defaults; merger talks 2025"],
+  ["INDEXAGRO","Index Agro Industries Ltd","Food","A","Agro-processing; A-category"],
+  ["INTECH","Intech Online Ltd","IT","B","IT; B-category; small scale"],
+  ["INTRACO","Intraco Refueling Station Ltd","Misc","B","CNG & fuel retailing; B-category"],
+  ["IPDC","IPDC Finance Ltd","Finance","A","NBFI; A-category; first green bond issuer in BD"],
+  ["ISLAMIBANK","Islami Bank Bangladesh PLC","Bank","A","Largest private bank by deposits; A-category"],
+  ["ISLAMICFIN","Islamic Finance & Investment Ltd","Finance","B","NBFI; B-category; Shariah-based operations"],
+  ["ISLAMIINS","Islami Insurance Bangladesh Ltd","Insurance","A","Shariah general insurer; A-category"],
+  ["ISNLTD","ISN Ltd","Engineering","B","Industrial; B-category"],
+  ["ITC","Intl. Technical Communication Ltd","IT","B","IT & comms; B-category"],
+  ["JAMUNABANK","Jamuna Bank PLC","Bank","A","A-category; growing branch & agent banking network"],
+  ["JAMUNAOIL","Jamuna Oil Company Ltd","Misc","A","State oil distribution; BPC affiliate; A-category"],
+  ["JANATAINS","Janata Insurance Co. Ltd","Insurance","A","A-category insurer; state-linked; stable"],
+  ["JHRML","Jonoeta Hosiery Mills Ltd","Textile","B","B-category; knitwear"],
+  ["JMISMDL","JMI Syringes & Medical Devices","Pharma","A","Medical devices; A-category; WHO-prequalified products"],
+  ["JUTESPINN","Jute Spinners Ltd","Jute","B","Jute products; demand dependent on global market"],
+  ["KARNAPHULI","Karnaphuli Insurance Co. Ltd","Insurance","A","A-category general insurer"],
+  ["KAY&QUE","Kay & Que (Bangladesh) Ltd","Engineering","A","Furniture & fixtures; A-category"],
+  ["KBPPWBIL","Khulna Power Company Ltd","Power","A","IPP; A-category; HFO-based; reliable capacity payment"],
+  ["KDSALTD","KDS Accessories Ltd","Textile","A","Garment accessories; A-category; export-linked"],
+  ["KEYACOSMET","Keya Cosmetics Ltd","Misc","Z","Z-category; persistent losses; FMCG sector struggle"],
+  ["KOHINOOR","Kohinoor Chemical Co. (BD) Ltd","Misc","A","Personal care; A-category; established brand"],
+  ["KPCL","Karnaphuli Power Company Ltd","Power","B","Small IPP; B-category"],
+  ["KPPL","Khulna Printing & Packaging Ltd","Paper","B","Packaging; B-category"],
+  ["KTL","Kattali Textile Ltd","Textile","Z","Z-category; irregular trading; inactive"],
+  ["LANKABAFIN","Lanka Bangla Finance PLC","Finance","A","Leading NBFI; A-category; strong consumer finance"],
+  ["LHBL","LafargeHolcim Bangladesh Ltd","Cement","A","MNC cement leader; A-category; green cement initiative"],
+  ["LINDEBD","Linde Bangladesh Ltd","Engineering","A","Industrial gases MNC; A-category; Linde global JV"],
+  ["MALEK","Malek Spinning Mills Ltd","Textile","A","A-category textile; consistent dividend record"],
+  ["MAMUNTEX","Mamun Agro Products Ltd","Food","B","Agro food; B-category"],
+  ["MHML","M.H. Mills Ltd","Textile","Z","Z-category; operations suspended; no dividends"],
+  ["MICEMENT","MI Cement Factory Ltd (Crown)","Cement","A","A-category cement; Crown brand; large capacity"],
+  ["MIRACLEIND","Miracle Industries Ltd","Engineering","Z","Z-category; plastic goods; irregular operations"],
+  ["MJLBD","MJL Bangladesh Ltd","Misc","A","Lube oil storage & blending; Mobil JV; A-category"],
+  ["MONNOAGML","Monno Agro & General Machinery","Engineering","B","Agricultural machinery; B-category"],
+  ["MTB","Mutual Trust Bank PLC","Bank","A","A-category bank; strong deposit growth"],
+  ["MTBL","Midland Bank PLC","Bank","A","A-category bank; SME banking focus"],
+  ["NATLIFEINS","National Life Insurance Co. Ltd","Insurance","A","Largest life insurer by premium; A-category"],
+  ["NCCBANK","NCC Bank PLC","Bank","A","A-category bank; corporate banking focus"],
+  ["NESCO","Northern Electric Supply Co. Ltd","Power","A","State power utility; A-category; North Bengal zone"],
+  ["NORTHRNINS","Northern Islami Insurance Ltd","Insurance","A","A-category Shariah general insurer"],
+  ["NTLTUBES","National Tubes Ltd","Engineering","A","Steel tubes; A-category; infrastructure exposure"],
+  ["OLYMPICIND","Olympic Industries Ltd","Food","A","Biscuits & confectionery leader; A-category"],
+  ["OMERA","Omera Fuels Ltd","Misc","A","LPG distribution; A-category; growing energy sector"],
+  ["ORION","Orion Infusion Ltd","Pharma","A","Pharma & hospital services; A-category"],
+  ["ORIONPH","Orion Pharma Ltd","Pharma","A","Large pharma group; A-category; Orion Group"],
+  ["PADMALIFE","Padma Life Insurance Co. Ltd","Insurance","A","A-category life insurer"],
+  ["PARAMOUNT","Paramount Insurance Co. Ltd","Insurance","A","A-category general insurer"],
+  ["PARKSONS","Parksons Garments Ltd","Textile","A","A-category; apparel export; EU & US market"],
+  ["PENINSULA","Peninsula Chittagong Ltd","Travel","A","Hotel; A-category; Chittagong prime property"],
+  ["PHOENIXFIN","Phoenix Finance & Investments Ltd","Finance","Z","Z-category; elevated NPL; capital adequacy concern"],
+  ["PHOENIXINS","Phoenix Insurance Co. Ltd","Insurance","A","A-category general insurer"],
+  ["POPULARPHAR","Popular Pharmaceuticals Ltd","Pharma","A","A-category pharma; strong domestic sales network"],
+  ["POWERGRID","Power Grid Co. of Bangladesh","Power","A","State grid operator; A-category; transmission monopoly"],
+  ["PRAGATICOOP","Pragati Insurance Ltd","Insurance","A","A-category general insurer"],
+  ["PRAGATIINS","Pragati Life Insurance Ltd","Insurance","A","A-category life insurer"],
+  ["PREMIERBANK","Premier Bank PLC","Bank","A","A-category; trade & SME finance focus"],
+  ["PREMIERCEM","Premier Cement Mills Ltd","Cement","A","A-category; large capacity; competitive market"],
+  ["PRIMEBANK","Prime Bank PLC","Bank","A","A-category; strong corporate & SME portfolio"],
+  ["PRIMEFIN","Prime Finance & Investment Ltd","Finance","Z","Z-category; under restructuring; elevated NPL"],
+  ["PRIMEINSUR","Prime Islami Life Insurance","Insurance","A","A-category Islamic life insurer"],
+  ["PRIMETEX","Prime Textile Spinning Mills","Textile","B","B-category spinning; moderate earnings"],
+  ["PROGRSSINS","Progress Insurance Ltd","Insurance","A","A-category general insurer"],
+  ["PROVATIINS","Provati Insurance Co. Ltd","Insurance","A","A-category general insurer"],
+  ["PURABIGEN","Purabi General Insurance Co.","Insurance","A","A-category general insurer"],
+  ["RAKCERAMIC","RAK Ceramics (BD) Ltd","Ceramic","A","Market-leading ceramic tile; UAE JV; A-category"],
+  ["RANFOUNDRY","Rangpur Foundry Ltd","Engineering","A","Cast iron products; A-category"],
+  ["RECKITTBEN","Reckitt Benckiser (BD) Ltd","Misc","A","FMCG MNC (Dettol, Harpic); A-category; premium brand"],
+  ["RELIANCE1","Reliance Insurance Ltd","Insurance","A","A-category general insurer"],
+  ["RENATA","Renata PLC","Pharma","A","Top pharma exporter; A-category; strong R&D investment"],
+  ["REPUBLIC","Republic Insurance Co. Ltd","Insurance","A","A-category general insurer"],
+  ["RINGSHINE","Ring Shine Textiles Ltd","Textile","B","Synthetic textile; B-category"],
+  ["RNSPIN","R.N. Spinning Mills Ltd","Textile","Z","Z-category; inactive; no recent regulatory filings"],
+  ["ROBI","Robi Axiata Ltd","Telecom","A","2nd largest telecom; A-category; Axiata & Bharti JV"],
+  ["RUPALIBANK","Rupali Bank PLC","Bank","A","State-owned bank; A-category"],
+  ["RUPALIINS","Rupali Insurance Co. Ltd","Insurance","A","A-category state-linked insurer"],
+  ["SAIFPOWER","Saif Power Ltd","Power","A","IPP; A-category; reliable capacity payment"],
+  ["SANDHANINS","Sandhani Life Insurance Co.","Insurance","A","A-category life insurer; strong rural network"],
+  ["SAVOYINN","Savoy Ice Cream Ltd","Food","A","Dairy & ice cream; A-category"],
+  ["SEAPEARL","Sea Pearl Beach Resort & Spa","Travel","B","Hotel; B-category; tourism sector dependent"],
+  ["SIBL","Social Islami Bank PLC","Bank","A","A-category Islamic bank; growing deposits"],
+  ["SINGERBD","Singer Bangladesh Ltd","Engineering","A","Consumer electronics MNC; A-category; Singer brand"],
+  ["SJIBL","Shahjalal Islami Bank PLC","Bank","A","A-category Islamic bank; strong branch growth"],
+  ["SONALIFE","Sonar Bangla Insurance Ltd","Insurance","A","A-category general insurer"],
+  ["SOUTHEASTB","Southeast Bank PLC","Bank","A","A-category bank; corporate banking focus"],
+  ["SQURPHARMA","Square Pharmaceuticals PLC","Pharma","A","Largest pharma; dominant domestic & export market; blue chip"],
+  ["SQURTEX","Square Textiles PLC","Textile","A","A-category; yarn supplier to RMG sector; Square Group"],
+  ["STANDBANKL","Standard Bank PLC","Bank","A","A-category bank; steady retail growth"],
+  ["SUNLIFEINS","Sun Life Insurance Co. Ltd","Insurance","A","A-category life insurer"],
+  ["TAKAFULINS","Takaful Islami Insurance Ltd","Insurance","A","A-category Shariah general insurer"],
+  ["TALLUSPIN","Tallu Spinning Mills Ltd","Textile","Z","Z-category; mills closed; financial distress"],
+  ["TAUFIKA","Taufika Foods & Lovello Ice-Cream","Food","A","Ice cream & snacks; A-category; strong brand expansion"],
+  ["TITASGAS","Titas Gas T&D Co. Ltd","Misc","A","State gas distributor; A-category; critical utility"],
+  ["TOSRIFA","Tosrifa Industries Ltd","Textile","A","Garments exporter; A-category"],
+  ["TRUSTBANK","Trust Bank PLC","Bank","A","Army welfare-linked bank; A-category"],
+  ["UNITEDAIR","United Airways (BD) Ltd","Travel","Z","Z-category; airline grounded since 2016; operationally dead"],
+  ["UNIQUEHRL","Unique Hotel & Resorts Ltd","Travel","A","Radisson Blu Dhaka; A-category; hospitality recovery"],
+  ["UNITEDINS","United Insurance Co. Ltd","Insurance","A","A-category general insurer"],
+  ["UNILEVERCL","Unilever Consumer Care Ltd","Misc","A","FMCG MNC (Dove, Sunsilk, Pond's); A-category; premium"],
+  ["UPGDCL","United Power Generation & Distrib.","Power","A","Largest private IPP; A-category; strong capacity payment"],
+  ["USMANIATEX","Usmaniaglass Sheet Factory Ltd","Engineering","A","Glass manufacturer; A-category"],
+  ["UTTARABANK","Uttara Bank PLC","Bank","A","A-category bank; long-established network"],
+  ["UTTARAFIN","Uttara Finance & Investments Ltd","Finance","Z","Z-category; elevated NPL; under recovery process"],
+  ["WATACHEM","Wata Chemicals Ltd","Misc","A","Specialty chemicals; A-category"],
+  ["WINTL","Western Marine Shipyard Ltd","Engineering","A","Shipbuilding exporter; A-category; EU export orders"],
+  ["YARNINDYAR","Yarn Industries Ltd","Textile","Z","Z-category; inactive; no recent corporate actions"],
+  ["ZAHINTSPN","Zahintex Industries Ltd","Textile","Z","Z-category; distressed finances"],
+  ["ZCBL","Zahintex Cotton Bangladesh Ltd","Textile","Z","Z-category; dormant; no trading activity"]
+];
+
+const tbody = document.getElementById('tableBody');
+rawData.forEach((row, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td class="col-sl">${i+1}</td>
+        <td class="col-code">${row[0]}</td>
+        <td class="col-name">${row[1]}</td>
+        <td class="col-sector">${row[2]}</td>
+        <td class="col-cat"><span class="badge cat-${row[3]}">${row[3]}</span></td>
+        <td class="col-remarks">${row[4]}</td>
+    `;
+    tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>

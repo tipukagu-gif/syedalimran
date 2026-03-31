@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valuation of Shares (Price to EBITDA) By_Syed Al Imran</title>
+    <style>
+        :root { --primary: #1e293b; --secondary: #334155; --accent: #059669; --border: #cbd5e1; --bg: #f1f5f9; }
+        
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); padding: 20px; color: var(--primary); margin: 0; }
+        
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 4px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+        }
+        
+        header { border-bottom: 3px solid var(--accent); margin-bottom: 20px; padding-bottom: 10px; }
+        h1 { margin: 0; font-size: 20px; text-transform: uppercase; }
+
+        .company-info { margin-bottom: 15px; }
+        .company-info label { font-weight: bold; font-size: 14px; display: block; margin-bottom: 5px; color: var(--secondary); }
+        .company-name-input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 16px; font-weight: bold; color: var(--primary); }
+        
+        .section-title { background: var(--secondary); color: white; padding: 8px 12px; margin-top: 25px; font-size: 15px; border-radius: 2px; }
+        
+        .table-wrapper { width: 100%; overflow-x: hidden; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; table-layout: fixed; }
+        th, td { border: 1px solid var(--border); padding: 8px 4px; text-align: right; word-wrap: break-word; }
+        th { background: #f8fafc; color: var(--secondary); font-weight: 600; text-align: center; }
+        
+        .col-year { width: 15%; text-align: left; }
+        .col-ebitda { width: 22%; }
+        .col-shares { width: 22%; }
+        .col-weight { width: 18%; }
+        .col-weighted-eb { width: 23%; }
+        .col-peer-name { width: 30%; text-align: left; }
+
+        input { width: 100%; padding: 5px; border: 1px solid var(--border); border-radius: 3px; text-align: right; font-size: 13px; box-sizing: border-box; }
+        .peer-name-input { text-align: left; font-weight: 500; }
+        
+        .button-group { display: flex; gap: 10px; margin: 20px 0; }
+        .btn { flex: 1; padding: 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 15px; }
+        .btn-calc { background: var(--accent); color: white; }
+        .btn-print { background: var(--primary); color: white; display: none; }
+        
+        .result-card { background: var(--primary); color: white; padding: 25px; border-radius: 6px; text-align: center; margin-top: 20px; border: 1px solid var(--accent); }
+        .summary-row { background: #fff1f2; font-weight: bold; }
+        .weighted-avg-row { background: #ecfdf5; font-weight: bold; color: #065f46; }
+        
+        footer { margin-top: 40px; text-align: center; font-size: 13px; color: #64748b; border-top: 1px solid var(--border); padding-top: 15px; font-weight: bold; }
+
+        @media print {
+            @page { size: A4 portrait; margin: 15mm; }
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; width: 100%; max-width: 100%; padding: 0; }
+            .button-group { display: none !important; }
+            #printable-area { zoom: 90%; }
+            table { font-size: 11px; table-layout: fixed; width: 100%; }
+            input { border: none !important; background: transparent !important; font-size: 12px; }
+            .peer-name-input { font-weight: bold; }
+            .company-name-input { border: none !important; font-size: 18px; padding: 0; }
+            .result-card, table, .section-title { page-break-inside: avoid; break-inside: avoid; }
+            .section-title { -webkit-print-color-adjust: exact; background-color: var(--secondary) !important; }
+            .result-card { -webkit-print-color-adjust: exact; background-color: var(--primary) !important; }
+            .weighted-avg-row { -webkit-print-color-adjust: exact; background-color: #ecfdf5 !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="printable-area">
+    <header>
+        <h1>Valuation of Share (P/EBITDA)</h1>
+        <p style="font-size: 16px; color: #0b56be; margin: 5px 0;">IIDFC Capital Limited Corporate Advisory Team</p>
+    </header>
+
+    <div class="company-info">
+        <label>Information of the Company (Non-Listed):</label>
+        <input type="text" class="company-name-input" placeholder="Enter Company Name..." value="" style="text-align: left;">
+    </div>
+
+    <div class="section-title">1. Average Weighted EBITDA Per Share Analysis</div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th class="col-year">Year</th>
+                    <th class="col-ebitda">Annual EBITDA (BDT)</th>
+                    <th class="col-shares">No. of Shares</th>
+                    <th class="col-weight">Weighted %</th>
+                    <th class="col-weighted-eb">Weighted EBITDA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Year 1 (Latest)</td><td><input type="number" class="eb" value=""></td><td><input type="number" class="sh" id="latestSh" value=""></td><td class="wgt">-</td><td class="w-eb">-</td></tr>
+                <tr><td>Year 2</td><td><input type="number" class="eb" value=""></td><td><input type="number" class="sh" value=""></td><td class="wgt">-</td><td class="w-eb">-</td></tr>
+                <tr><td>Year 3</td><td><input type="number" class="eb" value=""></td><td><input type="number" class="sh" value=""></td><td class="wgt">-</td><td class="w-eb">-</td></tr>
+                <tr><td>Year 4</td><td><input type="number" class="eb" value=""></td><td><input type="number" class="sh" value=""></td><td class="wgt">-</td><td class="w-eb">-</td></tr>
+                <tr><td>Year 5</td><td><input type="number" class="eb" value=""></td><td><input type="number" class="sh" value=""></td><td class="wgt">-</td><td class="w-eb">-</td></tr>
+            </tbody>
+            <tfoot>
+                <tr class="summary-row">
+                    <td>TOTAL</td>
+                    <td id="totEb">-</td>
+                    <td id="totSh">-</td>
+                    <td>100%</td>
+                    <td id="totWeb">-</td>
+                </tr>
+                <tr class="weighted-avg-row">
+                    <td colspan="4" style="text-align: right;">Weighted Average EBITDA Per Share (Total Weighted / Latest Sh)</td>
+                    <td id="finalWeps">-</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="section-title">2. Average EBITDA of Comparable Peer Company (Listed Companies)</div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th class="col-peer-name">Peer Company/th>
+                    <th style="width: 25%;">Market Price (BDT) on FS Closing Date</th>
+                    <th style="width: 25%;">EBITDA/Share</th>
+                    <th style="width: 20%;">Ratio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><input type="text" class="peer-name-input" value="Peer Company 1"></td><td><input type="number" class="p-pr" value=""></td><td><input type="number" class="p-eb" value=""></td><td class="p-ratio">-</td></tr>
+                <tr><td><input type="text" class="peer-name-input" value="Peer Company 2"></td><td><input type="number" class="p-pr" value=""></td><td><input type="number" class="p-eb" value=""></td><td class="p-ratio">-</td></tr>
+                <tr><td><input type="text" class="peer-name-input" value="Peer Company 3"></td><td><input type="number" class="p-pr" value=""></td><td><input type="number" class="p-eb" value=""></td><td class="p-ratio">-</td></tr>
+            </tbody>
+            <tfoot>
+                <tr class="summary-row">
+                    <td colspan="3" style="text-align:right">Average Market Peer Multiple:</td>
+                    <td id="avgPeerMult" style="text-align:center">-</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div id="resultsSection" style="display:none;">
+        <div class="result-card">
+            <span style="text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">Estimated Share Valuation P/EBITDA METHOD</span>
+            <div id="finalPrice" style="font-size: 42px; font-weight: bold; margin: 5px 0;">0.00</div>
+            <p style="font-size: 14px; margin: 0;">BDT Per Share</p>
+            <p style="font-size: 12px; opacity: 0.8; margin-top: 10px;">Multiple: <span id="resMult">0</span>x | Weighted EBITDA/Sh: <span id="resEps">0</span></p>
+        </div>
+
+        <div class="section-title">3. Sensitivity Analysis</div>
+        <table id="sensitivityTable">
+            <thead id="sensHead"></thead>
+            <tbody id="sensBody"></tbody>
+        </table>
+    </div>
+
+    <footer>Developed By: Syed Al Imran</footer>
+</div>
+
+<div class="button-group">
+    <button class="btn btn-calc" onclick="calculateValuation()">GENERATE REPORT</button>
+    <button id="printBtn" class="btn btn-print" onclick="window.print()">PRINT / EXPORT PDF</button>
+</div>
+
+<script>
+function calculateValuation() {
+    const ebInputs = document.querySelectorAll('.eb'), shInputs = document.querySelectorAll('.sh');
+    const wgtCells = document.querySelectorAll('.wgt'), webCells = document.querySelectorAll('.w-eb');
+    
+    let totalSh = 0, totalEb = 0;
+    shInputs.forEach(s => totalSh += parseFloat(s.value || 0));
+    ebInputs.forEach(e => totalEb += parseFloat(e.value || 0));
+
+    let sumWeightedEbitda = 0;
+    ebInputs.forEach((input, i) => {
+        let curSh = parseFloat(shInputs[i].value || 0);
+        let weight = curSh / totalSh;
+        let weightedEb = weight * parseFloat(input.value || 0);
+        sumWeightedEbitda += weightedEb;
+        wgtCells[i].innerText = (weight * 100).toFixed(1) + '%';
+        webCells[i].innerText = weightedEb.toLocaleString();
+    });
+
+    const latestShares = parseFloat(document.getElementById('latestSh').value);
+    const weightedAvgEps = sumWeightedEbitda / latestShares;
+
+    const pPrices = document.querySelectorAll('.p-pr'), pEbs = document.querySelectorAll('.p-eb'), pRatios = document.querySelectorAll('.p-ratio');
+    let totalRatio = 0;
+    pPrices.forEach((pr, i) => {
+        let ratio = parseFloat(pr.value) / parseFloat(pEbs[i].value);
+        pRatios[i].innerText = ratio.toFixed(2) + 'x';
+        totalRatio += ratio;
+    });
+    const avgMult = totalRatio / 3;
+
+    document.getElementById('totEb').innerText = totalEb.toLocaleString();
+    document.getElementById('totSh').innerText = totalSh.toLocaleString();
+    document.getElementById('totWeb').innerText = sumWeightedEbitda.toLocaleString();
+    document.getElementById('finalWeps').innerText = weightedAvgEps.toFixed(2);
+    document.getElementById('avgPeerMult').innerText = avgMult.toFixed(2) + 'x';
+
+    const finalPrice = weightedAvgEps * avgMult;
+    document.getElementById('finalPrice').innerText = finalPrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    document.getElementById('resMult').innerText = avgMult.toFixed(2);
+    document.getElementById('resEps').innerText = weightedAvgEps.toFixed(2);
+    
+    document.getElementById('resultsSection').style.display = 'block';
+    document.getElementById('printBtn').style.display = 'block';
+    renderSensitivity(weightedAvgEps, avgMult);
+}
+
+function renderSensitivity(eps, mult) {
+    const head = document.getElementById('sensHead'), body = document.getElementById('sensBody');
+    const mults = [mult * 0.9, mult, mult * 1.1], epss = [eps * 0.9, eps, eps * 1.1];
+
+    head.innerHTML = `<tr><th>EBITDA \\ Mult</th><th>${mults[0].toFixed(1)}x</th><th>${mults[1].toFixed(1)}x</th><th>${mults[2].toFixed(1)}x</th></tr>`;
+    body.innerHTML = '';
+
+    epss.forEach(e => {
+        let row = `<tr><td style="text-align:center"><strong>${e.toFixed(2)}</strong></td>`;
+        mults.forEach(m => {
+            let val = e * m;
+            let style = (e === eps && m === mult) ? 'style="background:#f1f5f9; font-weight:bold;"' : '';
+            row += `<td ${style}>${val.toFixed(2)}</td>`;
+        });
+        body.innerHTML += row + '</tr>';
+    });
+}
+</script>
+
+</body>
+</html>

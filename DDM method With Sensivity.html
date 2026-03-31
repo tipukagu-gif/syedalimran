@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional DDM Calculator By_SA Imran</title>
+    <style>
+        :root {
+            --primary: #1a472a; /* Corporate Green */
+            --secondary: #2c3e50;
+            --accent: #d4af37;
+            --bg: #f8fafc;
+        }
+
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--bg); color: #333; line-height: 1.6; padding: 20px; }
+        .container { max-width: 1100px; margin: auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        
+        header { text-align: center; border-bottom: 3px solid var(--primary); margin-bottom: 30px; padding-bottom: 15px; }
+        header h1 { color: var(--primary); margin: 0; text-transform: uppercase; letter-spacing: 1px; font-size: 28px; }
+        header p { margin: 5px 0; font-weight: 600; color: var(--secondary); }
+
+        .section-title { background: var(--secondary); color: white; padding: 10px 15px; margin: 30px 0 15px; font-size: 14px; border-radius: 4px; text-transform: uppercase; }
+
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
+        .field { display: flex; flex-direction: column; }
+        label { font-weight: bold; font-size: 11px; margin-bottom: 6px; color: #555; text-transform: uppercase; }
+        input { padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; transition: 0.3s; }
+        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 8px rgba(26, 71, 42, 0.1); }
+
+        .btn-group { display: flex; gap: 15px; margin: 40px 0; }
+        button { flex: 1; padding: 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        .calc-btn { background: var(--primary); color: white; }
+        .print-btn { background: var(--secondary); color: white; }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        th, td { padding: 12px; border: 1px solid #eee; text-align: right; }
+        th { background: #f4f4f4; color: var(--secondary); }
+        
+        .summary-card { background: #f0f4f1; border: 2px solid var(--primary); padding: 30px; border-radius: 10px; text-align: center; margin-top: 20px; }
+        .price-val { font-size: 50px; font-weight: 800; color: var(--primary); margin: 10px 0; }
+
+        /* Sensitivity Table */
+        .sens-table th { background: var(--secondary); color: white; text-align: center; font-size: 12px; }
+        .sens-table td { text-align: center; width: 15%; }
+        .base-case { background: #fff9c4 !important; font-weight: bold; border: 2px solid var(--accent) !important; }
+
+        .hint-box { background: #fffde7; border-left: 5px solid var(--accent); padding: 20px; margin-top: 25px; font-size: 13px; }
+
+        @media print { .btn-group { display: none; } .container { box-shadow: none; border: 1px solid #ddd; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Dividend Discount Model (DDM)</h1>
+        <p>IIDFC Capital Limited | Research & Advisory Team</p>
+    </header>
+
+    <div class="section-title">Step 1: Financial Assumptions</div>
+    <div class="input-grid">
+        <div class="field"><label>Name of the Company</label><input type="text" value="" ></div>
+        <div class="field"><label>Cost of Equity (Ke) %</label><input type="number" id="ke" value="" step="0.1"></div>
+        <div class="field"><label>Terminal Growth (g) %</label><input type="number" id="growth" value="" step="0.1"></div>
+        <div class="field"><label>Current Market Price (optional)</label><input type="number" id="mktPrice" value=""></div>
+    </div>
+
+    <div class="section-title">Step 2: Dividend Projections (BDT)</div>
+    <p style="font-size: 12px; color: #666; margin-top: -10px;">Fill Year 1-3 (Mimimum). Years 4-5 are optional; the model will auto-adjust.</p>
+    <div class="input-grid">
+        <div class="field"><label>Year 1 Dividend</label><input type="number" id="d1" value=""></div>
+        <div class="field"><label>Year 2 Dividend</label><input type="number" id="d2" value=""></div>
+        <div class="field"><label>Year 3 Dividend</label><input type="number" id="d3" value=""></div>
+        <div class="field"><label>Year 4 Dividend</label><input type="number" id="d4" placeholder="Optional"></div>
+        <div class="field"><label>Year 5 Dividend</label><input type="number" id="d5" placeholder="Optional"></div>
+    </div>
+
+    <div class="btn-group">
+        <button class="calc-btn" onclick="runValuation()">Perform Valuation</button>
+        <button class="print-btn" onclick="window.print()">Download PDF Report</button>
+    </div>
+
+    <div id="results" style="display:none;">
+        <div class="summary-card">
+            <div style="text-transform: uppercase; font-size: 13px; font-weight: bold; letter-spacing: 1px;">Indicative Intrinsic Value</div>
+            <div id="finalPrice" class="price-val">0.00 BDT</div>
+            <div id="signal" style="font-weight: bold; font-size: 16px;"></div>
+        </div>
+
+        <div class="section-title">Valuation Breakdown</div>
+        <table id="valTable">
+            <thead>
+                <tr>
+                    <th style="text-align: left;">Period</th>
+                    <th>Dividend Forecast</th>
+                    <th>Discount Factor</th>
+                    <th>Present Value</th>
+                </tr>
+            </thead>
+            <tbody id="valBody"></tbody>
+        </table>
+
+        <div class="section-title">Sensitivity Analysis (Price vs. Ke & Growth)</div>
+        <table class="sens-table" id="sensTable"></table>
+
+        <div class="hint-box">
+            <strong>Calculation Hint:</strong>
+            <p id="hintText"></p>
+        </div>
+        
+        <p style="text-align: right; font-size: 11px; margin-top: 30px; font-weight: bold;">Developed By: Syed Al Imran</p>
+    </div>
+</div>
+
+<script>
+    function runValuation() {
+        const keInput = parseFloat(document.getElementById('ke').value);
+        const gInput = parseFloat(document.getElementById('growth').value);
+        const mktPrice = parseFloat(document.getElementById('mktPrice').value) || 0;
+        
+        const divs = [
+            parseFloat(document.getElementById('d1').value),
+            parseFloat(document.getElementById('d2').value),
+            parseFloat(document.getElementById('d3').value),
+            parseFloat(document.getElementById('d4').value),
+            parseFloat(document.getElementById('d5').value)
+        ].filter(d => !isNaN(d) && d > 0);
+
+        if (divs.length < 1) { return alert("Please enter at least Year 1 dividend."); }
+        if (gInput >= keInput) { return alert("Growth rate must be less than Cost of Equity."); }
+
+        const ke = keInput / 100;
+        const g = gInput / 100;
+        const n = divs.length;
+        
+        let pvSum = 0;
+        let tableHTML = "";
+
+        // 1. Explicit Period
+        divs.forEach((d, i) => {
+            const year = i + 1;
+            const df = 1 / Math.pow(1 + ke, year);
+            const pv = d * df;
+            pvSum += pv;
+            tableHTML += `<tr><td style="text-align:left">Year ${year} Dividend</td><td>${d.toFixed(2)}</td><td>${df.toFixed(4)}</td><td>${pv.toFixed(2)}</td></tr>`;
+        });
+
+        // 2. Terminal Value
+        const lastD = divs[n-1];
+        const nextD = lastD * (1 + g);
+        const tv = nextD / (ke - g);
+        const pvTv = tv / Math.pow(1 + ke, n);
+        const intrinsicValue = pvSum + pvTv;
+
+        tableHTML += `<tr style="background:#f9f9f9"><td style="text-align:left">Terminal Value (at Year ${n})</td><td>${tv.toFixed(2)}</td><td>${(1/Math.pow(1+ke, n)).toFixed(4)}</td><td>${pvTv.toFixed(2)}</td></tr>`;
+        tableHTML += `<tr style="background:var(--primary); color:white; font-weight:bold;"><td colspan="3" style="text-align:left">Indicative Share Price</td><td>${intrinsicValue.toFixed(2)}</td></tr>`;
+
+        // 3. Update UI
+        document.getElementById('valBody').innerHTML = tableHTML;
+        document.getElementById('finalPrice').innerText = intrinsicValue.toFixed(2) + " BDT";
+        
+        const variance = ((intrinsicValue - mktPrice) / mktPrice) * 100;
+        const signalTxt = intrinsicValue > mktPrice ? "UNDERVALUED (BUY)" : "OVERVALUED (SELL)";
+        document.getElementById('signal').innerText = `Variance: ${variance.toFixed(2)}% | Recommendation: ${signalTxt}`;
+        document.getElementById('signal').style.color = intrinsicValue > mktPrice ? "#27ae60" : "#e74c3c";
+
+        // 4. Sensitivity
+        generateSens(keInput, gInput, divs);
+
+        // 5. Hint Text
+        document.getElementById('hintText').innerHTML = `To verify Year ${n} Terminal Value: <strong>(Year ${n} Div: ${lastD.toFixed(2)} × (1 + Growth: ${g})) / (Ke: ${ke} - Growth: ${g})</strong>. <br>The sum of all Present Values (including TV) equals the Intrinsic Value.`;
+
+        document.getElementById('results').style.display = "block";
+        window.scrollTo({ top: document.getElementById('results').offsetTop - 50, behavior: 'smooth' });
+    }
+
+    function generateSens(baseKe, baseG, divs) {
+        const keR = [baseKe - 1, baseKe - 0.5, baseKe, baseKe + 0.5, baseKe + 1];
+        const gR = [baseG - 1, baseG - 0.5, baseG, baseG + 0.5, baseG + 1];
+
+        let html = `<tr><th>Ke \\ Growth</th>`;
+        gR.forEach(g => html += `<th>${g.toFixed(1)}%</th>`);
+        html += `</tr>`;
+
+        keR.forEach(k => {
+            html += `<tr><th style="background:#f4f4f4; color:#333">${k.toFixed(1)}%</th>`;
+            gR.forEach(g => {
+                const val = calcPrice(k/100, g/100, divs);
+                const isBase = (k === baseKe && g === baseG) ? 'class="base-case"' : '';
+                html += `<td ${isBase}>${val ? val.toFixed(1) : 'N/A'}</td>`;
+            });
+            html += `</tr>`;
+        });
+        document.getElementById('sensTable').innerHTML = html;
+    }
+
+    function calcPrice(k, g, divs) {
+        if (g >= k) return null;
+        let pv = 0;
+        divs.forEach((d, i) => pv += d / Math.pow(1 + k, i + 1));
+        const tv = (divs[divs.length-1] * (1 + g)) / (k - g);
+        pv += tv / Math.pow(1 + k, divs.length);
+        return pv;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estimated IPO Fee Calculator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e40af;
+            --accent: #b45309;
+            --border: #e2e8f0;
+            --bg-light: #f8fafc;
+            --text-main: #334155;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e8f0;
+            margin: 0;
+            padding: 20px 0;
+            color: var(--text-main);
+            -webkit-print-color-adjust: exact;
+        }
+
+        .no-print {
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            text-align: center;
+        }
+
+        .btn-print {
+            background: var(--primary);
+            color: white;
+            padding: 12px 35px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto 30px auto;
+            background: white;
+            padding: 15mm;
+            box-sizing: border-box;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--primary);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .report-title h1 { margin: 0; font-size: 22px; font-weight: 800; color: var(--primary); }
+        .report-title p { margin: 3px 0 0 0; color: var(--secondary); font-weight: 600; font-size: 12px; text-transform: uppercase; }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border);
+        }
+
+        .input-group label { display: block; font-size: 9px; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 5px; }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        h2 { font-size: 14px; font-weight: 800; color: var(--primary); margin: 25px 0 12px 0; display: flex; align-items: center; text-transform: uppercase; }
+        h2::before { content: ''; width: 3px; height: 15px; background: var(--secondary); margin-right: 8px; }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        th { background: var(--primary); color: white; font-size: 10px; text-transform: uppercase; padding: 10px 12px; text-align: left; }
+        td { padding: 8px 12px; font-size: 12px; border-bottom: 1px solid var(--border); }
+        tr:nth-child(even) { background-color: #fafafa; }
+
+        .num { text-align: right; font-weight: 600; }
+        .total-row { background: var(--bg-light) !important; font-weight: 800; color: var(--primary); font-size: 14px; border-top: 2px solid var(--primary); }
+
+        .logic-card { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 15px; margin-top: 15px; }
+        .logic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .logic-item { font-size: 11px; line-height: 1.5; color: #78350f; }
+
+        .summary-box { display: grid; grid-template-columns: 2fr 1fr; gap: 15px; margin-top: 30px; }
+        .net-proceeds { background: var(--primary); color: white; padding: 25px; border-radius: 10px; text-align: center; }
+
+        footer {
+            position: absolute;
+            bottom: 15mm;
+            left: 15mm;
+            right: 15mm;
+            border-top: 1px solid var(--border);
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #94a3b8;
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .no-print { display: none; }
+            .page { box-shadow: none; margin: 0; page-break-after: always; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="no-print">
+    <button onclick="window.print()" class="btn-print">GENERATE REPORT (PRINT/PDF)</button>
+</div>
+
+<div class="page">
+    <header>
+        <div class="report-title">
+            <h1>ESTIMATED IPO EXPENSES</h1>
+            <p id="displayIssuer">Issuer Company Ltd.</p>
+        </div>
+        <div style="text-align: right">
+            <div style="font-weight: 600; Font-size: 10px; color: var(--primary)">As Per Public Issue Rules_2025, Exchange Listing Regulation & CDBL Rule</div>
+            <div style="font-size: 11px" id="dateDisplay"></div>
+        </div>
+    </header>
+
+    <div class="input-grid">
+        <div class="input-group"><label>Issuer Name</label><input type="text" id="issuer" value="Issuer Company Ltd." oninput="updateIssuer()"></div>
+        <div class="input-group"><label>Pre-IPO Paid-Up</label><input type="number" id="paidUp" value="200000000" oninput="calculate()"></div>
+        <div class="input-group"><label>Public Issue Size</label><input type="number" id="issueSize" value="500000000" oninput="calculate()"></div>
+        <div class="input-group">
+            <label>IPO Application Method</label>
+            <select id="method" onchange="calculate()">
+                <option value="Book Building">Book Building</option>
+                <option value="Fixed Price">Fixed Price</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Applied To Exchanges</label>
+            <select id="exchange" onchange="calculate()">
+                <option value="Both">DSE & CSE (Dual Listing)</option>
+                <option value="DSE">DSE Only</option>
+                <option value="CSE">CSE Only</option>
+            </select>
+        </div>
+    </div>
+
+    <h2>I. Summary of Estimated IPO Issuance Costs</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Expense Classification</th>
+                <th style="text-align: right">Base Amount</th>
+                <th style="text-align: right">VAT (15%)</th>
+                <th style="text-align: right">Gross Total</th>
+            </tr>
+        </thead>
+        <tbody id="feeTable"></tbody>
+        <tr class="total-row" id="feeTotal"></tr>
+    </table>
+
+    <div class="summary-box">
+        <div style="background: var(--bg-light); padding: 20px; border-radius: 10px; border: 1px solid var(--border)">
+            <div style="font-size: 10px; font-weight: 800; color: #64748b; margin-bottom: 12px; text-transform: uppercase;">Funding Summary</div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>IPO Offer</span><b id="sumSize"></b></div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Total Estimated IPO Costs</span><b id="sumCost" style="color: #dc2626;"></b></div>
+            <div style="display: flex; justify-content: space-between; border-top: 1px solid #cbd5e1; padding-top: 8px;"><span style="font-weight: 700">Net IPO Proceed</span><b id="sumNet" style="color: var(--secondary)"></b></div>
+        </div>
+        <div class="net-proceeds">
+            <div style="font-size: 10px; font-weight: 700; opacity: 0.8; text-transform: uppercase;">Cost efficiency</div>
+            <div id="efficiencyVal" style="font-size: 28px; font-weight: 800; margin: 8px 0;">0.00%</div>
+            <div style="font-size: 10px; background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 50px; display: inline-block;">Projected %</div>
+        </div>
+    </div>
+
+    <footer>
+        <div style="color: red">Private & Confidential</div>
+    </footer>
+</div>
+
+<div class="page">
+    <h2>II. Regulatory Calculation Breakdown (Hints)</h2>
+    <div class="logic-card">
+        <div class="logic-grid" id="logicGrid"></div>
+    </div>
+
+    <h2>III. Quota Share Allocation (May Change after ESS Allocation of EI_Book Building)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Investor Category</th>
+                <th style="text-align: right">Allocation %</th>
+                <th style="text-align: right">Value (BDT) May Change</th>
+            </tr>
+        </thead>
+        <tbody id="allocTable"></tbody>
+    </table>
+
+    <div style="margin-top: 30px; padding: 15px; border-left: 4px solid var(--accent); background: #fffcf0; font-size: 12px; line-height: 1.5;">
+        <b style="color: var(--accent);text-align:justify">Strategic Note:</b> CDBL IPO Fee is methodology-sensitive at 0.015%. For **Book Building**, the base is Pre-IPO + 60% Public Issue. For **Fixed Price**, the base is Pre-IPO + 100% Public Issue. 
+        Listing and Annual Fees follow the same methodology-based base logic.
+    </div>
+    <div style="margin-top: 30px; padding: 15px; border-left: 4px solid var(--accent); background: #fffcf0; font-size: 12px; line-height: 1.5;">
+        <b style="color: var(--accent); text-align:justify">Disclaimer:</b> This calculator does not ensure the actual cost. The actual cost may vary based on the IPO proposal Size and time to time changes in the rule. This is only for understanding. IPO estimation will be changed after finding actual EI Size in Case of Book Building, which may done manually. Some estimated expenses are keep same due to make estimation to reduce the veriance with actual cost.
+    </div>
+
+    <footer>
+        <div style="font-weight: 800; color: var(--primary)">Designed & Developed By: Syed Al Imran</div>
+        <div>IIDFC Capital Limited</div>
+    </footer>
+</div>
+
+<script>
+document.getElementById('dateDisplay').innerText = new Date().toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: 'numeric'});
+
+function updateIssuer() { document.getElementById('displayIssuer').innerText = document.getElementById('issuer').value; }
+
+function calculate() {
+    const method = document.getElementById('method').value;
+    const exchange = document.getElementById('exchange').value;
+    const size = parseFloat(document.getElementById('issueSize').value) || 0;
+    const paidUp = parseFloat(document.getElementById('paidUp').value) || 0;
+    
+    const feeFactor = (method === "Book Building") ? 0.60 : 1.0;
+    const feeBasis = size * feeFactor;
+    const vat = 0.15;
+
+    // Base for Methodology-Sensitive Fees (Listing, Annual, CDBL IPO)
+    const methodBase = (method === "Book Building") ? (paidUp + (size * 0.60)) : (paidUp + size);
+
+    // Listing Fee: 0.25% on first 10Cr, 0.15% on Rest. Max 1Cr/Exch.
+    let listFeeUnit = (methodBase <= 100000000) ? 
+                      (methodBase * 0.0025) : 
+                      (250000 + (methodBase - 100000000) * 0.0015);
+    listFeeUnit = Math.min(listFeeUnit, 10000000);
+    const totalListingFee = (exchange === "Both") ? listFeeUnit * 2 : listFeeUnit;
+
+    // Annual Fee: 0.05% on first 100Cr, 0.02% on Rest. Max 6 Lac/Exch.
+    let annFeeUnit = (methodBase <= 1000000000) ? 
+                     (methodBase * 0.0005) : 
+                     (500000 + (methodBase - 1000000000) * 0.0002);
+    annFeeUnit = Math.min(annFeeUnit, 600000);
+    const totalAnnualFee = (exchange === "Both") ? annFeeUnit * 2 : annFeeUnit;
+
+    // CDBL IPO Fee: 0.015% on Pre-IPO and 0.015% on (60% or 100%) Public Issue
+    const cdblIpoFee = (paidUp * 0.00015) + ((method === "Book Building" ? 0.60 : 1.0) * size * 0.00015);
+
+    const fees = [
+        { n: "Issue Management Fee", v: Math.max(feeBasis * 0.01, (method === "Fixed Price" ? 2500000 : 3000000)), t: "v", c: `1% of Basis (Floor Applied)` },
+        { n: "Underwriting Fee", v: (feeBasis * 0.35 * 0.005), t: "v", c: `0.5% on 35% of Issue Basis` },
+        { n: "Registrar to the Issue", v: Math.min(feeBasis * 0.003, 1000000), t: "v", c: `0.3% Basis (Max 10 Lac)` },
+        { n: "Exchange Listing Fee", v: totalListingFee, t: "n", c: `Base: Pre-IPO + ${(method === "Book Building" ? "60%" : "100%")} Public Offer` },
+        { n: "Exchange Annual Fee", v: totalAnnualFee, t: "n", c: `Base: Pre-IPO + ${(method === "Book Building" ? "60%" : "100%")} Public Offer` },
+        { n: "BSEC Application Fee", v: 50000, t: "n", c: `Fixed Statutory Fee` },
+        { n: "Exchange Application Fee", v: (exchange === "Both" ? 100000 : 50000), t: "n", c: `Tk 50,000 per Exchange` },
+        { n: "Publication of Prospectus", v: (method === "Book Building" ? 850000 : 650000), t: "n", c: `Estimated Production (VAT Exempt)` },
+        { n: "Data Processing & Software", v: 1250000, t: "n", c: `System Handling (VAT Exempt)` },
+        { n: "Audit Fee (Estimated)", v: (method === "Book Building" ? 500000 : 250000), t: "v", c: `Independent Audit Projection` },
+        { n: "Credit Rating Fee", v: (method === "Book Building" ? 200000 : 0), t: "v", c: `Book Building Requirement` },
+        { n: "CDBL IPO Fee", v: cdblIpoFee, t: "n", c: `0.015% of Pre-IPO + ${(method === "Book Building" ? "60%" : "100%")} Issue Size` },
+        { n: "CDBL Security Deposit", v: 500000, t: "n", c: `Refundable Collateral` },
+        { n: "CDBL Documentation Fee", v: 2500, t: "n", c: `Fixed Entry Fee` },
+        { n: "CDBL Annual Fee", v: 100000, t: "n", c: `Annual Depository Fee` },
+        { n: "CDBL Connection Fee", v: 6000, t: "n", c: `Connectivity Setup` },
+        { n: "BSEC Consent Fee", v: (feeBasis * 0.003), t: "n", c: `0.30% of ${feeFactor*100}% Issue Basis` },
+        { n: "Newspaper & Legal Notices", v: 750000, t: "n", c: `Post-IPO Statutory Ads` },
+        { n: "Electronic Bidding (ESS)", v: (method === "Book Building" ? 1000000 : 0), t: "n", c: `Platform Access Fee` },
+        { n: "Pre-IPO Road Show (Estimated)", v: (method === "Book Building" ? 6000000 : 0), t: "n", c: `Venue & Logistics for Book Building` },
+        { n: "Other Administrative Costs", v: 150000, t: "n", c: `Logistics & Stationery` }
+    ];
+
+    let fHtml = "", lHtml = "";
+    let tNet = 0, tVat = 0;
+    
+    fees.forEach(f => {
+        if(f.v === 0) return;
+        const vAmt = (f.t === "v") ? f.v * vat : 0;
+        tNet += f.v; tVat += vAmt;
+        fHtml += `<tr><td>${f.n}</td><td class="num">${f.v.toLocaleString()}</td><td class="num">${vAmt > 0 ? vAmt.toLocaleString() : '-'}</td><td class="num">${(f.v + vAmt).toLocaleString()}</td></tr>`;
+        lHtml += `<div class="logic-item"><b>${f.n}:</b> ${f.c}</div>`;
+    });
+
+    document.getElementById('feeTable').innerHTML = fHtml;
+    document.getElementById('logicGrid').innerHTML = lHtml;
+    const grossTotal = tNet + tVat;
+    document.getElementById('feeTotal').innerHTML = `<td>TOTAL PROJECTED IPO COST</td><td class="num">${tNet.toLocaleString()}</td><td class="num">${tVat.toLocaleString()}</td><td class="num">${grossTotal.toLocaleString()}</td>`;
+    
+    // Updates Funding Summary
+    document.getElementById('sumSize').innerText = "BDT " + size.toLocaleString();
+    document.getElementById('sumCost').innerText = "BDT " + grossTotal.toLocaleString();
+    document.getElementById('sumNet').innerText = "BDT " + (size - grossTotal).toLocaleString();
+    document.getElementById('efficiencyVal').innerText = ((grossTotal / size) * 100).toFixed(2) + "%";
+
+    const allocs = (method === "Book Building") ? 
+        [{c:"Eligible Investors (EI)", p:40}, {c:"General Public", p:35}, {c:"Mutual Funds", p:10}, {c:"NRB", p:7}, {c:"HNI", p:5}, {c:"Employees", p:3}] :
+        [{c:"General Public", p:60}, {c:"NRB", p:10}, {c:"Eligible Investors", p:10}, {c:"Mutual Funds", p:10}, {c:"HNI", p:5}, {c:"Employees", p:5}];
+
+    let aHtml = "";
+    allocs.forEach(a => { aHtml += `<tr><td>${a.c}</td><td class="num">${a.p}%</td><td class="num">${(size * a.p / 100).toLocaleString()}</td></tr>`; });
+    document.getElementById('allocTable').innerHTML = aHtml;
+}
+
+calculate();
+</script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPO Application Documents Checklist By SA Imran</title>
+    <style>
+        :root {
+            --primary-blue: #002b5b;
+            --success-green: #1b5e20;
+            --danger-red: #b71c1c;
+            --neutral-grey: #636e72;
+        }
+
+        /* Standard view styling */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: #222;
+        }
+
+        .container {
+            max-width: 900px; /* Optimized for A4 width */
+            margin: auto;
+            background: white;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-section {
+            text-align: center;
+            border-bottom: 2px solid var(--primary-blue);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+        }
+
+        .company-name-input {
+            font-size: 22px;
+            font-weight: 800;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            width: 90%;
+            text-align: center;
+            color: var(--primary-blue);
+            outline: none;
+            margin-bottom: 10px;
+        }
+
+        h1 { font-size: 18px; margin: 5px 0; }
+
+        /* Table logic for PDF consistency */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed; /* Critical for A4 alignment */
+        }
+
+        /* This makes headers repeat on every PDF page */
+        thead { display: table-header-group; }
+
+        th {
+            background-color: var(--primary-blue) !important;
+            color: white !important;
+            padding: 8px 4px;
+            font-size: 11px;
+            border: 1px solid #000;
+            text-transform: uppercase;
+            -webkit-print-color-adjust: exact;
+        }
+
+        td {
+            padding: 6px 4px;
+            border: 1px solid #000;
+            font-size: 11px;
+            vertical-align: top;
+            word-wrap: break-word;
+            overflow: visible;
+        }
+
+        /* Fixed column percentages to fit A4 perfectly */
+        .sl-col { width: 6%; text-align: center; font-weight: bold; }
+        .desc-col { width: 50%; }
+        .status-col { width: 14%; text-align: center; }
+        .remarks-col { width: 30%; }
+
+        .sub-item { padding-left: 20px; font-style: italic; }
+
+        .editable-remarks {
+            width: 100%;
+            min-height: 18px;
+            outline: none;
+            white-space: pre-wrap;
+            word-break: break-word;
+            display: block;
+            line-height: 1.2;
+        }
+
+        select {
+            width: 100%;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 1px solid #ddd;
+        }
+
+        .status-yes { background-color: var(--success-green) !important; color: white !important; -webkit-print-color-adjust: exact; }
+        .status-no { background-color: var(--danger-red) !important; color: white !important; -webkit-print-color-adjust: exact; }
+        .status-na { background-color: var(--neutral-grey) !important; color: white !important; -webkit-print-color-adjust: exact; }
+
+        .summary-box {
+            width: 250px;
+            margin: 20px 0 0 auto;
+            border: 1.5px solid var(--primary-blue);
+        }
+
+        footer {
+            margin-top: 30px;
+            border-top: 1px solid #000;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            padding-top: 5px;
+            font-weight: bold;
+        }
+
+        .btn-print {
+            background: var(--primary-blue);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            float: right;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        @media print {
+            body { background: white; padding: 0; margin: 0; }
+            .container { box-shadow: none; width: 100%; max-width: 100%; padding: 0; }
+            .btn-print { display: none; }
+            @page { size: A4; margin: 1.5cm 1cm; } /* Standard margins */
+            
+            tr { page-break-inside: avoid; } /* Prevents cutting a row in half */
+            
+            select {
+                border: none;
+                appearance: none;
+                -webkit-appearance: none;
+                background: transparent;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <button class="btn-print" onclick="window.print()">Download/Print PDF</button>
+
+    <div class="header-section">
+        <input type="text" class="company-name-input" placeholder="CLICK TO TYPE ISSUER COMPANY NAME">
+        <h1>Public Offer Document Submission Checklist</h1>
+        <p style="font-size: 12px; font-weight: bold; color: #555;">[Pursuant to Rule 7(2) and Rule 7(5)] of Public Issue Rule-2025</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th class="sl-col">SL</th>
+                <th class="desc-col">Document Description</th>
+                <th class="status-col">Availability</th>
+                <th class="remarks-col">Remarks / Observations</th>
+            </tr>
+        </thead>
+        <tbody id="checklistBody">
+        </tbody>
+    </table>
+
+    <table class="summary-box">
+        <tr><td>Ready (Yes)</td><td id="countYes" style="color: var(--success-green); text-align: center;">0</td></tr>
+        <tr><td>Pending (No)</td><td id="countNo" style="color: var(--danger-red); text-align: center;">0</td></tr>
+        <tr><td>Not Applicable (N/A)</td><td id="countNA" style="color: var(--neutral-grey); text-align: center;">0</td></tr>
+    </table>
+
+    <footer>
+        <span>Developed By: Syed Al Imran</span>
+    </footer>
+</div>
+
+<script>
+    const data = [
+        { sl: "1", text: "Memorandum and Articles of Association - certified by RJSC&F" },
+        { sl: "2", text: "Certificate of Incorporation and Certificate of Commencement - certified by RJSC&F" },
+        { sl: "3", text: "Board Minutes for capital raising and copy of special resolution" },
+        { sl: "4", text: "Consent of the Directors to serve (Original, all directors)" },
+        { sl: "5", text: "Land title deed, mutation copy, parcha, khazna receipt, etc." },
+        { sl: "6", text: "Deed of leasehold property and related rent documents" },
+        { sl: "7", text: "List of plant & machineries (details of purchase, origin, life, PSI certificate)" },
+        { sl: "8", text: "NID/Passport copies of Directors, MD, CFO and Company Secretary" },
+        { sl: "9", text: "Loan agreements/Sanction Letter of Bank and FIs" },
+        { sl: "10", text: "Disclosure of other loans & advances with documents" },
+        { sl: "11", text: "Banker’s letter for separate bank account for Public Offer" },
+        { sl: "12", text: "Agreements: Issue Manager, Registrar, ESS Service, Underwriter, etc." },
+        { sl: "13", text: "Joint venture or Strategic Investor agreements" },
+        { sl: "14", text: "Tax holiday approval letter from NBR" },
+        { sl: "15", text: "Return of all allotment and particulars of directors (Certified by RJSC&F)" },
+        { sl: "16", text: "Banker’s/Auditor’s certificate for cash paid-up capital deposit" },
+        { sl: "17", text: "Certified / Original bank statements (Last 5 years) for paid-up capital" },
+        { sl: "18", text: "Auditor’s certificate for clause (16) Paid Up Capital through Cash" },
+        { sl: "19", text: "Undertakings for CIB Report (Issuer/Directors/10%+ Shareholders)" },
+        { sl: "20", text: "Copy of Valid licenses, Registration, Permission/NOC from regulatory authorities" },
+        { sl: "21", text: "Credit rating report" },
+        { sl: "22", text: "Compliance report of Corporate Governance Code" },
+        { sl: "23", text: "Supporting documents for Income Tax and VAT status" },
+        { sl: "24", text: "Revaluation Report as per Commission guidelines" },
+        { sl: "25", text: "Audited Financial Statements (Last 5 years or shorter period)" },
+        { sl: "26", text: "Auditor’s certificate (Section 135, Companies Act 1994)" },
+        { sl: "27", text: "Projected financial statement for next 3 years considering IPO" },
+        { sl: "28", text: "Feasibility report (for new/green field projects)" },
+        { sl: "29", text: "Loan/Contract/agreement doc's for additional funds beyond issue proceeds" },
+        { sl: "30", text: "<b>AUDITOR CERTIFIED STATEMENTS (LAST 5 YEARS):</b>" },
+        { sl: "30.a", text: "Statement of Long-term and short-term borrowings (inc. related party)", isSub: true },
+        { sl: "30.b", text: "Statement of Secured loans, charges created, lenders, and repayment status", isSub: true },
+        { sl: "30.c", text: "Statement of Unsecured loans with terms & conditions", isSub: true },
+        { sl: "30.d", text: "Statement of Inventories (Raw, WIP, Finished, Consumables, Spares)", isSub: true },
+        { sl: "30.e", text: "Statement of Trade receivables (inc. related party/connected persons)", isSub: true },
+        { sl: "30.f", text: "Statement of Loans given by issuer (inc. related party)", isSub: true },
+        { sl: "30.g", text: "Statement of Other income (Interest, Dividend, Discount, etc.)", isSub: true },
+        { sl: "30.h", text: "Statement of Turnover (Cash and Banking Channel separately)", isSub: true },
+        { sl: "30.i", text: "Statement of Related party transactions", isSub: true },
+        { sl: "30.j", text: "Reconciliation of Tax Return income vs Audited income", isSub: true },
+        { sl: "30.k", text: "Confirmation: Receipts/Payments > Tk.5,00,000 via Bank", isSub: true },
+        { sl: "30.l", text: "Confirmation: Bank Statements with Books of Accounts", isSub: true },
+        { sl: "30.m", text: "Statement of Payment status of TAX, VAT and other taxes/duties", isSub: true },
+        { sl: "30.n", text: "Any other statement required by Commission", isSub: true },
+        { sl: "31", text: "RJSC&F certified vendor’s agreement with title documents (for capital in kind)" },
+        { sl: "32", text: "Auditor’s certificate on previous fund utilization" },
+        { sl: "33", text: "Any other documents required by Stock Exchange/Commission" }
+    ];
+
+    const tbody = document.getElementById('checklistBody');
+    data.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="sl-col">${item.sl}</td>
+            <td class="desc-col ${item.isSub ? 'sub-item' : ''}">${item.text}</td>
+            <td class="status-col">
+                <select class="status-select" onchange="handleStatusChange(this)">
+                    <option value="">Select</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            </td>
+            <td class="remarks-col">
+                <div class="editable-remarks" contenteditable="true"></div>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+
+    function handleStatusChange(select) {
+        select.className = 'status-select';
+        if (select.value === 'Yes') select.classList.add('status-yes');
+        if (select.value === 'No') select.classList.add('status-no');
+        if (select.value === 'N/A') select.classList.add('status-na');
+        
+        let yes = 0, no = 0, na = 0;
+        document.querySelectorAll('.status-select').forEach(s => {
+            if (s.value === 'Yes') yes++;
+            if (s.value === 'No') no++;
+            if (s.value === 'N/A') na++;
+        });
+        document.getElementById('countYes').innerText = yes;
+        document.getElementById('countNo').innerText = no;
+        document.getElementById('countNA').innerText = na;
+    }
+</script>
+</body>
+</html>

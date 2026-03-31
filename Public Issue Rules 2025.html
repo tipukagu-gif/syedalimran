@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Issue Rules 2025 – Professional Corporate Presentation</title>
+    <style>
+        :root {
+            --primary:    #0f172a;
+            --accent:     #f59e0b;
+            --secondary:  #1d4ed8;
+            --light:      #f8fafc;
+            --gray:       #64748b;
+            --border:     #e2e8f0;
+            --shadow:     0 10px 30px rgba(15,23,42,0.10);
+            --shadow-sm:  0 4px 16px rgba(15,23,42,0.08);
+        }
+
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: var(--primary);
+        }
+
+        .slide {
+            width: 297mm;
+            height: 210mm;
+            background: white;
+            margin: 0 auto 40px auto;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            page-break-after: always;
+        }
+
+        .top-accent {
+            height: 16px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+        }
+
+        header {
+            padding: 40px 70px 16px 90px;
+            position: relative;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            left: 70px;
+            bottom: 10px;
+            width: 60px;
+            height: 5px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 30pt;
+            font-weight: 800;
+            letter-spacing: -0.6px;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        header h2 {
+            margin: 10px 0 0;
+            font-size: 17pt;
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        .content {
+            padding: 20px 70px 20px 90px;
+            flex: 1;
+        }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            height: 100%;
+        }
+
+        .title-slide {
+            background: linear-gradient(rgba(15,23,42,0.88), rgba(29,78,216,0.82)),
+                        url('https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&q=80&w=2400');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .title-slide h1 {
+            font-size: 54pt;
+            font-weight: 900;
+            margin: 0;
+            letter-spacing: -1.8px;
+            text-shadow: 0 6px 24px rgba(0,0,0,0.5);
+        }
+
+        .title-slide h2 {
+            font-size: 24pt;
+            color: var(--accent);
+            margin: 20px 0 40px;
+        }
+
+        .presenter {
+            font-size: 20pt;
+            margin: 60px 0 12px;
+            opacity: 0.95;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10.5pt;
+            margin: 12px 0;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 12px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 11px 14px;
+            border: 1px solid var(--border);
+            line-height: 1.35;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(241,245,249,0.5);
+        }
+
+        ul {
+            padding-left: 0;
+            list-style: none;
+            margin: 8px 0;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 32px;
+            margin-bottom: 10px;
+            font-size: 10.8pt;
+            line-height: 1.42;
+        }
+
+        ul li::before {
+            content: "◆";
+            color: var(--accent);
+            position: absolute;
+            left: 4px;
+            font-size: 16pt;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fffbeb 0%, #fefce8 100%);
+            border-left: 6px solid var(--accent);
+            padding: 18px 24px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .note-box {
+            background: #eff6ff;
+            border-left: 6px solid var(--secondary);
+            padding: 16px 22px;
+            border-radius: 10px;
+            margin: 18px 0;
+            font-size: 10.3pt;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 220px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin: 14px 0;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        footer {
+            padding: 14px 70px 14px 90px;
+            background: linear-gradient(to right, #f8fafc, #f1f5f9);
+            display: flex;
+            justify-content: space-between;
+            font-size: 10.4pt;
+            color: var(--gray);
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-left  { font-weight: 600; color: var(--primary); }
+        .footer-right { font-weight: 400; }
+    </style>
+</head>
+<body>
+
+<!-- Slide 1 – Title -->
+<div class="slide title-slide">
+    <h1>Public Issue Rules 2025</h1>
+    <h2>Securities and Exchange Commission Standards</h2>
+    <div class="presenter">Presented By: Syed Al Imran</div>
+    <div>IIDFC Capital Limited</div>
+</div>
+
+<!-- Slide 2 – Key Terminology -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Key Terminology</h1>
+        <h2>Foundational Regulatory Definitions</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <table>
+                <tr><th>Term</th><th>Definition</th></tr>
+                <tr><td><strong>Eligible Investor (EI)</strong></td><td>Registered institutions and approved foreign investors.</td></tr>
+                <tr><td><strong>Fixed Price Method</strong></td><td>Issuer sets the security price in consultation with the Issue Manager.</td></tr>
+                <tr><td><strong>Book-Building Method</strong></td><td>Price discovery based on demand from Eligible Investors (bidding).</td></tr>
+                <tr><td><strong>Repeat Public Offer (RPO)</strong></td><td>Further public offer by an issuer already listed or previously raised capital.</td></tr>
+                <tr><td><strong>Green Field Co.</strong></td><td>A company yet to start commercial production or operation.</td></tr>
+                <tr><td><strong>Bidders</strong></td><td>Eligible investors who participate in the securities bidding process.</td></tr>
+            </table>
+            <table>
+                <tr><th>Term</th><th>Definition</th></tr>
+                <tr><td><strong>Road Show</strong></td><td>Presentation to EIs disclosing features of the issuance.</td></tr>
+                <tr><td><strong>Sponsor</strong></td><td>Any person whose name appears as a subscriber to the Memorandum.</td></tr>
+                <tr><td><strong>Cut-Off Price</strong></td><td>Lowest price to fully subscribe the EI portion.</td></tr>
+                <tr><td><strong>HNI</strong></td><td>Individuals with min. net worth of Tk. 20 million.</td></tr>
+                <tr><td><strong>Indicative Price</strong></td><td>Initial price set after road show used as the bidding base.</td></tr>
+                <tr><td><strong>Red-Herring</strong></td><td>Preliminary prospectus without final price/quantity.</td></tr>
+            </table>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 2</div>
+    </footer>
+</div>
+
+<!-- Slide 3 – General IPO Standards -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>General IPO Standards</h1>
+        <h2>Application & Offer Structure</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <ul>
+                    <li><strong>Capital:</strong> Existing Paid-Up Capital must be <strong>Tk. 30 Crore</strong>.</li>
+                    <li><strong>Offer Size:</strong> Min. 10% of Post IPO Paid-Up Capital or Tk. 30 Crore at par.</li>
+                    <li><strong>Minimum Post IPO Paid Up Capital:</strong> Tk. 50 Crore.</li>
+                    <li><strong>Underwriting:</strong> 35% on a firm commitment basis.</li>
+                    <li><strong>Post-IPO Limit:</strong> Standard limit is <strong>Tk. 125 Crore</strong>.</li>
+                    <li><strong>Sponsor, Sponsor Director Shareholding:</strong> Minimum 30% <strong>of Post IPO Paid Up Capital</strong>.</li>
+                    <li><strong>No material Change:</strong> No Change after the Submitted Audit Financial Statement attached in Prospectus.</li>
+                    <li><strong>Utilise of Previously Raise Capital:</strong>At Least 90% of Previouly raised Paid Up Capital have to be utilised.</li>
+                    <li><strong>Clear CIB:</strong> All Director & Shareholder more than 10% must not be Loan Defulter.</li>
+                    <li><strong>Examption of Minimum %:</strong> Existing Paid Up Capital/Net worth is more than 500 Crore may be applied of 5% of Post IPO Paid Up Capital.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="image-container">
+                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=2070" alt="Market Compliance">
+                </div>
+                <p style="font-size: 10pt; color: #444; margin-top:12px;"><em>Note: All applications require Board of Directors' approval regarding Size & Method.</em></p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 3</div>
+    </footer>
+</div>
+
+<!-- Slide 4 – Financial Integrity -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Financial Integrity</h1>
+        <h2>Accounting, Integrity & Governance Standards</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Capital & Operational Integrity</h3>
+                <ul>
+                    <li><strong>Capital Proof:</strong> Banker’s certificate and statements proving deposit of total paid-up capital.</li>
+                    <li><strong>Recent Raise:</strong> No capital raise (except bonus) within 2 years preceding application.</li>
+                    <li><strong>Governance:</strong> Regular AGMs and strict compliance with Commission CG Guidelines.</li>
+                    <li><strong>Asset Valuation:</strong> Mandatory compliance with BSEC valuation guidelines.</li>
+                    <li><strong>Cost Audit:</strong> Must be obtained if required by the Companies Act, 1994.</li>
+                    <li><strong>History:</strong> Full capital raising history since inception must be submitted.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Profitability & Reporting</h3>
+                <ul>
+                    <li><strong>Existing Firms:</strong> Must show positive net profit after tax for at least the latest year.</li>
+                    <li><strong>New Firms:</strong> Must demonstrate positive <strong>projected</strong> net profit after tax.</li>
+                    <li><strong>Audit Rigor:</strong> BSEC panel auditor must use IFRS/IAS and BSA standards.</li>
+                    <li><strong>Vendor Docs:</strong> Vendor agreements must be certified by RJSC.</li>
+                    <li><strong>Prospectus:</strong> Must follow all requirements of the Rules in preparation.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 4</div>
+    </footer>
+</div>
+
+<!-- Slide 5 – Offering at Premium -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Offering at Premium</h1>
+        <h2>Additional Criteria for Premium Issuance</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Operational & Financial Thresholds</h3>
+                <ul>
+                    <li><strong>Operational History:</strong> Must have been in commercial operation for at least <strong>3 years</strong>.</li>
+                    <li><strong>Performance:</strong> Net profit after tax <strong>AND</strong> positive net operating cash flows for the preceding <strong>2 years</strong>.</li>
+                    <li><strong>Credit Rating:</strong> Minimum <strong>'A' category</strong> in the long-term scale from a BSEC-registered agency.</li>
+                    <li><strong>Offer Price:</strong> Cut off Price Only.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Conflict of Interest Controls</h3>
+                <ul>
+                    <li><strong>IM Connection:</strong> The Issue Manager or its connected persons cannot be connected with the issuer or hold its securities.</li>
+                    <li><strong>Exception:</strong> Connected persons may bid in Book Building only with <strong>prior BSEC approval</strong>.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 5</div>
+    </footer>
+</div>
+
+<!-- Slide 6 – Green Field Companies -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Green Field Companies</h1>
+        <h2>Offer Structure & Operational Planning</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Offer Structure & Capital</h3>
+                <ul>
+                    <li><strong>Pricing:</strong> Must NOT offer shares at a premium.</li>
+                    <li><strong>Capital Limit:</strong> Post-IPO paid-up capital may exceed <strong>Tk. 125 Crore</strong>.</li>
+                    <li><strong>Min Size:</strong> Existing Paid-Up Capital of <strong>Tk. 50 Crore</strong> required.</li>
+                    <li><strong>Min Offer:</strong> 10% of post-IPO capital or <strong>Tk. 75 Crore</strong> (higher of).</li>
+                    <li><strong>Rating:</strong> Must maintain 'A' Category in Long-Term scale.</li>
+                </ul>
+                <h3 style="color: var(--secondary); margin: 16px 0 8px;">Operational Plan</h3>
+                <ul>
+                    <li>Detailed plan of operation and <strong>EPC contract</strong> (if necessary) must be in place.</li>
+                    <li>Positive projected net profit for next 3 years, audited by BSEC panel auditors.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Sponsor & Equity Commitment</h3>
+                <ul>
+                    <li><strong>75% Equity:</strong> Sponsors/Group/Directors must hold min 75% of post-IPO capital.</li>
+                    <li><strong>Retention:</strong> Must retain this 75% until NPAT is positive for <strong>2 consecutive years</strong>.</li>
+                    <li><strong>Sponsor Track Record:</strong> Must show success in listed/industrial units.</li>
+                    <li><strong>Track Record Exemptions:</strong> Provisions (11,12,13) do not apply to PPP or state/foreign majority firms.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 6</div>
+    </footer>
+</div>
+
+<!-- Slide 7 – Repeat Public Offer (RPO) -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Repeat Public Offer (RPO)</h1>
+        <h2>Disclosure, Approvals & Compliance</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Information Disclosure & PSI</h3>
+                <ul>
+                    <li><strong>PSI Dissemination:</strong> RPO details must be released as Price Sensitive Information immediately upon Board decision, General Meeting approval, and BSEC approval.</li>
+                    <li><strong>Explicit Announcement:</strong> Initial PSI (Board/General Meeting) must explicitly state RPO is subject to Commission approval.</li>
+                    <li><strong>Formal Approvals:</strong> Mandatory approval required from Board of Directors, Shareholders (General Meeting), and BSEC.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Compliance & Financials</h3>
+                <ul>
+                    <li><strong>Fund Utilization:</strong> At Least 90% of previous public offer or rights issue proceeds must be utilized with reports submitted to BSEC.</li>
+                    <li><strong>Underwriting:</strong> 35% of the issue must be underwritten on a firm commitment basis.</li>
+                    <li><strong>Credit Rating:</strong> Issuer must hold at least an <strong>Investment Grade</strong> rating from a registered rating agency.</li>
+                </ul>
+                <div class="image-container" style="height: 160px; margin-top: 20px;">
+                    <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=2070" alt="Regulatory Compliance">
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 7</div>
+    </footer>
+</div>
+
+<!-- Slide 8 – Preference Shares -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Preference Shares</h1>
+        <h2>Approval, Disclosure & Characteristics</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Shareholder Approval & Filing</h3>
+                <ul>
+                    <li><strong>Special Resolution:</strong> Must be approved in a special meeting and filed with BSEC during application.</li>
+                    <li><strong>Issuance Options:</strong> Resolution must specify if shares are issued as <strong>Rights</strong> or <strong>Otherwise than Rights</strong>.</li>
+                    <li><strong>Non-Rights Disclosure:</strong> If not rights-based, the prospectus must explicitly name the intended allottees.</li>
+                </ul>
+                <h3 style="color: var(--secondary); margin: 16px 0 8px;">Rationale & Pricing</h3>
+                <ul>
+                    <li><strong>Justification:</strong> Clear explanation for choosing preference shares over ordinary shares.</li>
+                    <li><strong>Pricing:</strong> Justification of issue price and comparison with latest market prices (if applicable).</li>
+                    <li><strong>Benefit:</strong> Detailed purpose and expected benefits to the company and existing shareholders.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Share Characteristics</h3>
+                <table>
+                    <tr><th>Feature</th><th>Required Specifications</th></tr>
+                    <tr><td><strong>Dividend</strong></td><td>Specific rate of preference dividend.</td></tr>
+                    <tr><td><strong>Nature</strong></td><td>Cumulative/Non-cumulative, Participatory/Non-participatory.</td></tr>
+                    <tr><td><strong>Conversion</strong></td><td>Convertible or Non-convertible status.</td></tr>
+                    <tr><td><strong>Rights</strong></td><td>Voting rights, participation in future rights/bonus issues.</td></tr>
+                    <tr><td><strong>Listing</strong></td><td>Explicit statement on Stock Exchange listing intent.</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 8</div>
+    </footer>
+</div>
+
+<!-- Slide 9 – Redeemable Preference Shares -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Redeemable Preference Shares</h1>
+        <h2>Redemption Mechanism & Contingencies</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Redemption Terms & Timeline</h3>
+                <ul>
+                    <li><strong>Capacity:</strong> Disclosure of the maximum number of shares to be redeemed.</li>
+                    <li><strong>Maturity:</strong> Maximum period and specific redemption window must be clearly stated.</li>
+                    <li><strong>Mechanism:</strong> Full description of the redemption scheme, including <strong>Call Options</strong> (Company-led) and <strong>Put Options</strong> (Investor-led).</li>
+                </ul>
+                <div class="image-container" style="height: 200px; margin-top: 20px;">
+                    <img src="https://images.unsplash.com/photo-1560472355-536de3962603?auto=format&fit=crop&q=80&w=2070" alt="Financial Planning">
+                </div>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Contingency & Winding-Up</h3>
+                <ul>
+                    <li><strong>Failure to Redeem:</strong> Disclosure of legal/financial remedies available to the shareholder if redemption is not met within the specified period.</li>
+                    <li><strong>Surplus Participation:</strong> Clear statement on whether preference holders participate in surplus assets during <strong>Winding Up</strong>.</li>
+                    <li><strong>Regulatory Authority:</strong> Ongoing compliance with additional BSEC written orders as issued.</li>
+                </ul>
+                <div class="highlight-box">
+                    <strong>Note:</strong> All redemption schemes must include a clear "Modus Operandi" (Method of Operation) to ensure transparency for the Commission and the exchanges.
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 9</div>
+    </footer>
+</div>
+
+<!-- Slide 10 – Specific Compliance -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Specific Compliance</h1>
+        <h2>Irredeemable, Cumulative & Convertible Provisions</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Irredeemable & Cumulative Types</h3>
+                <ul style="font-size: 10.5pt;">
+                    <li><strong>Irredeemable Exit:</strong> Must disclose precise exit mechanisms (e.g., secondary market sale) and winding-up surplus rights.</li>
+                    <li><strong>Dividend Accumulation:</strong> Must specify authorized circumstances for deferral and the <strong>Revised Dividend Rate</strong> for accumulated amounts.</li>
+                    <li><strong>Accrual & Redemption:</strong> State if accumulated dividends convert/redeem with the principal and if accrual continues upon redemption failure.</li>
+                </ul>
+                <h3 style="color: var(--secondary); margin: 16px 0 8px;">Convertible Preference Shares</h3>
+                <ul style="font-size: 10.5pt;">
+                    <li><strong>Conversion Metrics:</strong> State maximum number/percentage of shares to be converted and the status of the target share class.</li>
+                    <li><strong>Timeline:</strong> Specify the conversion period and the triggering <strong>Conversion Event</strong> for both issuer and holder.</li>
+                    <li><strong>Non-Rights:</strong> Issues other than rights must follow periodic Commission guidelines.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">General Rules for Conversion/Exchange</h3>
+                <div class="note-box">
+                    <strong>Prior to Public Offer Requirements:</strong><br>
+                    Execution requires:<br>• Board of Directors' Approval.<br>• <strong>3/4th (75%) Majority Vote</strong> by value of shareholders present.
+                </div>
+                <div class="highlight-box" style="margin-top: 20px;">
+                    <strong>Mandatory Lock-in:</strong><br>
+                    Option cannot be exercised within 2 years of listing OR 3 years of issuance (whichever is longer).
+                </div>
+                <div class="image-container" style="height: 140px; margin-top: 20px;">
+                    <img src="https://thumbs.dreamstime.com/b/risk-management-compliance-concept-business-strategy-wooden-blocks-icons-table-top-view-financial-security-legal-383272820.jpg" alt="Corporate Strategy and Compliance">
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 10</div>
+    </footer>
+</div>
+
+<!-- Slide 11 – Roles & Responsibilities -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Roles & Responsibilities</h1>
+        <h2>Issue Management & "Expert" Accountability</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Appointments & Structural Roles</h3>
+                <ul>
+                    <li><strong>Issue Manager (IM):</strong> Mandatory appointment of a BSEC-registered entity.</li>
+                    <li><strong>Registrar:</strong> The IM may act as Registrar or appoint an eligible entity. <strong>Note:</strong> The Stock Exchange ESS is recognized to perform Registrar functions.</li>
+                    <li><strong>IM Core Duties:</strong> Responsible for Prospectus preparation, conducting the Road Show, and monitoring fund utilization.</li>
+                    <li><strong>Reporting:</strong> IM must submit a monthly utilization report and declaration to BSEC within 10 days of month-end.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Legal Status as "Expert"</h3>
+                <p style="font-size: 10pt; margin: 8px 0;">The IM, Registrar, Valuer, Auditor, and Credit Rating Co. are deemed <strong>"Experts"</strong> under:</p>
+                <ul>
+                    <li>Sections 136 & 137 of the <strong>Companies Act, 1994</strong>.</li>
+                    <li>Section 34 of the <strong>Financial Reporting Act, 2015</strong>.</li>
+                </ul>
+                <div class="highlight-box">
+                    <strong>Accountability:</strong> Experts are liable for due diligence certificates, document authenticity, and any statements on the merit of the issue.
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 11</div>
+    </footer>
+</div>
+
+<!-- Slide 12 – Underwriting Framework -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Underwriting Framework</h1>
+        <h2>Commitments & Handling Under-Subscription</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Appointment & Obligation</h3>
+                <ul>
+                    <li><strong>Appointment:</strong> One or more BSEC-registered underwriters must be appointed.</li>
+                    <li><strong>Core Accountability:</strong> Lead underwriters are responsible for pre-issue, public issue, and post-issue legal compliance.</li>
+                </ul>
+                <h3 style="color: var(--secondary); margin: 16px 0 8px;">The 15-Day Payment Rule</h3>
+                <p style="font-size: 10pt;">In case of under-subscription, the "Firm Commitment" triggers:</p>
+                <ul>
+                    <li><strong>Notice:</strong> Issuer sends notice within 10 days of subscription closure.</li>
+                    <li><strong>Subscription:</strong> Underwriter must subscribe and pay cash in full within <strong>15 days</strong> of notice.</li>
+                    <li><strong>Credit:</strong> Funds must be credited to the subscription account within the same window.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Underwriting Workflow</h3>
+                <div class="highlight-box">
+                    <strong>Reporting to Commission:</strong><br>
+                    The Issuer/Lead IM must provide proof of underwriter deposit to BSEC within <strong>7 days</strong> after the payment deadline.
+                </div>
+                <div class="image-container" style="height: 140px; margin-top: 20px;">
+                    <img src="https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&q=80&w=2070" alt="Financial Commitment and Underwriting">
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 12</div>
+    </footer>
+</div>
+
+<!-- Slide 13 – Application Procedure -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Application Procedure</h1>
+        <h2>Submission, Documentation & Regulatory Review</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Submission & Timing</h3>
+                <ul>
+                    <li><strong>Simultaneous Filing:</strong> Application must be submitted to <strong>BSEC</strong> for consent and <strong>Stock Exchange(s)</strong> for listing at the same time.</li>
+                    <li><strong>Book Building Rule:</strong> The <strong>Road Show</strong> must be conducted <em>before</em> the final application is submitted.</li>
+                    <li><strong>FS Validity:</strong> Audited Financial Statements must not be older than <strong>120 days</strong> at the time of submission.</li>
+                    <li><strong>Immediate Posting:</strong> Draft/Red-herring prospectus must be hosted on the Issuer's and Issue Manager's websites immediately.</li>
+                </ul>
+                <h3 style="color: var(--secondary); margin: 16px 0 8px;">Documentation Standards</h3>
+                <ul>
+                    <li><strong>Mandatory Signatories:</strong> Each page must be signed by the Issuer (CEO/MD, CFO, Secretary) and the Issue Manager (CEO/MD).</li>
+                    <li><strong>Annexure Compliance:</strong> Full submission of Annexures A, C, D, E, F, G (and <strong>Annexure J</strong> for Preference Shares).</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Regulatory Review & Amendments</h3>
+                <div class="note-box">
+                    <strong>Information Requests:</strong><br>
+                    The Commission or Exchanges may request:<br>• Additional disclosures or clarifications.<br>• Certifications from experts (Auditors/Valuers).<br>• Data from other government authorities (via BSEC).
+                </div>
+                <div class="highlight-box" style="margin-top: 16px;">
+                    <strong>Amendments:</strong><br>Any changes to the prospectus must be signed by mandatory signatories and re-filed with BSEC and the Exchanges.
+                </div>
+                <div class="note-box" style="margin-top: 16px;">
+                    <strong>Compliance Deadline:</strong> All parties must fulfill regulatory requirements within the stipulated timeframe or face delay/rejection.
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 13</div>
+    </footer>
+</div>
+
+<!-- Slide 14 – Road Show Procedure -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Road Show Procedure</h1>
+        <h2>Institutional Price Discovery & RHP Preparation</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Invitation & Red-Herring Prospectus</h3>
+                <ul>
+                    <li><strong>Public Notice:</strong> Publication in 3 national dailies (2 Bangla, 1 English) with <strong>10 working days'</strong> notice.</li>
+                    <li><strong>Disclosure:</strong> Upload RHP to website including 3 years of Audited FS and <strong>3 years of Projected FS</strong>.</li>
+                    <li><strong>RHP Content:</strong> Must exclude final price/quantity but include Annexure C valuation methods and detailed calculations.</li>
+                    <li><strong>Observers:</strong> Representatives from Stock Exchanges must be present as observers.</li>
+                </ul>
+                <h3 style="color: var(--secondary); margin: 16px 0 8px;">Eligible Investor (EI) Input</h3>
+                <ul>
+                    <li><strong>Valuation Submission:</strong> EIs must submit their own price/quantity justifications within <strong>3 days</strong> of the road show.</li>
+                    <li><strong>Statistical Summary:</strong> RHP must include a summary of EI valuations (Mean, Median, 5th Percentile).</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Indicative Price Finalization</h3>
+                <div class="note-box">
+                    <strong>Pricing Framework:</strong><br>
+                    Indicative Price must be supported by:<br>• <strong>4 Methods:</strong> 2 Absolute + 2 Relative (Annexure C).<br>• <strong>40 Institutional Valuations (at least):</strong><br>  • 30 EIs (Portfolio Mgrs, Dealers, Asset Mgrs), Each min. 10 on each category<br>  • 10 EIs (Banks & others).
+                </div>
+                <div class="highlight-box" style="margin-top: 16px;">
+                    <strong>Final Step:</strong> Following the road show and price finalization, the <strong>Final Application</strong> is filed simultaneously with BSEC and the Exchanges.
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 14</div>
+    </footer>
+</div>
+
+<!-- Slide 15 – Stock Exchange Recommendation -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Stock Exchange Recommendation</h1>
+        <h2>Review, Public Comment & Final Filing</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Public Comment Phase</h3>
+                <ul>
+                    <li><strong>Notification:</strong> Exchange uploads RHP and notifies Eligible Investors (EIs).</li>
+                    <li><strong>EI Comments:</strong> EIs have <strong>7 days</strong> to provide feedback.</li>
+                    <li><strong>Processing:</strong> Exchange shares comments with the Issuer within 3 days; Issuer has <strong>7 days</strong> to respond/satisfy the Exchange.</li>
+                </ul>
+                <h3 style="color: var(--secondary); margin: 16px 0 8px;">Internal & Financial Review</h3>
+                <ul>
+                    <li><strong>Methodology:</strong> Review conducted by the Exchange, a specialized panel, or a BSEC-panel auditor.</li>
+                    <li><strong>Timeline:</strong> Review must be completed within <strong>30 days</strong> of application receipt.</li>
+                    <li><strong>Clarifications:</strong> The Exchange may request additional data from any party (Auditor, Valuer, Underwriter, etc.).</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Final Recommendation</h3>
+                <div class="note-box">
+                    <strong>Submission to BSEC:</strong><br>
+                    • <strong>Deadline:</strong> Within <strong>30 days</strong> of application receipt.<br>
+                    • <strong>Content:</strong> Formal recommendation/rejection (Annexure-B), findings, and checklist.<br>
+                    • <strong>Extension:</strong> BSEC may grant a <strong>15-day extension</strong> upon request.<br>
+                    • <strong>Physical Visit:</strong> Exchanges <strong>may visit</strong> Issuer Factory & Office.
+                </div>
+                <div class="highlight-box" style="margin-top: 16px;">
+                    <strong>Note:</strong> In case of positive recommendation, the <strong>final version of the RHP</strong> must be sent to the Commission immediately.
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 15</div>
+    </footer>
+</div>
+
+<!-- Slide 16 – Bidding & Subscription -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Bidding & Subscription</h1>
+        <h2>ESS Execution, Cut-Off Price & Allotment</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Bidding Rules (ESS)</h3>
+                <ul>
+                    <li><strong>Duration:</strong> 72 hours round-the-clock via automated system.</li>
+                    <li><strong>Price Band:</strong> <strong>±25%</strong> of the Indicative Price.</li>
+                    <li><strong>Limits:</strong> Max bid 1% of EI portion; 5% variation allowed on <strong>one</strong> bid revision.</li>
+                    <li><strong>Deposit:</strong> Full bid amount must be deposited in advance.</li>
+                </ul>
+                <h3 style="color: var(--secondary); margin: 16px 0 8px;">Price Determination</h3>
+                <ul>
+                    <li><strong>Cut-Off Price:</strong> The nearest integer price where the total EI portion is exhausted (recorded in descending order).</li>
+                    <li><strong>Allotment:</strong> Pro-rata at the cut-off price for all bids at or above the cut-off.</li>
+                    <li><strong>Transfer:</strong> Funds to Issuer within 5 days; excess refunds to EIs within 7 days.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Integrity & Penalties</h3>
+                <div class="highlight-box" style="background: #fee2e2; border-left-color: #ef4444;">
+                    <strong>Anti-Collusion:</strong> Cartels and tacit collusion are strictly prohibited.<br>
+                    • BSEC may cancel bids or bar EIs for the next <strong>3 public offers</strong>.<br>
+                    • Connected parties must provide a <strong>Non-Collusion Declaration</strong>.
+                </div>
+                <div class="note-box" style="margin-top: 16px;">
+                    <strong>General Public Offer:</strong> Conducted at the <strong>Cut-Off Price</strong> after final prospectus approval. Minimum 10% post-IPO capital rule applies.
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 16</div>
+    </footer>
+</div>
+
+<!-- Slide 17 – EI Subscription Process (Fixed Price Method) -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>EI Subscription Process</h1>
+        <h2>Fixed Price Method Execution</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Consent & Subscription Rules</h3>
+                <ul>
+                    <li><strong>Regulatory Prerequisite:</strong> BSEC issues final consent and approves the prospectus only after a positive recommendation from the exchange(s).</li>
+                    <li><strong>ESS System:</strong> Conducted via the Stock Exchange's uniform automated system.</li>
+                    <li><strong>Window:</strong> Open for <strong>120 hours</strong> round-the-clock.</li>
+                    <li><strong>Financials:</strong> Full subscription amount must be deposited in advance; individual EI subscription is capped at <strong>1%</strong> of the EI portion.</li>
+                </ul>
+                <h3 style="color: var(--secondary); margin: 16px 0 8px;">Allotment & Transfers</h3>
+                <ul>
+                    <li><strong>Logic:</strong> Pro-rata allotment in case of over-subscription.</li>
+                    <li><strong>Timeline:</strong> Allotment list posted within <strong>3 working days</strong>; funds transferred to issuer within <strong>5 working days</strong>.</li>
+                    <li><strong>General Public:</strong> Subscription for general investors opens only <em>after</em> the EI phase is finalized.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Contingency & Under-subscription</h3>
+                <div class="highlight-box">
+                    <strong>Under-subscription Critical Thresholds:</strong><br>
+                    • <strong>Up to 35%:</strong> The unsubscribed EI portion is transferred to the <strong>General Investor</strong> category.<br>
+                    • <strong>Above 35%:</strong> The entire issue is <strong>cancelled</strong>.
+                </div>
+                <div class="note-box" style="margin-top: 16px;">
+                    <strong>Refunds:</strong> Any excess subscribed amounts must be refunded to EIs within <strong>7 working days</strong> of subscription closure.
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 17</div>
+    </footer>
+</div>
+
+<!-- Slide 18 – Commission Review & Decision -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Commission Review & Decision</h1>
+        <h2>BSEC Approval, Rejection & Withdrawal Protocols</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">BSEC Decision Timeline</h3>
+                <ul>
+                    <li><strong>Basis of Review:</strong> Decision is based on the application, Exchange recommendation, findings, and compliance checklist.</li>
+                    <li><strong>Timeline:</strong> BSEC must issue a Letter of Consent or a written Rejection within <strong>25 days</strong> of receiving the Exchange's recommendation.</li>
+                    <li><strong>Material Defects:</strong> If BSEC finds misrepresentations in Exchange findings, it may request an Exchange review within <strong>7 days</strong>.</li>
+                    <li><strong>Final Authority:</strong> BSEC reserves absolute discretion to accept, reject, or suspend issues in the interest of the capital market.</li>
+                </ul>
+                <h3 style="color: var(--secondary); margin: 16px 0 8px;">Review & Withdrawal</h3>
+                <ul>
+                    <li><strong>Appeals:</strong> Issuers may apply for a review within <strong>30 days</strong> of rejection; the Commission’s final decision requires a hearing for all concerned parties.</li>
+                    <li><strong>Withdrawal:</strong> An issuer may withdraw its application anytime <em>before</em> prospectus issuance with Board approval.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Prospectus Formatting</h3>
+                <div class="note-box">
+                    <strong>Mandatory Formats:</strong><br>
+                    • <strong>Full Prospectus/RHP:</strong> Must follow <strong>Annexure–H</strong><br>
+                    • <strong>Abridged Version:</strong> Must follow <strong>Annexure–I</strong>.
+                </div>
+                <div class="highlight-box" style="margin-top: 16px;">
+                    <strong>Information Requests:</strong><br>
+                    BSEC may request additional clarification or documents from any party (Auditor, Valuer, IM, etc.) during the review period.
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 18</div>
+    </footer>
+</div>
+
+<!-- Slide 19 – Prospectus & Subscription -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Prospectus & Subscription</h1>
+        <h2>Publication Deadlines & Investor Access</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Publication & Accessibility</h3>
+                <ul>
+                    <li><strong>Deadline:</strong> Must publish within <strong>3 working days</strong> of BSEC consent.</li>
+                    <li><strong>Digital Presence:</strong> Must be posted on websites of the Issuer, IM, Exchanges, and BSEC until subscription closure.</li>
+                    <li><strong>Public Notice:</strong> Publication in <strong>4 national dailies</strong> (2 Bangla, 2 English) featuring a QR Code and web link.</li>
+                    <li><strong>Physical Copies:</strong> Issuer must print sufficient copies for any person making a written request.</li>
+                </ul>
+                <h3 style="color: var(--secondary); margin: 16px 0 8px;">Subscription Timeline</h3>
+                <ul>
+                    <li><strong>Cooling-Off:</strong> No money collection until <strong>10 working days</strong> after publication.</li>
+                    <li><strong>Duration:</strong> Starts after the cooling-off period and remains open until the <strong>15th working day</strong> from the abridged prospectus date.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Post-Subscription Actions</h3>
+                <div class="note-box">
+                    <strong>Under-Subscription Protocol:</strong><br>
+                    • <strong>Notice:</strong> Issuer notifies underwriters within <strong>10 days</strong> of closure.<br>
+                    • <strong>Payment:</strong> Underwriters must pay in full within <strong>15 days</strong> of notice.<br>
+                    • <strong>Reporting:</strong> Proof of payment must be sent to BSEC within <strong>7 days</strong> of the payment expiry.
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 19</div>
+    </footer>
+</div>
+
+<!-- Slide 20 – Prospectus Limitations -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Prospectus Limitations</h1>
+        <h2>Material Changes & Amendment Procedures</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Mandatory Offer Suspension</h3>
+                <p style="font-size: 10.5pt; margin-bottom: 8px;">The offer stands <strong>immediately suspended</strong> if:</p>
+                <ul>
+                    <li><strong>Material Change:</strong> Any change occurs in information included in the prospectus.</li>
+                    <li><strong>Material Event:</strong> Any transaction/event occurs that affects the conditions of the public offer.</li>
+                </ul>
+                <h3 style="color: var(--secondary); margin: 16px 0 8px;">Amendment Protocol</h3>
+                <ul>
+                    <li><strong>Signatories:</strong> Amendments must be signed by <strong>all directors</strong> and the CEOs/MDs of both the Issuer and Issue Manager.</li>
+                    <li><strong>Subscription Impact:</strong> If an amendment occurs during subscription, investors may choose to <strong>withdraw</strong> or continue.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Public Notification Requirements</h3>
+                <div class="highlight-box" style="background: #fee2e2; border-left-color: #ef4444;">
+                    <strong>Transparency Obligations:</strong><br>
+                    • Must notify the public in the <strong>same 4 national dailies</strong> used for the original abridged prospectus.<br>
+                    • The declaration must detail the <strong>exact nature</strong> of the change.<br>
+                    • Must be signed by all directors and CEOs/MDs of the Issuer and Issue Manager.
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 20</div>
+    </footer>
+</div>
+
+<!-- Slide 21 – Distribution & Lock-In -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Distribution & Lock-In</h1>
+        <h2>Quota Allocation & Subscription Integrity</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Security Distribution Table</h3>
+                <table style="font-size: 9pt;">
+                    <thead>
+                        <tr style="background: var(--secondary); color: white;">
+                            <th>Category</th>
+                            <th style="text-align:center">Fixed Price</th>
+                            <th style="text-align:center">Book Building</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Eligible Investor (EI)</td><td style="text-align:center">10%</td><td style="text-align:center">40%</td></tr>
+                        <tr><td>Mutual Funds</td><td style="text-align:center">10%</td><td style="text-align:center">10%</td></tr>
+                        <tr><td>Permanent Employees</td><td style="text-align:center">5%</td><td style="text-align:center">3%</td></tr>
+                        <tr><td>NRB & NR via NITA</td><td style="text-align:center">5%</td><td style="text-align:center">5%</td></tr>
+                        <tr><td>High Net-worth (HNI)</td><td style="text-align:center">10%</td><td style="text-align:center">7%</td></tr>
+                        <tr style="background:#f0f9ff; font-weight:bold;"><td>General Investors</td><td style="text-align:center">60%</td><td style="text-align:center">35%</td></tr>
+                    </tbody>
+                </table>
+                <p style="font-size: 8pt; color: #64748b; margin-top: 8px;">*Note: Category-wise allocations are strictly maintained and must not be combined.</p>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Employee & Under-subscription Rules</h3>
+                <div class="note-box">
+                    <strong>Employee Participation:</strong><br>
+                    • <strong>Eligibility:</strong> Min. 6 months service after confirmation.<br>
+                    • <strong>Limit:</strong> Max subscription of <strong>Tk. 10 Lakh</strong> per employee.<br>
+                    • <strong>Lock-in:</strong> Shares are locked for <strong>1 year</strong>.
+                </div>
+                <div class="highlight-box" style="background: #fee2e2; border-left-color: #ef4444; margin-top: 16px;">
+                    <strong>Critical Failure Thresholds:</strong><br>
+                    • <strong>Over-subscription:</strong> Handled via <strong>Pro-rata</strong> allotment.<br>
+                    • <strong>Minor Under-subscription:</strong> Up to 35% is picked up by Underwriters.<br>
+                    • <strong>Major Under-subscription:</strong> If <strong>above 35%</strong> (collectively or in a single category), the <strong>entire issue is cancelled</strong>.
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 21</div>
+    </footer>
+</div>
+
+<!-- Slide 22 – Lock-in Requirements -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Lock-in Requirements</h1>
+        <h2>Post-IPO Share Retention Framework</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid" style="grid-template-columns: 1.6fr 0fr;">
+            <div>
+                <table style="font-size: 10pt;">
+                    <thead>
+                        <tr style="background: var(--primary); color: white;">
+                            <th>Category of Shareholders</th>
+                            <th style="text-align:center">Period</th>
+                            <th>Legal Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background:#f0f9ff; font-weight:bold;"><td colspan="3">Long-Term (3-Year)</td></tr>
+                        <tr><td>Sponsors, Directors, & 10% + Shareholders, Shares Transferred by Sponsors/ Directors/ Group of Sponsors</td><td style="text-align:center">3 Years</td><td>Successors maintain the remaining period, Applies to transfers to any other party..</td></tr>
+                                                
+                        <tr style="background:#f0f9ff; font-weight:bold;"><td colspan="3">Medium-Term (2-Year)</td></tr>
+                        <tr><td>Any Other Person (General Provision)</td><td style="text-align:center">2 Years</td><td>Standard catch-all provision.</td></tr>
+                        <tr style="background:#f0f9ff; font-weight:bold;"><td colspan="3">Short-Term (1-Year)</td></tr>
+                        <tr><td>Shares Allotted 3+ Years before Consent, AIFs, NRBs, or Foreign Investors, Employees (under employee quota)</td><td style="text-align:center">1 Year</td><td>Excludes Sponsors and Directors.</td></tr>
+                        
+                        <tr style="background:#f0f9ff; font-weight:bold;"><td colspan="3">Book Building Specific</td></tr>
+                        <tr><td>Eligible Investors (EIs)</td><td style="text-align:center">90, 120 & 180 Days</td><td>50%, Next 25% & Rest 25% of Alloted Shares to Eligible Investors.</td></tr>
+                        
+                        <tr style="background:#f0f9ff; font-weight:bold;"><td colspan="3">Strategic Investor</td></tr>
+                        <tr><td>Strategic Investor</td><td style="text-align:center">1 or 2 year</td><td>From the date of Investment made or from 1st Trading Date (whichever is later)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 22</div>
+    </footer>
+</div>
+
+<!-- Slide 23 – Fees of Public Offer -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Fees of Public Offer</h1>
+        <h2>IPO/RPO Comparison: Fixed Price vs. Book Building</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Primary Regulatory & Management Fees</h3>
+                <table style="font-size: 9pt;">
+                    <thead>
+                        <tr style="background: var(--primary); color: white;">
+                            <th>Type of Fee</th>
+                            <th style="text-align:center">Fixed Price Method</th>
+                            <th style="text-align:center">Book Building Method</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Issue Management</strong></td><td style="text-align:center">1% of PO or Tk. 25 Lac*</td><td style="text-align:center">1% of PO or Tk. 30 Lac*</td></tr>
+                        <tr><td><strong>BSEC Application</strong></td><td style="text-align:center">Tk. 50,000 (Non-ref)</td><td style="text-align:center">Tk. 50,000 (Non-ref)</td></tr>
+                        <tr><td><strong>BSEC Consent</strong></td><td style="text-align:center">0.30% of PO Amount</td><td style="text-align:center">0.30% of PO Amount**</td></tr>
+                        <tr style="background:#f8fafc;"><td><strong>Exchange & CDBL</strong></td><td colspan="2" style="text-align:center">As per respective Listing Regulations</td></tr>
+                    </tbody>
+                </table>
+                <p style="font-size: 9pt; color: #64748b; margin-top: 8px;">*Whichever is higher. | **Including Premium.</p>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Underwriting & Monitoring</h3>
+                <div class="note-box">
+                    <strong>Underwriting Fees (Max 0.5%):</strong><br>
+                    • <strong>Fixed Price:</strong> On 35% of total public offer.<br>
+                    • <strong>Book Building:</strong> On 35% of MF and General Investor portion (inc. premium).
+                </div>
+                <div class="highlight-box" style="margin-top: 16px;">
+                    <strong>Monitoring Fee:</strong><br>
+                    <strong>0.15%</strong> of the un-utilized amount of the public issue proceeds.
+                </div>
+                <p style="font-size: 10pt; margin-top: 16px;"><em>Note: ESS fees and other contractual costs are variable and subject to Commission approval.</em></p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 23</div>
+    </footer>
+</div>
+
+<!-- Slide 24 – Final Regulatory Provisions -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Final Regulatory Provisions</h1>
+        <h2>Integrity, Authority & Transition to 2025 Rules</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Integrity & Penalties</h3>
+                <ul>
+                    <li><strong>Prohibition:</strong> No person shall submit any info, report, or due diligence certificate that is known to be <strong>false or untrue</strong> in any material particular.</li>
+                    <li><strong>BSEC Enforcement:</strong> Contravention, including suppression of facts or misleading statements, triggers penal actions under the <strong>Securities and Exchange Ordinance, 1969</strong>.</li>
+                </ul>
+                <h3 style="color: var(--secondary); margin: 16px 0 8px;">Commission's Finality</h3>
+                <div class="highlight-box">
+                    <strong>Final Authority:</strong> In case of any ambiguity, confusion, or difference of opinion regarding these Rules, the <strong>decision of the Commission (BSEC)</strong> shall be final and binding on all parties.
+                </div>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); margin-bottom: 8px;">Repeal & Savings</h3>
+                <ul>
+                    <li><strong>Repeal:</strong> The Public Issue Rules, 2015 are hereby repealed.</li>
+                    <li><strong>Transition:</strong> Applications submitted under the 2015 Rules are now treated as filed under the <strong>2025 Rules</strong>. Issuers must update applications to meet new requirements.</li>
+                    <li><strong>Savings Clause:</strong> Consents, fees, and resolutions under the 2015 Rules remain valid as if done under the new framework.</li>
+                </ul>
+                <div class="note-box" style="margin-top: 16px;">
+                    <strong>Note:</strong> All concerned parties (Issuers, IMs, Auditors) must ensure immediate compliance with updated disclosure and fee structures.
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 24</div>
+    </footer>
+</div>
+<!-- Slide - Required Documentation -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Required Documentation</h1>
+        <h2>Corporate, Legal & Financial Foundation</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); font-size: 11pt; margin: 0 0 8px 0;">Corporate & Legal (RJSC Certified)</h3>
+                <ul>
+                    <li><strong>Foundation:</strong> MoA, AoA, Incorporation, and Commencement Certificates.</li>
+                    <li><strong>Consents:</strong> Board minutes for capital raise and signed Director Consents.</li>
+                    <li><strong>Identity:</strong> NIDs/Passports of Directors, MD, CFO, and CS.</li>
+                    <li><strong>Returns:</strong> Certified Return of Allotment and Particulars of Directors.</li>
+                    <li><strong>Assets:</strong> Vendor agreements and title deeds for capital raised in kind.</li>
+                </ul>
+
+                <h3 style="color: var(--secondary); font-size: 11pt; margin: 20px 0 8px 0;">Financial Position & Borrowings</h3>
+                <ul>
+                    <li><strong>Loan Docs:</strong> Sanction letters and full loan/advance disclosures.</li>
+                    <li><strong>Capital Proof:</strong> Banker/Auditor certificates with bank statements.</li>
+                    <li><strong>BB Compliance:</strong> CIB Undertakings for all Directors and >10% Shareholders.</li>
+                    <li><strong>History:</strong> Audited FS for the last 5 years + Sec 135 Certificate.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); font-size: 11pt; margin: 0 0 8px 0;">Asset, Property & Projects</h3>
+                <ul>
+                    <li><strong>Property:</strong> Title deeds, current rent receipts, and leasehold documents.</li>
+                    <li><strong>Machinery:</strong> Detailed list (Purchase price, WDV, PSI certificates for imports). <em>Note: Reconditioned items require a global life-cycle certificate.</em></li>
+                    <li><strong>Projections:</strong> 3-year projected FS considering fund utilization.</li>
+                    <li><strong>Feasibility:</strong> Reports by eligible professionals for green-field projects + funding contracts for extra capital requirements.</li>
+                </ul>
+                <div class="note-box" style="margin-top: 16px;">
+                    <strong>Compliance Status:</strong> Must include CG Code Compliance Report, Tax Holiday letters, and NBR VAT/Tax status docs.
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 25</div>
+    </footer>
+</div>
+
+<!-- Slide - Auditor Certified Disclosures -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Auditor Certified Disclosures</h1>
+        <h2>Granular Financial Verification (Last 5 Years)</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); font-size: 11pt; margin: 0 0 8px 0;">Operational & Asset Statements</h3>
+                <ul>
+                    <li><strong>Borrowings:</strong> Detailed short/long-term debt (secured/unsecured) and related party loans.</li>
+                    <li><strong>Inventory:</strong> Break-down of raw materials vs. finished goods.</li>
+                    <li><strong>Receivables:</strong> Trade receivables and all loans given by the issuer.</li>
+                    <li><strong>Turnover:</strong> Revenue breakdown (Cash vs. Banking Channel).</li>
+                    <li><strong>Related Parties:</strong> Full statement of all related party transactions.</li>
+                </ul>
+
+                <h3 style="color: var(--secondary); font-size: 11pt; margin: 20px 0 8px 0;">Banking & Statutory Agreements</h3>
+                <ul>
+                    <li><strong>Escrow:</strong> Banker's letter for the separate Public Issue account.</li>
+                    <li><strong>Offer Agreements:</strong> Signed contracts with IM, Registrar, Underwriters, and ESS providers.</li>
+                    <li><strong>Annexure J:</strong> Additional compliance docs if issuing Preference Shares.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); font-size: 11pt; margin: 0 0 8px 0;">The "Transparency" Reconciliations</h3>
+                <div class="highlight-box">
+                    <p style="font-weight: bold; margin: 0 0 10px 0;">Mandatory Auditor Confirmations:</p>
+                    <ul>
+                        <li><strong>Tax Sync:</strong> Reconciliation of business income in tax returns vs. net income in Audited FS.</li>
+                        <li><strong>Banking Rule:</strong> Certification that all receipts/payments above <strong>Tk. 5,00,000/-</strong> were made via banking channels.</li>
+                        <li><strong>Books vs. Bank:</strong> Confirmation that Bank Statements conform exactly with books of accounts.</li>
+                        <li><strong>Payment Status:</strong> Current standing of all TAX, VAT, and other statutory duties.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 26</div>
+    </footer>
+</div>
+
+<!-- Slide - Valuation Justification -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Valuation Justification</h1>
+        <h2>Pricing Framework & Regulatory Constraints</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); font-size: 11pt; margin: 0 0 8px 0;">Mandatory Valuation Mix</h3>
+                <p style="font-size: 10.5pt; margin: 8px 0;">The Issue Manager must justify the price using at least <strong>four (4)</strong> methods:</p>
+                
+                <table>
+                    <thead>
+                        <tr style="background: var(--primary); color: white;">
+                            <th>Category</th>
+                            <th>Recognized Methods</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Absolute (Min. 2)</strong></td>
+                            <td>DCFM, DDM, Residual Income (RIM), Asset Based Model</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Relative (Min. 2)</strong></td>
+                            <td>P/E, P/B, P/Sales, P/EBITDA (for capital intensive firms)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="color: var(--secondary); font-size: 11pt; margin: 20px 0 8px 0;">Methodology Rules</h3>
+                <ul>
+                    <li><strong>Fixed Price Cap:</strong> Offer price cannot exceed the <strong>Net Asset Value (NAV)</strong> per share at historical/current cost.</li>
+                    <li><strong>Book Building:</strong> Indicative price must be justified by the full 4-method suite.</li>
+                    <li><strong>Revaluation:</strong> Any asset revaluation must follow specific BSEC guidelines.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); font-size: 11pt; margin: 0 0 8px 0;">Constraint Guidelines</h3>
+                <div class="note-box" style="margin-top: 12px;">
+                    <strong>Absolute Constraints:</strong>
+                    <ul>
+                        <li><strong>Discount Rate:</strong> Min. 10-year Treasury Bond yield.</li>
+                        <li><strong>Growth Rate:</strong> Max. avg growth of last 5 years.</li>
+                    </ul>
+
+                    <strong style="margin-top: 12px; display: block;">Relative Constraints:</strong>
+                    <ul>
+                        <li><strong>Peers:</strong> Must use legitimate local or US SEC (SIC Code) classifications.</li>
+                        <li><strong>P/E Ratio:</strong> Avg of last 12 months' Industry P/E or Market P/E (whichever is <strong>lower</strong>).</li>
+                    </ul>
+                </div>
+                <p style="font-size: 10pt; font-style: italic; margin-top: 16px;">
+                    Note: If alternative methods are used, the Issue Manager must adopt a strictly conservative approach.
+                </p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 27</div>
+    </footer>
+</div>
+
+<!-- Slide - Mandatory Ratio Analysis -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Mandatory Ratio Analysis</h1>
+        <h2>Liquidity, Activity & Profitability Metrics</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); font-size: 12pt; margin: 0 0 12px 0; border-bottom: 2px solid var(--accent);">Liquidity & Efficiency</h3>
+                <table>
+                    <thead>
+                        <tr style="background: var(--primary); color: white;">
+                            <th>Ratio Type</th>
+                            <th>Formula (Text Format)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Current Ratio</strong></td><td>Current Assets / Current Liabilities</td></tr>
+                        <tr><td><strong>Quick Ratio</strong></td><td>(Current Assets - Inventory) / Current Liabilities</td></tr>
+                        <tr><td><strong>A/R Turnover</strong></td><td>Net Credit Sales / Average Accounts Receivable</td></tr>
+                        <tr><td><strong>Inventory Turnover</strong></td><td>Cost of Goods Sold / Average Inventory</td></tr>
+                        <tr><td><strong>Asset Turnover</strong></td><td>Net Sales / Average Total Assets</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <h3 style="color: var(--secondary); font-size: 12pt; margin: 0 0 12px 0; border-bottom: 2px solid var(--accent);">Profitability & Margins</h3>
+                <div class="highlight-box">
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li><strong>Gross Margin (%)</strong> <span style="float:right;">(Gross Profit / Net Sales) x 100</span></li>
+                        <li><strong>Operating Profit (%)</strong> <span style="float:right;">(Operating Income / Net Sales) x 100</span></li>
+                        <li><strong>Net Profit Ratio (%)</strong> <span style="float:right;">(Net Income / Net Sales) x 100</span></li>
+                        <li><strong>ROA / ROE</strong> <span style="float:right;">Net Income / Avg. Assets (or Equity)</span></li>
+                        <li><strong>EBITDA Margin (%)</strong> <span style="float:right;">(EBITDA / Net Sales) x 100</span></li>
+                    </ul>
+                </div>
+                <p style="font-size: 9pt; font-style: italic; margin-top: 20px; color: #475569;">
+                    Note: All profitability metrics must be calculated based on the audited financial statements of the latest period.
+                </p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 28</div>
+    </footer>
+</div>
+
+<!-- Slide - Solvency & Cash Flow Metrics -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Solvency & Cash Flow Metrics</h1>
+        <h2>Debt Coverage & Earnings Quality</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); font-size: 12pt; margin: 0 0 12px 0; border-bottom: 2px solid var(--accent);">Solvency & Leverage</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li><strong>Debt to Total Assets:</strong><br><code>Total Debt / Total Assets</code></li>
+                    <li><strong>Debt to Equity:</strong><br><code>Total Liabilities / Total Shareholders' Equity</code></li>
+                    <li><strong>Times Interest Earned:</strong><br><code>EBIT / Interest Expense</code></li>
+                    <li><strong>Debt Service Coverage (DSCR):</strong><br><code>Net Operating Income / Total Debt Service</code></li>
+                </ul>
+                <div class="note-box" style="margin-top: 20px;">
+                    <strong>Regulatory Note:</strong> These ratios are mandatory for the Credit Rating Agency's assessment of long-term solvency and repayment capacity.
+                </div>
+            </div>
+
+            <div>
+                <h3 style="color: var(--secondary); font-size: 12pt; margin: 0 0 12px 0; border-bottom: 2px solid var(--accent);">Earnings & Cash Flow Quality</h3>
+                <table>
+                    <thead>
+                        <tr style="background: var(--primary); color: white;">
+                            <th>Metric</th>
+                            <th>Formula (Text Format)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>EPS</strong></td><td>(Net Income - Preferred Dividends) / Weighted Avg. Common Shares</td></tr>
+                        <tr><td><strong>NOCFPS</strong></td><td>Net Operating Cash Flow / Weighted Avg. Common Shares</td></tr>
+                        <tr style="background: #fffbeb;"><td><strong>Earnings Quality</strong></td><td>NOCFPS / EPS</td></tr>
+                    </tbody>
+                </table>
+                <div class="highlight-box" style="margin-top: 20px;">
+                    <strong>Insight:</strong> A ratio of 1.0 or higher suggests high-quality earnings, meaning profits are fully realized in cash rather than just accounting entries.
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 29</div>
+    </footer>
+</div>
+
+<!-- Slide - Anatomy of a Prospectus (Part 1) -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Anatomy of a Prospectus</h1>
+        <h2>Core Disclosures & Legal Framework</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); font-size: 11pt; margin: 0 0 8px 0;">1. Executive & Legal Foundation</h3>
+                <ul>
+                    <li><strong>Executive Summary:</strong> High-level overview of the offer.</li>
+                    <li><strong>BSEC Conditions:</strong> Full text of conditions imposed in the Consent Letter.</li>
+                    <li><strong>Due Diligence (Annexures):</strong> Mandatory declarations by the <strong>Issuer (A)</strong>, <strong>Issue Manager (B)</strong>, and <strong>Underwriters (C)</strong>.</li>
+                </ul>
+
+                <h3 style="color: var(--secondary); font-size: 11pt; margin: 20px 0 8px 0;">2. Issuer Profile & Governance</h3>
+                <ul>
+                    <li><strong>Corporate Directory:</strong> Details of the Issuer and contractual parties.</li>
+                    <li><strong>Management:</strong> Profiles of Directors, Shariah Board (if any), and Key Officers.</li>
+                    <li><strong>Governance:</strong> Ownership structure and Corporate Governance Compliance Declaration.</li>
+                    <li><strong>Compensation:</strong> Executive pay and options granted to staff/officers.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); font-size: 11pt; margin: 0 0 8px 0;">3. Business & Financial Analysis</h3>
+                <div class="note-box">
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li><strong>● Business Description:</strong> Detailed operational plan and history.</li>
+                        <li><strong>● Management Discussion (MD&A):</strong> In-depth analysis of financial condition and results.</li>
+                        <li><strong>● Related Party Transactions:</strong> Disclosures of relationships with Directors and affiliates.</li>
+                        <li><strong>● Material Contracts:</strong> Review of significant legal obligations and litigations.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 30</div>
+    </footer>
+</div>
+
+<!-- Slide - Anatomy of a Prospectus (Part 2) -->
+<div class="slide">
+    <div class="top-accent"></div>
+    <header>
+        <h1>Anatomy of a Prospectus</h1>
+        <h2>Pricing, Risk & Issue Logistics</h2>
+    </header>
+    <div class="content">
+        <div class="layout-grid">
+            <div>
+                <h3 style="color: var(--secondary); font-size: 11pt; margin: 0 0 8px 0;">4. Pricing & Capital Structure</h3>
+                <ul>
+                    <li><strong>Capital Structure:</strong> Details of existing and post-offer shareholding.</li>
+                    <li><strong>Valuation Report:</strong> Justification of price prepared by the Issue Manager.</li>
+                    <li><strong>Underwriting:</strong> Specifics of underwriting agreements and commitments.</li>
+                    <li><strong>Credit Rating:</strong> Status of the issuer and the Rating Company’s report.</li>
+                </ul>
+
+                <h3 style="color: var(--secondary); font-size: 11pt; margin: 20px 0 8px 0;">5. The Offering & Use of Funds</h3>
+                <ul>
+                    <li><strong>Use of Proceeds:</strong> Granular breakdown of how funds will be spent.</li>
+                    <li><strong>Description of Issue:</strong> Type and market for the securities being offered.</li>
+                    <li><strong>Lock-in:</strong> Detailed schedule of share retention periods.</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--secondary); font-size: 11pt; margin: 0 0 8px 0;">6. Risk, Audit & Compliance</h3>
+                <div class="highlight-box">
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li>⚠️ <strong>Risk Factors:</strong> Comprehensive list of risks and management's mitigation strategies.</li>
+                        <li>📊 <strong>Financials:</strong> Audited Statements <strong>not older than 90 days</strong> from submission.</li>
+                        <li>📝 <strong>Application:</strong> Step-by-step Public Issue Application Procedure.</li>
+                        <li>🔍 <strong>Others:</strong> BSEC-mandated clarifications or public queries.</li>
+                    </ul>
+                </div>
+                <p style="font-size: 9pt; font-style: italic; margin-top: 20px; color: #475569;">
+                    All 34 particulars are mandatory. Omission of any section may result in the rejection of the application under Rule 2025.
+                </p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">BSEC Public Issue Rules 2025</div>
+        <div class="footer-right">Slide 31</div>
+    </footer>
+</div>
+
+<div class="slide">
+    <div class="top-accent"></div>
+    <div style="flex:1; display:flex; align-items:center; justify-content:center; text-align:center; padding:40px;">
+        <div>
+            <h1 style="font-size:48pt; margin-bottom:24px;">Thank You</h1>
+            <p style="font-size:24pt; color:var(--accent);">Syed Al Imran</p>
+            <p style="font-size:18pt; margin-top:32px;">IIDFC Capital Limited</p>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-left">Public Issue Rules 2025</div>
+        <div class="footer-right">End</div>
+    </footer>
+</div>
+-->
+
+</body>
+</html>

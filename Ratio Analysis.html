@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Ratio Analysis Report By_Syed Al Imran</title>
+    <style>
+        :root { 
+            --primary: #1a2a3a; 
+            --secondary: #4a5a6a; 
+            --accent: #2980b9; 
+            --success: #27ae60; 
+            --warning: #e67e22;
+            --danger: #c0392b;
+            --bg: #f8f9fa;
+        }
+
+        body { font-family: 'Segoe UI', Calibri, sans-serif; margin: 0; padding: 0; background: var(--bg); color: #333; }
+        .container { width: 100%; max-width: 1400px; margin: 0 auto; background: white; padding: 20px; box-sizing: border-box; }
+        
+        .report-header { text-align: center; margin-bottom: 20px; border-bottom: 3px solid var(--primary); padding-bottom: 10px; }
+        h1 { font-size: 24px; color: var(--primary); margin: 0; text-transform: uppercase; }
+        .company-display { font-size: 20px; font-weight: bold; color: var(--accent); margin-top: 5px; min-height: 24px; }
+        .sub-header { font-size: 13px; color: var(--secondary); margin-top: 5px; }
+        
+        .no-print-zone { background: #fff; padding: 20px; border-bottom: 2px solid #ddd; margin-bottom: 20px; }
+        .controls { display: flex; gap: 30px; align-items: center; background: #eef2f3; padding: 15px; border-radius: 8px; flex-wrap: wrap; }
+        .main-input { padding: 8px; border: 2px solid var(--accent); border-radius: 4px; font-weight: bold; width: 300px; }
+        button { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; table-layout: fixed; background: white; page-break-inside: auto; }
+        tr { page-break-inside: avoid; }
+        th, td { border: 1px solid #c0c0c0; padding: 8px; font-size: 11px; text-align: right; }
+        th { background: var(--secondary); color: white; text-align: center; }
+        thead { display: table-header-group; } 
+        
+        .label-cell { text-align: left; background: #f2f4f6; font-weight: bold; width: 220px; color: var(--primary); }
+        .hint-text { font-size: 9px; color: var(--accent); display: block; margin-top: 1px; font-weight: normal; }
+        .cat-row { background: #dcdde1 !important; font-weight: bold; text-align: left; color: #000; font-size: 12px; }
+        .result-val { font-weight: bold; color: var(--success); }
+
+        .analysis-container { margin-top: 20px; padding: 20px; border: 2px solid var(--primary); border-radius: 8px; background: #fff; }
+        .analysis-title { font-weight: bold; color: var(--primary); font-size: 16px; border-bottom: 1px solid #ccc; margin-bottom: 10px; padding-bottom: 5px; }
+        .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .analysis-item { font-size: 12px; line-height: 1.5; color: #444; }
+        .status-badge { font-weight: bold; padding: 2px 6px; border-radius: 3px; font-size: 10px; color: white; text-transform: uppercase; }
+
+        input { width: 95%; padding: 4px; border: 1px solid #ccc; border-radius: 3px; text-align: right; }
+        input[type="date"] { text-align: center; }
+
+        .report-footer { margin-top: 20px; text-align: center; font-size: 11px; font-weight: bold; border-top: 2px solid var(--primary); padding-top: 10px; }
+
+        @media print {
+            @page { size: A4 landscape; margin: 1cm; }
+            body { background: white; }
+            .no-print-zone { display: none; }
+            .page-break { page-break-before: always; }
+            .container { box-shadow: none; width: 100%; max-width: 100%; padding: 0; }
+            input { border: none; background: transparent; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="no-print-zone">
+    <div class="controls">
+        <div>
+            <label><strong>Company Name:</strong></label>
+            <input type="text" id="compNameInput" class="main-input" placeholder="Enter Company Name..." oninput="syncName()">
+        </div>
+        <div>
+            <label><strong>FS Data Years:</strong></label>
+            <select id="yearCount" onchange="init()" style="padding: 8px;">
+                <option value="3">3 Years</option>
+                <option value="4">4 Years</option>
+                <option value="5">5 Years</option>
+                <option value="6" selected>6 Years</option>
+            </select>
+        </div>
+        <button onclick="window.print()">Print/Save A4 Landscape Report</button>
+    </div>
+</div>
+
+<div class="container">
+    <div id="page1">
+        <div class="report-header">
+            <h1>Financial Information</h1>
+            <div class="company-display" id="disp_name1">---</div>
+            <div class="sub-header">Designed By: <strong>IIDFC Capital Limited_Corporate Advisory Team</strong></div>
+        </div>
+        <table id="inputTable">
+            <thead id="inputHead"></thead>
+            <tbody id="inputBody"></tbody>
+        </table>
+    </div>
+
+    <div id="page2" class="page-break">
+        <div class="report-header">
+            <h1>Details Ratio Calculations & Formulas</h1>
+            <div class="company-display" id="disp_name2">---</div>
+            <div class="sub-header">Calculation Sheet - Detailed</div>
+        </div>
+        <table id="calcTable">
+            <thead id="calcHead"></thead>
+            <tbody id="calcBody"></tbody>
+        </table>
+    </div>
+
+    <div id="page3" class="page-break">
+        <div class="report-header">
+            <h1>Multi-year Ratio Analysis Report</h1>
+            <div class="company-display" id="disp_name3">---</div>
+            <div class="sub-header">Executive Performance Summary</div>
+        </div>
+        <table id="resultTable">
+            <thead id="resultHead"></thead>
+            <tbody id="resultBody"></tbody>
+        </table>
+
+        <div class="analysis-container">
+            <div class="analysis-title">Financial Status Based on the report above</div>
+            <div class="analysis-grid" id="analysisContent"></div>
+        </div>
+
+        <div class="report-footer">Developed By: Syed Al Imran</div>
+    </div>
+</div>
+
+<script>
+    function syncName() {
+        const name = document.getElementById('compNameInput').value || "---";
+        document.getElementById('disp_name1').innerText = name;
+        document.getElementById('disp_name2').innerText = name;
+        document.getElementById('disp_name3').innerText = name;
+    }
+
+    const inputs = [
+        { id: 'date', label: 'FS Date (Year End)', type: 'date' },
+        { id: 'rev', label: 'Total Revenue', type: 'number' },
+        { id: 'cogs', label: 'COGS', type: 'number' },
+        { id: 'gp', label: 'Gross Profit', type: 'number' },
+        { id: 'ebit', label: 'EBIT (Operating Profit)', type: 'number' },
+        { id: 'ebitda', label: 'EBITDA', type: 'number' },
+        { id: 'int', label: 'Interest Expense', type: 'number' },
+        { id: 'ni', label: 'Net Income', type: 'number' },
+        { id: 'ar', label: 'Accounts Receivable', type: 'number' },
+        { id: 'inv', label: 'Inventory', type: 'number' },
+        { id: 'cash', label: 'Cash & Equivalents', type: 'number' },
+        { id: 'oca', label: 'Other Current Assets', type: 'number' },
+        { id: 'ta', label: 'Total Assets', type: 'number' },
+        { id: 'tcl', label: 'Total Current Liab.', type: 'number' },
+        { id: 'tl', label: 'Total Liabilities', type: 'number' },
+        { id: 'se', label: 'Shareholders Equity', type: 'number' },
+        { id: 'nocf', label: 'Net Operating CF', type: 'number' },
+        { id: 'ds', label: 'Debt Service (P+I)', type: 'number' },
+        { id: 'shares', label: 'Total Shares', type: 'number' }
+    ];
+
+    const ratios = [
+        { cat: 'Operating Efficiency Ratios' },
+        { id: 'art', label: 'Accounts Receivable Turnover', hint: 'Revenue / Avg Accounts Receivable', calc: (i, c, g) => g('rev',i) / ((i<c)?(g('ar',i)+g('ar',i+1))/2:g('ar',i)) },
+        { id: 'invt', label: 'Inventory Turnover', hint: 'COGS / Avg Inventory', calc: (i, c, g) => g('cogs',i) / ((i<c)?(g('inv',i)+g('inv',i+1))/2:g('inv',i)) },
+        { id: 'at', label: 'Asset Turnover Ratio', hint: 'Revenue / Avg Assets', calc: (i, c, g) => g('rev',i) / ((i<c)?(g('ta',i)+g('ta',i+1))/2:g('ta',i)) },
+        { cat: 'Liquidity Ratios' },
+        { id: 'cr', label: 'Current Ratio', hint: 'Curr Assets / Curr Liab', calc: (i, c, g) => (g('cash',i)+g('ar',i)+g('inv',i)+g('oca',i)) / g('tcl',i) },
+        { id: 'qr', label: 'Quick Ratio', hint: '(Cash + AR) / Curr Liab', calc: (i, c, g) => (g('cash',i)+g('ar',i)) / g('tcl',i) },
+        { cat: 'Profitability Ratios' },
+        { id: 'gm', label: 'Gross Margin Ratio', hint: 'GP / Revenue', calc: (i, c, g) => (g('gp',i)/g('rev',i))*100, unit: '%' },
+        { id: 'opr', label: 'Operating Profit Ratio', hint: 'EBIT / Revenue', calc: (i, c, g) => (g('ebit',i)/g('rev',i))*100, unit: '%' },
+        { id: 'np', label: 'Net Profit Ratio', hint: 'NI / Revenue', calc: (i, c, g) => (g('ni',i)/g('rev',i))*100, unit: '%' },
+        { id: 'roe', label: 'Return on Equity (ROE)', hint: 'NI / Equity', calc: (i, c, g) => (g('ni',i)/g('se',i))*100, unit: '%' },
+        { id: 'roa', label: 'Return on Asset (ROA)', hint: 'NI / Total Assets', calc: (i, c, g) => (g('ni',i)/g('ta',i))*100, unit: '%' },
+        { id: 'eps', label: 'Earnings Per Share (EPS)', hint: 'NI / Shares', calc: (i, c, g) => g('ni',i)/g('shares',i) },
+        { id: 'ebitdam', label: 'EBITDA Margin Ratio', hint: 'EBITDA / Revenue', calc: (i, c, g) => (g('ebitda',i)/g('rev',i))*100, unit: '%' },
+        { cat: 'Solvency & Cash Flow Ratios' },
+        { id: 'de', label: 'Debt to Equity Ratio', hint: 'Total Liab / Equity', calc: (i, c, g) => g('tl',i)/g('se',i) },
+        { id: 'dta', label: 'Debt to Total Asset Ratio', hint: 'Total Liab / Assets', calc: (i, c, g) => g('tl',i)/g('ta',i) },
+        { id: 'tie', label: 'Times Interest Earned', hint: 'EBIT / Interest', calc: (i, c, g) => g('ebit',i)/g('int',i) },
+        { id: 'dsr', label: 'Debt Service Ratio (DSCR)', hint: 'EBIT / Debt Service', calc: (i, c, g) => g('ebit',i)/g('ds',i) },
+        { id: 'nocfps', label: 'Net Operating CF Per Share', hint: 'NOCF / Shares', calc: (i, c, g) => g('nocf',i)/g('shares',i) },
+        { id: 'neps', label: 'NOCFPS to EPS Ratio', hint: 'NOCFPS / EPS', calc: (i, c, g) => (g('nocf',i)/g('shares',i)) / (g('ni',i)/g('shares',i)) }
+    ];
+
+    function init() {
+        const count = parseInt(document.getElementById('yearCount').value);
+        let h = `<tr><th class="label-cell">Component</th>`;
+        for(let i=1; i<=count; i++) h += `<th>Period ${i}</th>`;
+        document.getElementById('inputHead').innerHTML = h + `</tr>`;
+
+        let b = "";
+        inputs.forEach(f => {
+            b += `<tr><td class="label-cell">${f.label}</td>`;
+            for(let i=1; i<=count; i++) b += `<td><input type="${f.type}" id="${f.id}_${i}" oninput="runCalc()"></td>`;
+            b += `</tr>`;
+        });
+        document.getElementById('inputBody').innerHTML = b;
+        runCalc();
+    }
+
+    function runCalc() {
+        const count = parseInt(document.getElementById('yearCount').value);
+        const gV = (id, yr) => parseFloat(document.getElementById(`${id}_${yr}`).value) || 0;
+        const gD = (yr) => document.getElementById(`date_${yr}`).value || `Period ${yr}`;
+
+        let dh = `<tr><th class="label-cell">Ratio Descriptions</th>`;
+        for(let i=1; i<=count; i++) dh += `<th>${gD(i)}</th>`;
+        dh += `</tr>`;
+        
+        document.getElementById('calcHead').innerHTML = dh;
+        document.getElementById('resultHead').innerHTML = dh;
+
+        let cb = "", rb = "";
+        let currentValues = {}; 
+
+        ratios.forEach(r => {
+            if(r.cat) {
+                const row = `<tr class="cat-row"><td colspan="${count+1}">${r.cat}</td></tr>`;
+                cb += row; rb += row;
+            } else {
+                cb += `<tr><td class="label-cell">${r.label}<span class="hint-text">${r.hint}</span></td>`;
+                rb += `<tr><td class="label-cell">${r.label}</td>`;
+                for(let i=1; i<=count; i++) {
+                    const v = r.calc(i, count, gV);
+                    if(i === 1) currentValues[r.id] = v; 
+                    const d = (isFinite(v) && v !== 0) ? v.toFixed(2) + (r.unit || '') : '-';
+                    cb += `<td>${d}</td>`; rb += `<td class="result-val">${d}</td>`;
+                }
+                cb += `</tr>`; rb += `</tr>`;
+            }
+        });
+        document.getElementById('calcBody').innerHTML = cb;
+        document.getElementById('resultBody').innerHTML = rb;
+        
+        generateAnalysis(currentValues);
+    }
+
+    function generateAnalysis(cv) {
+        let html = "";
+        const analyze = (val, thresholds, good, bad, label) => {
+            if(!isFinite(val) || val === 0) return "";
+            const isGood = val >= thresholds;
+            const status = isGood ? `<span class="status-badge" style="background:var(--success)">Healthy</span>` : `<span class="status-badge" style="background:var(--danger)">Alert</span>`;
+            return `<div class="analysis-item"><strong>${label}:</strong> ${status}<br>${isGood ? good : bad}</div>`;
+        };
+
+        html += analyze(cv.cr, 1.2, "The entity maintains sufficient liquidity to cover short-term obligations.", "Current Ratio is below 1.2, suggesting potential short-term liquidity strain.", "Liquidity");
+        html += analyze(cv.roe, 10, "Strong Return on Equity indicates efficient utilization of shareholder capital.", "ROE is below benchmark, suggesting a need for improved profitability or capital structure.", "Profitability");
+        html += analyze(cv.de, 2, "The Debt-to-Equity ratio is within high limits, but monitor interest coverage.", "Debt-to-Equity is significantly elevated; check solvency risks.", "Solvency");
+        html += analyze(cv.tie, 3, "Earnings comfortably cover interest costs, ensuring debt sustainability.", "Low interest coverage; net earnings may be vulnerable to rate fluctuations.", "Debt Coverage");
+
+        document.getElementById('analysisContent').innerHTML = html || '<div style="text-align: justify; width: 100%;">Enter financial data to see brief analysis. Always ignor the 6th year ratio anlsysis as there are lack of information on Average Inventory and Average Receivable.</div>';
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

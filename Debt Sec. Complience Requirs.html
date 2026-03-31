@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BSEC Debt Securities Compliance Checklist_Syed Al Imran</title>
+    <style>
+        /* Corporate Branding Colors */
+        :root {
+            --primary-blue: #002D58;
+            --secondary-blue: #004a8f;
+            --border-color: #d1d9e0;
+            --row-alt: #f8fafc;
+            --text-main: #1e293b;
+        }
+
+        @page { size: A4; margin: 12mm; }
+        
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            line-height: 1.4; 
+            color: var(--text-main); 
+            margin: 0; 
+            padding: 0;
+            background-color: #f1f5f9;
+        }
+
+        .wrapper { 
+            width: 190mm; 
+            margin: 20px auto; 
+            padding: 15mm; 
+            background: #fff; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            min-height: 260mm; 
+        }
+
+        /* Professional Header */
+        .header-box { 
+            border-bottom: 4px solid var(--primary-blue); 
+            margin-bottom: 25px; 
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .header-text h1 { 
+            color: var(--primary-blue); 
+            font-size: 18pt; 
+            margin: 0; 
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+        }
+
+        .company-field { 
+            margin-top: 15px; 
+            font-size: 10pt; 
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .company-field input { 
+            width: 350px; 
+            border: none; 
+            border-bottom: 1px solid var(--border-color); 
+            padding: 4px; 
+            font-size: 10pt;
+            outline: none;
+            color: var(--primary-blue);
+        }
+
+        /* Table Styling */
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; table-layout: fixed; }
+        
+        thead { display: table-header-group; }
+        
+        th { 
+            background-color: var(--primary-blue); 
+            color: white; 
+            padding: 12px 8px; 
+            font-size: 8.5pt; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid var(--primary-blue);
+        }
+
+        td { 
+            border: 1px solid var(--border-color); 
+            padding: 10px 8px; 
+            font-size: 8.5pt; 
+            vertical-align: top; 
+            word-wrap: break-word; 
+        }
+
+        /* Zebra Striping */
+        tbody tr:nth-child(even) { background-color: var(--row-alt); }
+
+        /* Auto-adjusting Remarks */
+        .remarks-div { 
+            width: 100%; 
+            min-height: 35px; 
+            outline: none; 
+            padding: 2px;
+            font-size: 8pt;
+            white-space: pre-wrap;
+            color: #334155;
+        }
+
+        /* Status Colors */
+        .status-cell { width: 85px; text-align: center; vertical-align: middle; }
+        select { 
+            width: 100%; 
+            padding: 4px; 
+            font-weight: bold; 
+            font-size: 8pt;
+            cursor: pointer; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 3px;
+            appearance: none;
+            text-align: center;
+        }
+        
+        .bg-yes { background-color: #ecfdf5 !important; color: #065f46 !important; border-color: #a7f3d0 !important; }
+        .bg-no { background-color: #fef2f2 !important; color: #991b1b !important; border-color: #fecaca !important; }
+        .bg-na { background-color: #f8fafc !important; color: #475569 !important; border-color: #e2e8f0 !important; }
+
+        /* Footer */
+        .footer { 
+            margin-top: 30px; 
+            border-top: 1px solid var(--border-color); 
+            padding-top: 10px; 
+            display: flex;
+            justify-content: space-between;
+            font-size: 7.5pt; 
+            color: #64748b; 
+        }
+
+        .dev-note { font-weight: bold; color: var(--primary-blue); }
+
+        @media print {
+            body { background: none; }
+            .no-print { display: none; }
+            .wrapper { width: 100%; padding: 0; box-shadow: none; margin: 0; }
+            tr { page-break-inside: avoid; }
+            th { -webkit-print-color-adjust: exact; }
+            select { border: none; background: transparent !important; }
+        }
+    </style>
+    <script>
+        function updateStatusColor(select) {
+            select.classList.remove('bg-yes', 'bg-no', 'bg-na');
+            if (select.value === 'Yes') select.classList.add('bg-yes');
+            else if (select.value === 'No') select.classList.add('bg-no');
+            else if (select.value === 'N/A') select.classList.add('bg-na');
+        }
+    </script>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="no-print" style="text-align: right; margin-bottom: 15px;">
+        <button onclick="window.print()" style="padding: 10px 20px; background: var(--primary-blue); color: white; border: none; cursor: pointer; border-radius: 5px; font-weight: 600;">Download / Print Report</button>
+    </div>
+
+    <div class="header-box">
+        <div class="header-text">
+            <h1>Compliance Checklist</h1>
+            <div style="color: var(--secondary-blue); font-size: 10pt; font-weight: bold; margin-top: 4px;">Debt Securities Issue (BSEC Rules)</div>
+            <div class="company-field">
+                NAME OF THE COMPANY: <input type="text" placeholder="Click to type issuer name...">
+            </div>
+        </div>
+        <div style="text-align: right; font-size: 8pt; color: #64748b;">
+           </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 48%;">Requirement for Debt Issue</th>
+                <th style="width: 12%;">Rule Ref.</th>
+                <th style="width: 14%;">Status</th>
+                <th style="width: 26%;">Remarks / Observations</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Good track record of profitability/liquidity from net operating cash flow </td><td>3(1)(a)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Forecasted financials for new/green-field projects show profitability/payback </td><td>3(1)(a)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Issue rated by registered credit rating company </td><td>3(1)(b)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Valid enforceable legal interest over assets to create charges </td><td>3(1)(c)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Appointment of a registered Trustee </td><td>3(1)(d)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Rating not below Triple 'BBB' (Long-term) and 'ST-3' (Short-term) </td><td>3(1)(e)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Financials per IFRS and audited per IFRS, ISA standards </td><td>3(1)(f)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>ISBS financial reporting follows AAOIFI standards </td><td>3(1)(f)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Board of Directors/Governing Body approval for the issue </td><td>3(1)(g)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Immediate PSI dissemination of Board decision (if listed) </td><td>3(1)(h)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Proceeds not used for related-party loans or share acquisition </td><td>3(1)(i)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Issuer/Directors/Sponsors/CEO are not bank defaulters (CIB Check) </td><td>3(1)(j)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Submit a copy of resolution of the board of directors or the governing body (submission guarantee) </td><td>3(1)(k)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Sumbit a due Diligence Certificate by the Trusty</td><td>3(1)(l)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+
+            <tr><td>Min Equity: Tk. 30 Crore (Excl. Revaluation) for Public Ltd Company </td><td>3(2)(a)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Total Debt &le; 70% of total tangible assets (Exceptions for Banks/FIs) </td><td>3(2)(b)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>At least 90% utilization of previous capital funds </td><td>3(2)(c)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Parent company guarantee provided if issuer is a subsidiary </td><td>3(2)(d)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Latest audit performed by BSEC Panel Auditor </td><td>3(2)(e)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Public Offer Rating: Min Single 'A' (Long) / 'ST-2' (Short) </td><td>3(2)(f)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+
+            <tr><td>Simultaneous submission to BSEC and Stock Exchange (if listing) </td><td>4(1)(a)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Application fee of Tk. 10,000 paid via bank draft/PO </td><td>4(1)(b)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Submission of IM (Schedule B) and Due Diligence (Trustee) </td><td>4(1)(c)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Mandatory issuance in Dematerialized form </td><td>4(1)(d)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+
+            <tr><td>Special Resolution (75% majority) for conversion features</td><td>4(2)(b)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Conversion option not exercisable within first 2 years </td><td>4(4)(b)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Annual conversion limit: Max 30% of issue size per year </td><td>4(4)(c)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Total conversion limit: Max 60% of pre-issue paid-up capital </td><td>4(4)(c)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Directors/Sponsors post-conversion shareholding at least @30% </td><td>4(4)(c)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Distribution ratio for Listed Company (Conversion or Exchange Option) 40% to Existing Shareholder as Right, Maximum 30% on Private Offer, at least 30% shall be resurved for Public Issue </td><td>4(4)(d)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+
+            <tr><td>Funds raised for Green/Blue projects kept in Escrow/Bank A/C </td><td>4(3)(f)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+            <tr><td>Half-yearly reporting on project implementation/fund utilization </td><td>4(3)(g)</td>
+                <td class="status-cell"><select onchange="updateStatusColor(this)"><option>Select</option><option>Yes</option><option>No</option><option>N/A</option></select></td>
+                <td><div class="remarks-div" contenteditable="true"></div></td></tr>
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <div><em>* Regulatory Reference: Notification NO. BSEC/CMRRCD/2020-373/13/Admin/119.</em></div>
+        <div class="dev-note">Compliance Officer: Syed Al Imran</div>
+    </div>
+</div>
+
+</body>
+</html>

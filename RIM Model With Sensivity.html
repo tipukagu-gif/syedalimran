@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Residual Income Model (RIM)_By SA Imran</title>
+    <style>
+        :root {
+            --iidfc-green: #1a472a;
+            --corporate-blue: #2c3e50;
+            --accent-gold: #d4af37;
+            --light-bg: #f4f7f6;
+        }
+
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--light-bg); padding: 20px; color: #333; }
+        .container { max-width: 1100px; margin: auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        header { text-align: center; border-bottom: 3px solid var(--iidfc-green); margin-bottom: 30px; padding-bottom: 10px; }
+        header h1 { color: var(--corporate-blue); margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+        header p { color: var(--iidfc-green); font-weight: bold; margin: 5px 0; }
+
+        .section-header { background: var(--corporate-blue); color: white; padding: 10px 15px; margin: 25px 0 15px; border-radius: 4px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .field { display: flex; flex-direction: column; }
+        label { font-weight: bold; font-size: 11px; margin-bottom: 5px; color: #666; text-transform: uppercase; }
+        input { padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        input:focus { border-color: var(--iidfc-green); outline: none; }
+
+        .btn-group { display: flex; gap: 15px; margin: 30px 0; }
+        button { flex: 1; padding: 15px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+        .calc-btn { background: var(--iidfc-green); color: white; }
+        .print-btn { background: var(--corporate-blue); color: white; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+        th, td { padding: 12px; border: 1px solid #eee; text-align: right; }
+        th { background: #f8f9fa; color: var(--corporate-blue); }
+        
+        .summary-card { margin-top: 30px; padding: 30px; background: #f0f4f1; border: 2px solid var(--iidfc-green); border-radius: 10px; text-align: center; }
+        .intrinsic-price { font-size: 52px; color: var(--iidfc-green); font-weight: 800; margin: 10px 0; }
+
+        .sens-table th { background: var(--corporate-blue); color: white; text-align: center; }
+        .base-case { background: #fff9c4 !important; font-weight: bold; border: 2px solid var(--accent-gold) !important; }
+
+        .hint-box { background: #fffde7; border-left: 5px solid var(--accent-gold); padding: 20px; margin-top: 25px; font-size: 13px; line-height: 1.6; }
+        .formula { font-family: 'Courier New', monospace; background: #eee; padding: 2px 5px; }
+
+        @media print { .btn-group, .hint-box { display: none; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Residual Income Model (RIM) Calculator</h1>
+        <p>IIDFC Capital Limited | Research & Advisory Team</p>
+    </header>
+
+    <div class="section-header">1. Company Information & Assumptions</div>
+    <div class="input-grid">
+        <div class="field"><label>Name of the Company</label><input type="text" value=""></div>
+        <div class="field"><label>Current Book Value Per Share</label><input type="number" id="bvps" value=""></div>
+        <div class="field"><label>Cost of Equity (Ke) %</label><input type="number" id="ke" value="" step="0.1"></div>
+        <div class="field"><label>Long-term Growth (g) %</label><input type="number" id="growth" value="" step="0.1"></div>
+        <div class="field"><label>Current Market Price (Per Share)</label><input type="number" id="mktPrice" value=""></div>
+    </div>
+
+    <div class="section-header">2. Earnings Assumptions (Proposed EPS)</div>
+    <p style="font-size: 11px; color: #777; margin-top: -10px; text-align: justify;">Fill Year 1-3 (Mimimum). Years 4-5 are optional or for better calculation. Growth Rate is necessery to calculate Indecative Price more perfect</p>
+    <div class="input-grid">
+        <div class="field"><label>Year 1 EPS</label><input type="number" id="e1" value=""></div>
+        <div class="field"><label>Year 2 EPS</label><input type="number" id="e2" value=""></div>
+        <div class="field"><label>Year 3 EPS</label><input type="number" id="e3" value=""></div>
+        <div class="field"><label>Year 4 EPS</label><input type="number" id="e4" placeholder="Optional"></div>
+        <div class="field"><label>Year 5 EPS</label><input type="number" id="e5" placeholder="Optional"></div>
+    </div>
+
+    <div class="btn-group">
+        <button class="calc-btn" onclick="calculateRIM()">Perform RIM Valuation</button>
+        <button class="print-btn" onclick="window.print()">Export Report (PDF)</button>
+    </div>
+
+    <div id="resultsArea" style="display:none;">
+        <div class="summary-card">
+            <div style="text-transform: uppercase; font-size: 13px; font-weight: bold; letter-spacing: 1px;">Indicative Intrinsic Price</div>
+            <div id="resPrice" class="intrinsic-price">0.00 BDT</div>
+            <div id="resComparison" style="font-weight: bold;"></div>
+        </div>
+
+        <div class="section-header">3. Detailed Calculation Table</div>
+        <table id="valuationTable">
+            <thead>
+                <tr>
+                    <th style="text-align: left;">Year</th>
+                    <th>Opening BVPS</th>
+                    <th>Forecasted EPS</th>
+                    <th>Capital Charge (Ke × BV)</th>
+                    <th>Residual Income</th>
+                    <th>PV Factor</th>
+                    <th>Present Value</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+
+        <div class="section-header">4. Sensitivity Analysis (Ke vs Growth)</div>
+        <table id="sensTable" class="sens-table"></table>
+
+        <div class="hint-box">
+            <strong>RIM Calculation Hints:</strong><br>
+            • <strong>Residual Income (RI):</strong> Calculated as <span class="formula">EPS - (Opening BVPS × Cost of Equity)</span>.<br>
+            • <strong>Capital Charge:</strong> The minimum return to investors require based on the risk (<span class="formula">Ke</span>). <br>
+            • <strong>Terminal Value:</strong> Calculated on using (Gordon Growth formula) on the Last year's Residual Income: <span class="formula">RI_final × (1+g) / (Ke - g)</span>.<br>
+            • <strong>Intrinsic Value:</strong> The sum of <span class="formula">Current BVPS + Sum of PV of all future Residual Incomes</span>.
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculateRIM() {
+        const startBVPS = parseFloat(document.getElementById('bvps').value);
+        const keInput = parseFloat(document.getElementById('ke').value);
+        const gInput = parseFloat(document.getElementById('growth').value);
+        const mktPrice = parseFloat(document.getElementById('mktPrice').value) || 0;
+
+        const epsForecast = [
+            parseFloat(document.getElementById('e1').value),
+            parseFloat(document.getElementById('e2').value),
+            parseFloat(document.getElementById('e3').value),
+            parseFloat(document.getElementById('e4').value),
+            parseFloat(document.getElementById('e5').value)
+        ].filter(v => !isNaN(v) && v > 0);
+
+        if (epsForecast.length < 1) return alert("Please enter at least Year 1 EPS & Growth Rate for better result.");
+        if (gInput >= keInput) return alert("Long-term growth must be less than Cost of Equity.");
+
+        const ke = keInput / 100;
+        const g = gInput / 100;
+        let currentBVPS = startBVPS;
+        let sumPVRI = 0;
+        let tableHTML = "";
+
+        // Explicit Period Calculation
+        epsForecast.forEach((eps, i) => {
+            const year = i + 1;
+            const capitalCharge = currentBVPS * ke;
+            const ri = eps - capitalCharge;
+            const pvFactor = 1 / Math.pow(1 + ke, year);
+            const pvRI = ri * pvFactor;
+            
+            tableHTML += `<tr>
+                <td style="text-align: left;">Year ${year}</td>
+                <td>${currentBVPS.toFixed(2)}</td>
+                <td>${eps.toFixed(2)}</td>
+                <td>${capitalCharge.toFixed(2)}</td>
+                <td>${ri.toFixed(2)}</td>
+                <td>${pvFactor.toFixed(4)}</td>
+                <td>${pvRI.toFixed(2)}</td>
+            </tr>`;
+
+            sumPVRI += pvRI;
+            // Simplified Clean Surplus: BV_new = BV_old + EPS (Assuming zero dividends for BV growth)
+            currentBVPS += eps; 
+        });
+
+        // Terminal Value Calculation (based on RI)
+        const lastRI = epsForecast[epsForecast.length - 1] - ((currentBVPS - epsForecast[epsForecast.length - 1]) * ke);
+        const terminalRI = (lastRI * (1 + g)) / (ke - g);
+        const pvTerminalRI = terminalRI / Math.pow(1 + ke, epsForecast.length);
+        
+        tableHTML += `<tr style="background: #f9f9f9;">
+            <td style="text-align: left;">Terminal Value (RI)</td>
+            <td colspan="4">Perpetual RI Growth @ ${gInput}%</td>
+            <td>${(1 / Math.pow(1 + ke, epsForecast.length)).toFixed(4)}</td>
+            <td>${pvTerminalRI.toFixed(2)}</td>
+        </tr>`;
+
+        const totalIntrinsicValue = startBVPS + sumPVRI + pvTerminalRI;
+        tableHTML += `<tr style="background: var(--corporate-blue); color: white; font-weight: bold;">
+            <td colspan="6" style="text-align: left;">Intrinsic Value (Start BVPS + PV of Residual Incomes)</td>
+            <td>${totalIntrinsicValue.toFixed(2)}</td>
+        </tr>`;
+
+        // UI Updates
+        document.getElementById('tableBody').innerHTML = tableHTML;
+        document.getElementById('resPrice').innerText = totalIntrinsicValue.toFixed(2) + " BDT";
+        
+        const variance = ((totalIntrinsicValue - mktPrice) / mktPrice) * 100;
+        const recommendation = totalIntrinsicValue > mktPrice ? "UNDERVALUED (BUY)" : "OVERVALUED (SELL)";
+        document.getElementById('resComparison').innerText = `Variance: ${variance.toFixed(2)}% | Recommendation: ${recommendation}`;
+        document.getElementById('resComparison').style.color = totalIntrinsicValue > mktPrice ? "#27ae60" : "#e74c3c";
+
+        // Sensitivity Analysis
+        generateSensitivity(keInput, gInput, startBVPS, epsForecast);
+
+        document.getElementById('resultsArea').style.display = "block";
+        window.scrollTo({ top: document.getElementById('resultsArea').offsetTop - 50, behavior: 'smooth' });
+    }
+
+    function generateSensitivity(baseKe, baseG, startBV, epsList) {
+        const keR = [baseKe - 1, baseKe - 0.5, baseKe, baseKe + 0.5, baseKe + 1];
+        const gR = [baseG - 1, baseG - 0.5, baseG, baseG + 0.5, baseG + 1];
+
+        let html = `<tr><th>Ke \\ Growth</th>`;
+        gR.forEach(g => html += `<th>${g.toFixed(1)}%</th>`);
+        html += `</tr>`;
+
+        keR.forEach(k => {
+            html += `<tr><th style="background:#f4f4f4; color:#333">${k.toFixed(1)}%</th>`;
+            gR.forEach(g => {
+                const val = runSingleRIM(k/100, g/100, startBV, epsList);
+                const isBase = (k === baseKe && g === baseG) ? 'class="base-case"' : '';
+                html += `<td ${isBase}>${val ? val.toFixed(1) : 'N/A'}</td>`;
+            });
+            html += `</tr>`;
+        });
+        document.getElementById('sensTable').innerHTML = html;
+    }
+
+    function runSingleRIM(ke, g, bv, epsList) {
+        if (g >= ke) return null;
+        let currentBV = bv;
+        let pvRI = 0;
+        epsList.forEach((eps, i) => {
+            const ri = eps - (currentBV * ke);
+            pvRI += ri / Math.pow(1 + ke, i + 1);
+            currentBV += eps;
+        });
+        const lastRI = epsList[epsList.length-1] - ((currentBV - epsList[epsList.length-1]) * ke);
+        const tv = (lastRI * (1 + g)) / (ke - g);
+        pvRI += tv / Math.pow(1 + ke, epsList.length);
+        return bv + pvRI;
+    }
+</script>
+</body>
+</html>
